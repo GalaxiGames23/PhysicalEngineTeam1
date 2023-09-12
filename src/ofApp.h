@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "../Vector.hpp"
+#include "Vector.hpp"
 
 class ofApp : public ofBaseApp{
 
