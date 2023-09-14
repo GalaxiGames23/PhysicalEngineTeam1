@@ -1,6 +1,6 @@
 #include <cstdlib>
 #include <cmath>
-#include "Vector.hpp"
+#include "Vector.h"
 
 
 Vector::Vector()
@@ -16,6 +16,13 @@ Vector::Vector(double x, double y, double z) {
 	this->y = y;
 	this->z = z;
 	this->w = 1;
+}
+
+void Vector::set(double x, double y, double z)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
 }
 
 double Vector::norm() const

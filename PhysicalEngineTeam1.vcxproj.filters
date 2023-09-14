@@ -16,6 +16,9 @@
     <ClCompile Include="src\Vector.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -29,7 +32,10 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vector.hpp">
+    <ClInclude Include="src\Vector.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

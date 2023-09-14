@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Vector.hpp"
+#include "Vector.h"
+#include "Input.h"
 
 class ofApp : public ofBaseApp{
 
@@ -21,5 +22,7 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		Vector v;
+		Vector &v = Vector(0,0,0);
+		Input &input = Input::getInput();
+		Vector &init_point = Vector(50, 50, 0);
 };
