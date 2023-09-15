@@ -1,41 +1,41 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup()
+{
 	input.set_Input(v);
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update()
+{
 	
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw()
+{
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-	
-	if (key == 'c') //key C
-	{
-		input.change_norm(true);
-	}
-	else if (key == 'x') // key X
-	{
-		input.change_norm(false);
-	}
-	else if (key == 'e')
-	{
-		input.angle_key = true;
-		
+void ofApp::keyPressed(int key)
+{
+	switch (key) {
+	case 'c': input.change_norm(true);
+		break;
+	case 'x': input.change_norm(false);
+		break;
+	case 'e': input.angle_key = true;
+		break;
+	default: break;
 	}
 	input.set_Input(v);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key)
+{
 	if (key == 'e')
 	{
 		input.angle_key = false;
@@ -43,7 +43,8 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y )
+{
 	if (input.angle_key)
 	{
 		int diffx = x - input.last_pos_x;
