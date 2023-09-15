@@ -1,7 +1,4 @@
-#include <cstdlib>
-#include <cmath>
 #include "Vector.h"
-
 
 Vector::Vector()
 {
@@ -92,4 +89,10 @@ glm::vec3 Vector::toVec3() const
 Vector operator*(const double& a, const Vector& v)
 {
 	return Vector(a * v.x, a * v.y, a * v.z);
+}
+
+ostream& operator<< (ostream& out, const Vector& vec)
+{
+	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+	return out;
 }

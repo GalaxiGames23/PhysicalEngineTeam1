@@ -1,6 +1,13 @@
 #pragma once
 #include "glm/glm.hpp"
 
+#include <cstdlib>
+#include <cmath>
+#include "Vector.h"
+
+#include <iostream>
+using namespace std;
+
 class Vector
 {
 	private:
@@ -29,6 +36,7 @@ class Vector
 		Vector operator +(const Vector& v) const;
 
 		friend Vector operator*(const double& a, const Vector& vec);
+		friend ostream& operator<< (ostream&, const Vector& vec);
 
 		Vector operator -(const Vector& v) const;
 
