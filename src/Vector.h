@@ -21,6 +21,9 @@ class Vector
 		Vector(double x, double y, double z);
 
 		void set(double x, double y, double z);
+		double get_x() const;
+		double get_y() const;
+		double get_z() const;
 
 		double norm() const;
 		double square_norm() const;

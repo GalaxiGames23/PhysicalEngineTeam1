@@ -21,19 +21,21 @@ class Input
 		int last_pos_y = 0;
 		Input(const Input&) = delete;
 
-		static Input& getInput()
+		static Input& getInput() 
 		{
 			static Input myInput;
 			return myInput;
 		};
 
-		void set_Input(Vector &v);
+		void set_Input(Vector &v) const;
 
 		void change_norm(bool positive);
 
 		void change_angle1(bool positive);
 
 		void change_angle2(bool positive);
+
+		void reset();
 	
 
 };

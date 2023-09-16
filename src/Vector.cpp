@@ -22,6 +22,21 @@ void Vector::set(double x, double y, double z)
 	this->z = z;
 }
 
+double Vector::get_x() const
+{
+	return x;
+}
+
+double Vector::get_y() const
+{
+	return y;
+}
+
+double Vector::get_z() const
+{
+	return z;
+}
+
 double Vector::norm() const
 {
 	return sqrt(this->square_norm());
