@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICULE_H
+#define PARTICULE_H
 
 #include "Vector.h"
 #include <ctime>
@@ -39,3 +40,5 @@ public:
 	// Integrator
 	void Integrate(float duration);
 };
+
+#endif

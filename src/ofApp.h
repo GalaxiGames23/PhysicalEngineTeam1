@@ -4,6 +4,9 @@
 #include "Vector.h"
 #include "Particule.h"
 #include "Input.h"
+#include <iostream>
+#include <cstdlib>
+#include <vector>
 
 class ofApp : public ofBaseApp{
 
@@ -27,4 +30,8 @@ class ofApp : public ofBaseApp{
 		Vector &v = Vector(0,0,0);
 		Input &input = Input::getInput();
 		Vector &init_point = Vector(50, 50, 0);
+
+		std::vector<Particule> SystemeParticules //<<< Vector de la STL pour stocker les particules à considérer dans les calculs
+			//TO REMOVE: hard code pour les tests 
+			= { Particule(5.0f, Vector(500, 30, 2), Vector(0, 0, 0), Vector(0, 0, 0)) , Particule(5.0f, Vector(50, 300, 20), Vector(0, 0, 0), Vector(0, 0, 0)) };
 };

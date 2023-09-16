@@ -1,41 +1,54 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup()
+{
 	input.set_Input(v);
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-	
+void ofApp::update()
+{
+	//TO REMOVE: pour les tests, à remplacer par l'intégration
+	for (int i = 0; i<SystemeParticules.size();++i)
+	{
+		SystemeParticules[i].SetPosition(SystemeParticules[i].GetPosition() + Vector(0, 1, 0));
+	}
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw()
+{
+	//dessine toutes les particules listées
+	for (Particule particule : SystemeParticules) 
+	{
+		ofDrawSphere(particule.GetPosition().toVec3(), 50.0f);
+	}
+	//affiche la position des particules
+	//TODO:: changer en foreach
+	ofDrawBitmapString("value: " + ofToString(SystemeParticules[0].GetPosition()), 10, 10);
+
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-	
-	if (key == 'c') //key C
-	{
-		input.change_norm(true);
-	}
-	else if (key == 'x') // key X
-	{
-		input.change_norm(false);
-	}
-	else if (key == 'e')
-	{
-		input.angle_key = true;
-		
+void ofApp::keyPressed(int key)
+{
+	switch (key) {
+	case 'c': input.change_norm(true);
+		break;
+	case 'x': input.change_norm(false);
+		break;
+	case 'e': input.angle_key = true;
+		break;
+	default: break;
 	}
 	input.set_Input(v);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
+void ofApp::keyReleased(int key)
+{
 	if (key == 'e')
 	{
 		input.angle_key = false;
@@ -43,7 +56,8 @@ void ofApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
+void ofApp::mouseMoved(int x, int y )
+{
 	if (input.angle_key)
 	{
 		int diffx = x - input.last_pos_x;
@@ -64,12 +78,14 @@ void ofApp::mouseMoved(int x, int y ){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button)
+{
 	if (button == 0)
 	{
 		init_point.set(x, y, 0);
@@ -77,31 +93,37 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
+void ofApp::mouseEntered(int x, int y)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
+void ofApp::mouseExited(int x, int y)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
+void ofApp::windowResized(int w, int h)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
+void ofApp::gotMessage(ofMessage msg)
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo)
+{ 
 
 }

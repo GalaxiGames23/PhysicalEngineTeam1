@@ -1,4 +1,6 @@
-#pragma once
+#ifndef VECTOR_H
+#define VECTOR_H
+
 #include "glm/glm.hpp"
 
 #include <cstdlib>
@@ -47,3 +49,5 @@ class Vector
 
 		glm::vec3 toVec3() const;
 };
+
+#endif
