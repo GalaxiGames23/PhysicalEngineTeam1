@@ -4,3 +4,7 @@ COMMANDES DE BASE:
 	- 'X' : réduire la norme du vecteur vitesse
 	- 'C' : augmenter la norme du vecteur vitesse
 	- 'E' + mouvement de souris : rotation du vecteur vitesse en 3D
+
+Lancer les tests:
+
+Exécuter le fichier test.sln dans le dossier /test
