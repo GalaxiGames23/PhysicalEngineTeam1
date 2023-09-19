@@ -4,15 +4,22 @@
 void ofApp::setup()
 {
 	input.set_Input(v);
+	input.SetDessinerTrace(false);
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	//TO REMOVE: pour les tests, à remplacer par l'intégration
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
+		//TO REMOVE: pour les tests, à remplacer par l'intégration
 		SystemeParticules[i].SetPosition(SystemeParticules[i].GetPosition() + Vector(0, 1, 0));
+
+		if(input.GetDessinerTrace())
+		{
+			//enregistrer les positions pour la trace
+			TracePositions.push_back(SystemeParticules[i].GetPosition());
+		}
 	}
 }
 
@@ -24,6 +31,15 @@ void ofApp::draw()
 	{
 		ofDrawSphere(particule.GetPosition().toVec3(), 50.0f);
 	}
+	if (input.GetDessinerTrace())
+	{
+		//affiche la trace
+		for (int i = 0; i < TracePositions.size() - SystemeParticules.size(); ++i)
+		{
+			ofDrawSphere(TracePositions[i].toVec3(), 5.0f);
+		}
+	}
+
 	//affiche la position des particules
 	//TODO:: changer en foreach
 	ofDrawBitmapString("value: " + ofToString(SystemeParticules[0].GetPosition()), 10, 10);
@@ -40,6 +56,12 @@ void ofApp::keyPressed(int key)
 	case 'x': input.change_norm(false);
 		break;
 	case 'e': input.angle_key = true;
+		break;
+	case 't': input.SetDessinerTrace(!input.GetDessinerTrace());
+		if (input.GetDessinerTrace())
+		{
+			TracePositions.clear();
+		}
 		break;
 	default: break;
 	}

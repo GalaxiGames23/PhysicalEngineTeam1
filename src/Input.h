@@ -13,6 +13,7 @@ class Input
 		double current_angle1 = 0;
 		double current_angle2 = 0;
 		double current_norm = 100;
+		bool DessinerTrace;
 		Input() { };
 	
 	public:
@@ -37,5 +38,6 @@ class Input
 
 		void reset();
 	
-
+		void SetDessinerTrace(bool b) { this->DessinerTrace = b; }
+		bool GetDessinerTrace() { return this->DessinerTrace; }
 };
