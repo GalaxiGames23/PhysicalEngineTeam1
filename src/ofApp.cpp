@@ -5,6 +5,7 @@ void ofApp::setup()
 {
 	input.set_Input(v);
 	input.SetDessinerTrace(false);
+	input.SetAfficherPositions(false);
 }
 
 //--------------------------------------------------------------
@@ -26,6 +27,8 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	//dessine les commandes
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\np: display current position values", 20, 20);
 	//dessine toutes les particules listées
 	for (Particule particule : SystemeParticules) 
 	{
@@ -40,10 +43,15 @@ void ofApp::draw()
 		}
 	}
 
-	//affiche la position des particules
-	//TODO:: changer en foreach
-	ofDrawBitmapString("value: " + ofToString(SystemeParticules[0].GetPosition()), 10, 10);
-
+	if(input.GetAfficherPositions())
+	{
+		//affiche la position des particules
+		for (int i = 0; i < SystemeParticules.size(); ++i)
+		{
+			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i].GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
+		}
+	}
+	
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6);
 }
 
@@ -62,6 +70,8 @@ void ofApp::keyPressed(int key)
 		{
 			TracePositions.clear();
 		}
+		break;
+	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
 	default: break;
 	}

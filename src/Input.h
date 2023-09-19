@@ -13,7 +13,8 @@ class Input
 		double current_angle1 = 0;
 		double current_angle2 = 0;
 		double current_norm = 100;
-		bool DessinerTrace;
+		bool DessinerTrace = false; //<<< détermine si l'on affiche la trace
+		bool AfficherPositions = false; //<<< détermine si l'on affiche les positions
 		Input() { };
 	
 	public:
@@ -40,4 +41,6 @@ class Input
 	
 		void SetDessinerTrace(bool b) { this->DessinerTrace = b; }
 		bool GetDessinerTrace() { return this->DessinerTrace; }
+		void SetAfficherPositions(bool b) { this->AfficherPositions = b; }
+		bool GetAfficherPositions() { return this->AfficherPositions; }
 };
