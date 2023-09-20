@@ -75,6 +75,7 @@ void ofApp::keyPressed(int key)
 		break;
 	default: break;
 	}
+	printf("%d\n", key);
 	input.set_Input(v);
 }
 
