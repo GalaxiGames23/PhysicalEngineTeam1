@@ -11,10 +11,11 @@ using namespace std;
 class Particule
 {
 private:
-	Vector position;
-	Vector velocity;
+	Vector lastPosition;
 
 protected :
+	Vector position;
+	Vector velocity;
 	double invertMass;
 
 public:
@@ -25,18 +26,23 @@ public:
 	// Setters
 	void SetMass(double mass) { this->invertMass = 1/mass; }
 	void SetPosition(Vector position) { this->position = position; }
+	void SetLastPosition(Vector lastPosition) { this->lastPosition = lastPosition; }
 	void SetVelocity(Vector velocity) { this->velocity = velocity; }
+
+	void SetFirstLastPosition(float duration);
 
 	// Getters
 	double GetMass() { return 1/this-> invertMass; }
 	Vector GetPosition() { return this->position; }
+	Vector GetLastPosition() { return this->lastPosition; }
 	Vector GetVelocity() { return this->velocity; }
 
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);
 
-	// Integrator
-	void Integrate(float duration, Vector gravity, float damping);
+	// Integrators
+	void IntegrateEuler(float duration, Vector gravity, float damping);
+	void IntegrateVerlet(float duration, Vector gravity);
 };
 
 #endif
