@@ -73,9 +73,12 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
+	case ' ': 
+		SystemeParticules.push_back(Particule(current_mass, init_point, v));
+		break;
+
 	default: break;
 	}
-	printf("%d\n", key);
 	input.set_Input(v);
 }
 

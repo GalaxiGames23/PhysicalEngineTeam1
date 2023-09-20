@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "Particule.h"
 #include "Input.h"
+#include "Ground.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -29,6 +30,7 @@ class ofApp : public ofBaseApp{
 		
 		Vector &v = Vector(0,0,0);
 		Input &input = Input::getInput();
+		Ground &ground = Ground::getGround();
 		Vector &init_point = Vector(50, 100, 0);
 
 		std::vector<Particule> SystemeParticules //<<< Vector de la STL pour stocker les particules à considérer dans les calculs
@@ -39,5 +41,7 @@ class ofApp : public ofBaseApp{
 
 		Vector &gravity = Vector(0, 9.81f, 0);
 		const float &damping = 1.0f;
+
+		double current_mass = 10.0f;
 
 };
