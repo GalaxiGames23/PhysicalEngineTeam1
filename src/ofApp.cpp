@@ -11,11 +11,18 @@ void ofApp::setup()
 	{
 		SystemeParticules[i].SetFirstLastPosition(ofGetLastFrameTime());
 	}
+
+	timer = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	//pour la trace, on enregistre une position tous les intervalles fixes
+	timer += ofGetLastFrameTime();
+	bool temp = timer>0.5f;
+
+
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
 		//update de la position de chaque particule avec l'intégration d'Euler
@@ -23,31 +30,40 @@ void ofApp::update()
 		//SystemeParticules[i].IntegrateEuler(ofGetLastFrameTime(), gravity, damping);
 		SystemeParticules[i].IntegrateVerlet(ofGetLastFrameTime(), gravity);
 
-		if(input.GetDessinerTrace())
+		if(temp)
 		{
 			//enregistrer les positions pour la trace
 			TracePositions.push_back(SystemeParticules[i].GetPosition());
 		}
 	}
+
+	if (temp) { timer = 0; }
+
+	//on détruit les objets sous un certain seuil
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	ofSetColor(ofColor::white);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\np: display current position values", 20, 20);
-	//dessine toutes les particules listées
-	for (Particule particule : SystemeParticules) 
-	{
-		ofDrawSphere(particule.GetPosition().toVec3(), 50.0f);
-	}
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values", 20, 20);
+	
 	if (input.GetDessinerTrace())
 	{
+		ofSetColor(ofColor::orange);
 		//affiche la trace
 		for (int i = 0; i < TracePositions.size() - SystemeParticules.size(); ++i)
 		{
 			ofDrawSphere(TracePositions[i].toVec3(), 5.0f);
 		}
+		ofSetColor(ofColor::white);
+	}
+	//dessine toutes les particules listées
+	for (Particule particule : SystemeParticules)
+	{
+		ofDrawSphere(particule.GetPosition().toVec3(), 50.0f);
 	}
 
 	if(input.GetAfficherPositions())
@@ -73,17 +89,14 @@ void ofApp::keyPressed(int key)
 	case 'e': input.angle_key = true;
 		break;
 	case 't': input.SetDessinerTrace(!input.GetDessinerTrace());
-		if (input.GetDessinerTrace())
-		{
-			TracePositions.clear();
-		}
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': 
+	case ' ':
 		SystemeParticules.push_back(Particule(current_mass, init_point, v));
 		break;
-
+	case 'r': TracePositions.clear();
+		break;
 	default: break;
 	}
 	input.set_Input(v);

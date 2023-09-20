@@ -44,4 +44,5 @@ class ofApp : public ofBaseApp{
 
 		double current_mass = 10.0f;
 
+		float timer;
 };
