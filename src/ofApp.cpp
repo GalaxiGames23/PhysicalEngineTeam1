@@ -14,7 +14,7 @@ void ofApp::update()
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
 		//update de la position de chaque particule avec l'intégration d'Euler
-		SystemeParticules[i].Integrate(ofGetLastFrameTime());
+		SystemeParticules[i].Integrate(ofGetLastFrameTime(), gravity, damping);
 
 		if(input.GetDessinerTrace())
 		{

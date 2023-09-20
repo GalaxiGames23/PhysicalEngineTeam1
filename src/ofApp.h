@@ -33,6 +33,11 @@ class ofApp : public ofBaseApp{
 
 		std::vector<Particule> SystemeParticules //<<< Vector de la STL pour stocker les particules à considérer dans les calculs
 			//TO REMOVE: hard code pour les tests 
-			= { Particule(5.0f, Vector(500, 30, 2), Vector(0, 0, 0), Vector(0, 9.8f, 0)) , Particule(5.0f, Vector(50, 300, 20), Vector(0, 0, 0), Vector(0, 9.8f, 0)) };
+			= { Particule(5.0f, Vector(500, 30, 2), Vector(0, 0, 0)) , Particule(5.0f, Vector(50, 300, 20), Vector(0, 0, 0)) };
 		std::vector<Vector> TracePositions; //<<< Vector de la STL pour stocker les positions de la trace des particules quand l'option est activée
+
+
+		Vector &gravity = Vector(0, 9.81f, 0);
+		const float &damping = 1.0f;
+
 };
