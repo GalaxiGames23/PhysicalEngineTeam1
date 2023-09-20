@@ -13,8 +13,8 @@ void ofApp::update()
 {
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
-		//TO REMOVE: pour les tests, à remplacer par l'intégration
-		SystemeParticules[i].SetPosition(SystemeParticules[i].GetPosition() + Vector(0, 1, 0));
+		//update de la position de chaque particule avec l'intégration d'Euler
+		SystemeParticules[i].Integrate(ofGetLastFrameTime(), gravity, damping);
 
 		if(input.GetDessinerTrace())
 		{
