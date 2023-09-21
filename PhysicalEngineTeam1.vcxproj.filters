@@ -35,6 +35,9 @@
     <ClInclude Include="src\Input.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Ground.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
