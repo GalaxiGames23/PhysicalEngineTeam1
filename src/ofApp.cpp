@@ -11,11 +11,20 @@ void ofApp::setup()
 	{
 		SystemeParticules[i].SetFirstLastPosition(ofGetLastFrameTime());
 	}
+
+	timer = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	int index = 0; //<<<compte l'index pour le dernier foreach de destructions de particules
+
+	//pour la trace, on enregistre une position tous les intervalles fixes
+	timer += ofGetLastFrameTime();
+	bool temp = timer>0.5f;
+
+
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
 		//update de la position de chaque particule avec l'intégration d'Euler
@@ -23,10 +32,27 @@ void ofApp::update()
 		SystemeParticules[i].IntegrateEuler(ofGetLastFrameTime(), gravity, damping);
 		//SystemeParticules[i].IntegrateVerlet(ofGetLastFrameTime(), gravity);
 
-		if(input.GetDessinerTrace())
+		if(temp)
 		{
 			//enregistrer les positions pour la trace
 			TracePositions.push_back(SystemeParticules[i].GetPosition());
+		}
+	}
+
+	if (temp) { timer = 0; }
+
+	//on détruit les objets sous un certain seuil
+	for (Particule particule : SystemeParticules)
+	{
+		if (particule.GetPosition().get_y() > 1000)
+		{
+			SystemeParticules.erase(SystemeParticules.begin()+index);
+			SystemeParticules.shrink_to_fit();
+		}
+		else
+		{
+			//l'incrémentation ne se fait que s'il n'y a pas destruction et resize du vector
+			++index;
 		}
 	}
 }
@@ -34,20 +60,33 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	ofSetColor(ofColor::white);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\np: display current position values", 20, 20);
-	//dessine toutes les particules listées
-	for (Particule particule : SystemeParticules) 
-	{
-		ofDrawSphere(particule.GetPosition().toVec3(), 50.0f);
-	}
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn particle", 20, 20);
+	
 	if (input.GetDessinerTrace())
 	{
+		ofSetColor(ofColor::orange);
+
 		//affiche la trace
 		for (int i = 0; i < TracePositions.size() - SystemeParticules.size(); ++i)
 		{
 			ofDrawSphere(TracePositions[i].toVec3(), 5.0f);
 		}
+		ofSetColor(ofColor::white);
+
+		//affiche la mention de ON/OFF pour la trace
+		ofDrawBitmapString("Previous Positions: ON", 20, ofGetHeight() - 20);
+	}
+	else
+	{
+		//affiche la mention de ON/OFF pour la trace
+		ofDrawBitmapString("Previous Positions: OFF", 20, ofGetHeight() - 20);
+	}
+	//dessine toutes les particules listées
+	for (Particule particule : SystemeParticules)
+	{
+		ofDrawSphere(particule.GetPosition().toVec3(), 20.0f);
 	}
 
 	if(input.GetAfficherPositions())
@@ -62,6 +101,7 @@ void ofApp::draw()
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6);
 }
 
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
@@ -73,17 +113,14 @@ void ofApp::keyPressed(int key)
 	case 'e': input.angle_key = true;
 		break;
 	case 't': input.SetDessinerTrace(!input.GetDessinerTrace());
-		if (input.GetDessinerTrace())
-		{
-			TracePositions.clear();
-		}
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': 
+	case ' ':
 		SystemeParticules.push_back(Particule(current_mass, init_point, v));
 		break;
-
+	case 'r': TracePositions.clear();
+		break;
 	default: break;
 	}
 	input.set_Input(v);

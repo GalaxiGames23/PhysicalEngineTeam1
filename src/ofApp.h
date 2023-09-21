@@ -31,7 +31,7 @@ class ofApp : public ofBaseApp{
 		Vector &v = Vector(0,0,0);
 		Input &input = Input::getInput();
 		Ground &ground = Ground::getGround();
-		Vector &init_point = Vector(50, 100, 0);
+		Vector &init_point = Vector(50, 150, 0);
 
 		std::vector<Particule> SystemeParticules //<<< Vector de la STL pour stocker les particules à considérer dans les calculs
 			//TO REMOVE: hard code pour les tests 
@@ -44,4 +44,5 @@ class ofApp : public ofBaseApp{
 
 		double current_mass = 10.0f;
 
+		float timer;
 };
