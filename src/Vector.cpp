@@ -71,6 +71,14 @@ Vector Vector::prod_vector(const Vector& v) const
 	return Vector(y * v.z - v.y * z, z * v.x - v.z * x, x * v.y - v.x * y);
 }
 
+double Vector::distance(const Vector& v) const
+{
+	double diffx = x - v.get_x();
+	double diffy = y - v.get_y();
+	double diffz = z - v.get_z();
+	return sqrt(diffx * diffx + diffy * diffy + diffz * diffz);
+}
+
 Vector Vector::operator *(const Vector& v) const
 {
 	return Vector(x * v.x, y * v.y, z * v.z);

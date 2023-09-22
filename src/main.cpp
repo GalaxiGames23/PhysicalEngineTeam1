@@ -3,6 +3,7 @@
 
 //========================================================================
 int main( ){
+	srand(time(NULL));
 
 	//Use ofGLFWWindowSettings for more options like multi-monitor fullscreen
 	ofGLWindowSettings settings;

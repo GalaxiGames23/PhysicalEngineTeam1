@@ -104,6 +104,9 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BouncingParticule.cpp" />
+    <ClCompile Include="src\FireBallParticule.cpp" />
+    <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -111,6 +114,8 @@
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BouncingParticule.h" />
+    <ClInclude Include="src\FireBallParticule.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Particule.h" />

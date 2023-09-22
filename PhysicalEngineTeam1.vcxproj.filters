@@ -16,6 +16,15 @@
     <ClCompile Include="src\Input.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Ground.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BouncingParticule.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FireBallParticule.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -36,6 +45,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Ground.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BouncingParticule.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FireBallParticule.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

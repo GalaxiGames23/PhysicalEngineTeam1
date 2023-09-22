@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector.h"
+#include "Ground.h"
 #define _USE_MATH_DEFINES
 
 #include <cmath>
@@ -8,7 +9,7 @@ class Input
 	private:
 		double max_norm = 1000;
 		double speed_norm = 400.0;
-		double speed_angle = 3;
+		double speed_angle = 1;
 
 		double current_angle1 = 0;
 		double current_angle2 = 0;
@@ -19,8 +20,11 @@ class Input
 	
 	public:
 		bool angle_key = false;
+		bool ground_key = false;
 		int last_pos_x = 0;
 		int last_pos_y = 0;
+		Vector& max_point = Vector();
+	
 		Input(const Input&) = delete;
 
 		static Input& getInput() 
@@ -33,9 +37,9 @@ class Input
 
 		void change_norm(bool positive);
 
-		void change_angle1(bool positive);
+		void change_angle1(int positive);
 
-		void change_angle2(bool positive);
+		void change_angle2(int positive);
 
 		void reset();
 	
@@ -43,4 +47,8 @@ class Input
 		bool GetDessinerTrace() { return this->DessinerTrace; }
 		void SetAfficherPositions(bool b) { this->AfficherPositions = b; }
 		bool GetAfficherPositions() { return this->AfficherPositions; }
+
+		void calculSomePoints(Vector& velocity, Vector& position, Vector & gravity, Ground & groundHeight);
+
+
 };

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Vector.h"
 
 class Ground
 {
@@ -7,13 +7,16 @@ class Ground
 		Ground() { };
 
 	public:
-		double zCoord = 0.0;
-	Ground(const Ground&) = delete;
+		double yCoord = 800.0;
+		double change_speed = 15;
+		void change_ground_height(int changeValue);
+		Vector& impact_point = Vector();
+		Ground(const Ground&) = delete;
 
-	static Ground& getGround()
-	{
-		static Ground myInput;
-		return myInput;
-	};
+		static Ground& getGround()
+		{
+			static Ground ground;
+			return ground;
+		};
 
 };

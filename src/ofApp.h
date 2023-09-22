@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "Vector.h"
 #include "Particule.h"
+#include "BouncingParticule.h"
+#include "FireBallParticule.h"
 #include "Input.h"
 #include "Ground.h"
 #include <iostream>
@@ -33,16 +35,16 @@ class ofApp : public ofBaseApp{
 		Ground &ground = Ground::getGround();
 		Vector &init_point = Vector(50, 150, 0);
 
-		std::vector<Particule> SystemeParticules //<<< Vector de la STL pour stocker les particules à considérer dans les calculs
-			//TO REMOVE: hard code pour les tests 
-			= { Particule(5.0f, Vector(500, 30, 2), Vector(0, 0, 0)) , Particule(5.0f, Vector(50, 300, 20), Vector(0, 0, 0)) };
+		std::vector<Particule*> SystemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
+			
 		std::vector<Vector> TracePositions; //<<< Vector de la STL pour stocker les positions de la trace des particules quand l'option est activée
 
+		const float verticalGravity = 9.81f * 5;
+		Vector &gravity = Vector(0, verticalGravity, 0) ;
+		float damping = 1.0f;
+		Particule* moonParticle = new Particule(900000, Vector(1000, 400, 0), Vector(0, 0, 0), ofColor::blueSteel);
 
-		Vector &gravity = Vector(0, 9.81f, 0);
-		const float &damping = 1.0f;
-
-		double current_mass = 10.0f;
+		double current_mass = 5;
 
 		float timer;
 };
