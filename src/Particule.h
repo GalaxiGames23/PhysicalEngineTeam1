@@ -14,6 +14,7 @@ class Particule
 {
 private:
 	Vector lastPosition;
+	bool isStatic = false;
 
 protected :
 	Vector position;
@@ -26,7 +27,7 @@ public:
 	Particule();
 	Particule(double mass, Vector position, Vector velocity);
 	Particule(double mass, Vector position, Vector velocity, ofColor c);
-
+	Particule(double mass, Vector position, Vector velocity, ofColor c, bool isStatic);
 	// Setters
 	void SetMass(double mass) { this->mass = 1/mass; }
 	void SetPosition(Vector position) { this->position = position; }
@@ -42,6 +43,7 @@ public:
 	Vector GetPosition() { return this->position; }
 	Vector GetLastPosition() { return this->lastPosition; }
 	Vector GetVelocity() { return this->velocity; }
+	bool particleCanMove() { return !isStatic; }
 
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);

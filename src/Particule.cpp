@@ -29,6 +29,16 @@ Particule::Particule(double mass, Vector position, Vector velocity, ofColor c)
 	this->c = c;
 }
 
+Particule::Particule(double mass, Vector position, Vector velocity, ofColor c, bool isStatic)
+{
+	this->mass = mass;
+	this->position = position;
+	this->velocity = velocity;
+	this->lastPosition = Vector(0, 0, 0);
+	this->c = c;
+	this->isStatic = isStatic;
+}
+
 // ToString
 ostream& operator<< (ostream& out, const Particule& particule)
 {
@@ -67,9 +77,12 @@ void Particule::onCollisionDetected(vector<Particule*>& allParticles)
 
 Vector Particule::calculGravitationAccelerationWith(Particule* p)
 {
-	
+	if (p->GetMass() < 10)
+	{
+		return Vector(0,0,0);
+	}
 	double d = p->GetPosition().distance(position);
-	double G = 0.5;
+	double G = 1;
 	Vector axe = ((p->GetPosition()) - position).normalisation();
 	if (d < 20)
 	{

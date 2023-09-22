@@ -42,7 +42,7 @@ class ofApp : public ofBaseApp{
 		const float verticalGravity = 9.81f * 5;
 		Vector &gravity = Vector(0, verticalGravity, 0) ;
 		float damping = 1.0f;
-		Particule* moonParticle = new Particule(900000, Vector(1000, 400, 0), Vector(0, 0, 0), ofColor::blueSteel);
+		Particule* moonParticle = new Particule(900000, Vector(1000, 400, 0), Vector(0, 0, 0), ofColor::blueSteel, true);
 
 		double current_mass = 5;
 

@@ -26,6 +26,10 @@ void ofApp::update()
 	Vector otherAcceleration = Vector(0, 0, 0);
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
+		if (!SystemeParticules[i]->particleCanMove())
+		{
+			continue;
+		}
 		otherAcceleration = Vector(0, 0, 0);
 		if (gravity.get_y() == 0)
 		{
@@ -46,7 +50,7 @@ void ofApp::update()
 			TracePositions.push_back(SystemeParticules[i]->GetPosition());
 		}
 	}
-
+	
 	if (temp) { timer = 0; }
 	//obligé si on veut parcourir le tableau sans les nouveaux éléments
 	vector<Particule*> save  = SystemeParticules;
@@ -75,7 +79,6 @@ void ofApp::draw()
 	if (input.GetDessinerTrace())
 	{
 		ofSetColor(ofColor::orange);
-		printf("OKOK %d\n", TracePositions.size() - SystemeParticules.size());
 		int size = TracePositions.size() - SystemeParticules.size();
 		//affiche la trace
 		for (int i = 0; i < size; ++i)
