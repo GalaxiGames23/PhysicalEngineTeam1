@@ -67,7 +67,7 @@ void ofApp::draw()
 {
 	ofSetColor(ofColor::white);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping ", 20, 20);
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: move ground", 20, 20);
 	
 	ofSetColor(ofColor::brown);
 	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000);
@@ -75,7 +75,6 @@ void ofApp::draw()
 	if (input.GetDessinerTrace())
 	{
 		ofSetColor(ofColor::orange);
-		printf("OKOK %d\n", TracePositions.size() - SystemeParticules.size());
 		int size = TracePositions.size() - SystemeParticules.size();
 		//affiche la trace
 		for (int i = 0; i < size; ++i)

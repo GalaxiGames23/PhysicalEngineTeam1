@@ -33,7 +33,7 @@ class ofApp : public ofBaseApp{
 		Vector &v = Vector(0,0,0);
 		Input &input = Input::getInput();
 		Ground &ground = Ground::getGround();
-		Vector &init_point = Vector(50, 150, 0);
+		Vector &init_point = Vector(300, 300, 0);
 
 		std::vector<Particule*> SystemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
 			
