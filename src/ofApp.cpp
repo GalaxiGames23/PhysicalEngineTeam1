@@ -39,7 +39,7 @@ void ofApp::update()
 		}
 		else
 		{
-			SystemeParticules[i]->IntegrateVerlet(delta, gravity);
+			SystemeParticules[i]->IntegrateVerlet(delta, gravity + otherAcceleration);
 		}
 
 		if(temp)
