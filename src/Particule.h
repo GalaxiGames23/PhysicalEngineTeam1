@@ -14,6 +14,7 @@ class Particule
 {
 private:
 	Vector lastPosition;
+	bool isPresetVerlet;
 
 protected :
 	Vector position;
@@ -33,8 +34,6 @@ public:
 	void SetLastPosition(Vector lastPosition) { this->lastPosition = lastPosition; }
 	void SetVelocity(Vector velocity) { this->velocity = velocity; }
 
-	void SetFirstLastPosition(float duration);
-
 	// Getters
 	ofColor GetColor() { return c; }
 	double GetMass() { return this-> mass; }
@@ -50,6 +49,7 @@ public:
 	void IntegrateEuler(float duration, Vector gravity, float damping);
 	void IntegrateVerlet(float duration, Vector gravity);
 
+	// Manage collisions
 	virtual void onCollisionDetected( vector<Particule*> &allParticles);
 	Vector calculGravitationAccelerationWith(Particule* p);
 };

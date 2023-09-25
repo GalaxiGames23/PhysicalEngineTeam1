@@ -39,12 +39,12 @@ class ofApp : public ofBaseApp{
 			
 		std::vector<Vector> TracePositions; //<<< Vector de la STL pour stocker les positions de la trace des particules quand l'option est activée
 
-		const float verticalGravity = 9.81f * 5;
-		Vector &gravity = Vector(0, verticalGravity, 0) ;
-		float damping = 1.0f;
+		const float verticalGravity = 9.81f * 5; //<<< Norme de la gravité (fixe à la gravité terrestre)
+		Vector &gravity = Vector(0, verticalGravity, 0) ; //<<< Vecteur des forces appliquée / d'accélération (fixe à la gravité)
+		float damping = 1.0f; //<<< Coefficient de frottement (fixe pour l'absence de frottements)
 		Particule* moonParticle = new Particule(900000, Vector(1000, 400, 0), Vector(0, 0, 0), ofColor::blueSteel);
 
 		double current_mass = 5;
-
 		float timer;
+		bool isEuler; //<<< Mode d'intégration de la position des particules
 };

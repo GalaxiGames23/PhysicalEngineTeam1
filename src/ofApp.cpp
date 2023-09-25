@@ -8,12 +8,8 @@ void ofApp::setup()
 	input.SetAfficherPositions(false);
 	input.calculSomePoints(v, init_point, gravity, ground);
 
-	for (int i = 0; i < SystemeParticules.size(); ++i)
-	{
-		SystemeParticules[i]->SetFirstLastPosition(ofGetLastFrameTime());
-	}
-
 	timer = 0;
+	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
 }
 
 //--------------------------------------------------------------
@@ -35,10 +31,16 @@ void ofApp::update()
 					otherAcceleration = otherAcceleration + SystemeParticules[i]->calculGravitationAccelerationWith(SystemeParticules[j]);
 			}
 		}
-		//update de la position de chaque particule avec l'intégration d'Euler
-		
-		SystemeParticules[i]->IntegrateEuler(delta, gravity + otherAcceleration, damping);
-		//SystemeParticules[i].IntegrateVerlet(delta, gravity);
+
+		//update de la position de chaque particule avec une des méthodes d'intégration
+		if (isEuler)
+		{
+			SystemeParticules[i]->IntegrateEuler(delta, gravity + otherAcceleration, damping);
+		}
+		else
+		{
+			SystemeParticules[i]->IntegrateVerlet(delta, gravity);
+		}
 
 		if(temp)
 		{
@@ -58,7 +60,6 @@ void ofApp::update()
 		{
 			particule->onCollisionDetected(SystemeParticules);
 		}
-		
 	}
 }
 
@@ -67,7 +68,7 @@ void ofApp::draw()
 {
 	ofSetColor(ofColor::white);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: move ground", 20, 20);
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\ni:change integration mode\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: move ground", 20, 20);
 	
 	ofSetColor(ofColor::brown);
 	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000);
@@ -107,6 +108,10 @@ void ofApp::draw()
 			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
 		}
 	}
+
+	// Affiche le mode de calcul de la position
+	if (isEuler) {ofDrawBitmapString("Integration Mode : Euler", 20, ofGetHeight() - 40);}
+	else {ofDrawBitmapString("Integration Mode : Verlet", 20, ofGetHeight() - 40);}
 	
 	ofSetColor(ofColor::red);
 	ofDrawSphere(ground.impact_point.toVec3(), 5.0f);
@@ -139,6 +144,8 @@ void ofApp::keyPressed(int key)
 	case 'b': SystemeParticules.push_back(new BouncingParticule(current_mass, init_point, v));
 		break;
 	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));
+		break;
+	case 'i': isEuler = !isEuler; // Switch du mode d'intégration
 		break;
 	case 'v': 
 		if (gravity.get_y() > 0)

@@ -8,7 +8,6 @@
 void Input::set_Input(Vector& v) const
 {
 	v.set(cos(current_angle1) * cos(current_angle2) * current_norm, current_norm * sin(current_angle1), current_norm * cos(current_angle1) * sin(current_angle2));
-
 }
 
 
