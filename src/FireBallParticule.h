@@ -5,6 +5,8 @@
 
 #include <cmath>
 
+
+//Classe derivée de Particule avec les paramètres : angle, phi, etc
 class FireBallParticule : public Particule
 {
 	private :
@@ -16,8 +18,8 @@ class FireBallParticule : public Particule
 		double randomAngle = 0.5;
 	
 	public:
-		FireBallParticule() : Particule() {};
-		FireBallParticule(double invertMass, Vector position, Vector velocity) :Particule(invertMass, position, velocity) {this->c = ofColor::paleVioletRed;};
+		FireBallParticule() : Particule() {}; //constructeur
+		FireBallParticule(double invertMass, Vector position, Vector velocity) :Particule(invertMass, position, velocity) {this->c = ofColor::paleVioletRed;}; 
 		void onCollisionDetected(vector<Particule*>& allParticles) override;
 
 };
