@@ -15,8 +15,10 @@ class Particule
 private:
 	Vector lastPosition;
 	bool isStatic = false;
+	
 
 protected :
+	bool isPresetVerlet;
 	Vector position;
 	Vector velocity;
 	double mass;
@@ -34,8 +36,6 @@ public:
 	void SetLastPosition(Vector lastPosition) { this->lastPosition = lastPosition; }
 	void SetVelocity(Vector velocity) { this->velocity = velocity; }
 
-	void SetFirstLastPosition(float duration);
-
 	// Getters
 	ofColor GetColor() { return c; }
 	double GetMass() { return this-> mass; }
@@ -47,11 +47,12 @@ public:
 
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);
-
+	
 	// Integrators
 	void IntegrateEuler(float duration, Vector gravity, float damping);
-	void IntegrateVerlet(float duration, Vector gravity);
+	void IntegrateVerlet(float duration, Vector gravity, float damping);
 
+	// Manage collisions
 	virtual void onCollisionDetected( vector<Particule*> &allParticles);
 	Vector calculGravitationAccelerationWith(Particule* p);
 };

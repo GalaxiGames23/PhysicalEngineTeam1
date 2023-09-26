@@ -5,7 +5,7 @@ void FireBallParticule::onCollisionDetected(vector<Particule*>& allParticles)
 {
 	
 	int nbParticule = nbSpawnParticle + (rand() % 2 * randomNBSpawn) - randomNBSpawn;
-	for (int i = 0; i < nbParticule; i++)
+	for (int i = 0; i < nbParticule; i++) //create other paticles with pseudo-random initial velocity
 	{
 		double current_norm = norm + rand() % randomNorm;
 		double current_angle1 = angle + (float)(rand() % 50) / 100.f;

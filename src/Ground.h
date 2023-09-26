@@ -13,7 +13,7 @@ class Ground
 		Vector& impact_point = Vector();
 		Ground(const Ground&) = delete;
 
-		static Ground& getGround()
+		static Ground& getGround() //Singleton
 		{
 			static Ground ground;
 			return ground;

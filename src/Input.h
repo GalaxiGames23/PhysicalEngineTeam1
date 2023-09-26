@@ -7,27 +7,27 @@
 class Input
 {
 	private:
-		double max_norm = 1000;
-		double speed_norm = 400.0;
-		double speed_angle = 1;
+		double max_norm = 1000; //<<<max de la norme possible
+		double speed_norm = 400.0; //<<<vitesse de progression de la norme
+		double speed_angle = 1; //<<<vitesse de progression des angles
 
-		double current_angle1 = 0;
-		double current_angle2 = 0;
-		double current_norm = 100;
+		double current_angle1 = 0; //<<<angle théta
+		double current_angle2 = 0;//<<<angle phi
+		double current_norm = 100;//<<< norme
 		bool DessinerTrace = false; //<<< détermine si l'on affiche la trace
 		bool AfficherPositions = false; //<<< détermine si l'on affiche les positions
 		Input() { };
 	
 	public:
-		bool angle_key = false;
-		bool ground_key = false;
-		int last_pos_x = 0;
-		int last_pos_y = 0;
+		bool angle_key = false; //<<< Si l'utilisateur est en train de changer l'angle
+		bool ground_key = false;//<<< Si l'utilisateur est en train de changer la hauteur du sol
+		int last_pos_x = 0; //<<< dernière position de la souris en x
+		int last_pos_y = 0;//<<< dernière position de la souris en y
 		Vector& max_point = Vector();
 	
 		Input(const Input&) = delete;
 
-		static Input& getInput() 
+		static Input& getInput()  //Singleton
 		{
 			static Input myInput;
 			return myInput;

@@ -1,6 +1,8 @@
 #pragma once
 #include "Particule.h"
 
+
+//Classe derivée de Particule qui rebondis lorsqu'elle collisionne
 class BouncingParticule : public Particule
 {
 private:

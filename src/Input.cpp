@@ -4,15 +4,14 @@
 
 
 
-
+//set un vecteur avec une norme current_norm, un angle current_angle1 et un angle current_angle2 (choisi par l'utilisateur)
 void Input::set_Input(Vector& v) const
 {
 	v.set(cos(current_angle1) * cos(current_angle2) * current_norm, current_norm * sin(current_angle1), current_norm * cos(current_angle1) * sin(current_angle2));
-
 }
 
 
-
+//Changer la norme
 void Input::change_norm(bool positive)
 {
 	int valeur = positive ? 1 : -1;
@@ -25,6 +24,7 @@ void Input::change_norm(bool positive)
 	}
 }
 
+//Changer l'angle tétha
 void Input::change_angle1(int positive)
 {
 	double last_frame = ofGetLastFrameTime();
@@ -32,6 +32,7 @@ void Input::change_angle1(int positive)
 	current_angle1 += fmod(speed_angle * time_frame * positive, 2 * M_PI);
 }
 
+//Changer l'angle phi
 void Input::change_angle2(int positive)
 {
 	double last_frame = ofGetLastFrameTime();
@@ -39,6 +40,7 @@ void Input::change_angle2(int positive)
 	current_angle2 += fmod(speed_angle * time_frame * positive, 2 * M_PI);
 }
 
+//Effacer le vecteur
 void Input::reset()
 {
 	current_angle1 = 0;
@@ -66,7 +68,6 @@ void Input::calculSomePoints(Vector& velocity, Vector& position, Vector & gravit
 	}
 
 	//Calcule du maximum
-
 	double tmax = -vy / g;
 	if (tmax > 0)
 	{

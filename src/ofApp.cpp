@@ -7,13 +7,8 @@ void ofApp::setup()
 	input.SetDessinerTrace(false);
 	input.SetAfficherPositions(false);
 	input.calculSomePoints(v, init_point, gravity, ground);
-
-	for (int i = 0; i < SystemeParticules.size(); ++i)
-	{
-		SystemeParticules[i]->SetFirstLastPosition(ofGetLastFrameTime());
-	}
-
 	timer = 0;
+	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
 }
 
 //--------------------------------------------------------------
@@ -23,14 +18,13 @@ void ofApp::update()
 	//pour la trace, on enregistre une position tous les intervalles fixes
 	timer += delta;
 	bool temp = timer>0.2f;
-	Vector otherAcceleration = Vector(0, 0, 0);
 	for (int i = 0; i<SystemeParticules.size();++i)
 	{
-		if (!SystemeParticules[i]->particleCanMove())
+		if (!SystemeParticules[i]->particleCanMove()) //Si la particule est static, on n'a pas besoin de calculer sa nouvelle position
 		{
 			continue;
 		}
-		otherAcceleration = Vector(0, 0, 0);
+		Vector otherAcceleration = otherAcceleration = Vector(0, 0, 0);
 		if (gravity.get_y() == 0)
 		{
 			for (int j = 0; j < SystemeParticules.size(); ++j)
@@ -39,10 +33,16 @@ void ofApp::update()
 					otherAcceleration = otherAcceleration + SystemeParticules[i]->calculGravitationAccelerationWith(SystemeParticules[j]);
 			}
 		}
-		//update de la position de chaque particule avec l'intégration d'Euler
-		
-		SystemeParticules[i]->IntegrateEuler(delta, gravity + otherAcceleration, damping);
-		//SystemeParticules[i].IntegrateVerlet(delta, gravity);
+
+		//update de la position de chaque particule avec une des méthodes d'intégration
+		if (isEuler)
+		{
+			SystemeParticules[i]->IntegrateEuler(delta, gravity + otherAcceleration, damping);
+		}
+		else
+		{
+			SystemeParticules[i]->IntegrateVerlet(delta, gravity + otherAcceleration, damping);
+		}
 
 		if(temp)
 		{
@@ -58,11 +58,10 @@ void ofApp::update()
 	for (Particule *particule: save)
 	{
 
-		if (particule->GetPosition().get_y() > ground.yCoord)
+		if (particule->GetPosition().get_y() >= ground.yCoord) // si on est plus bas ou égal que le sol
 		{
 			particule->onCollisionDetected(SystemeParticules);
 		}
-		
 	}
 }
 
@@ -70,13 +69,15 @@ void ofApp::update()
 void ofApp::draw()
 {
 	ofSetColor(ofColor::white);
+
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne:change angle\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping ", 20, 20);
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne & mouse:change angle\ni:change integration mode\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: change gravity\nh & mouse: move ground", 20, 20);
 	
 	ofSetColor(ofColor::brown);
-	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000);
+	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
 	ofSetColor(ofColor::white);
-	if (input.GetDessinerTrace())
+
+	if (input.GetDessinerTrace()) //si les traces sont activées par l'utilisateur
 	{
 		ofSetColor(ofColor::orange);
 		int size = TracePositions.size() - SystemeParticules.size();
@@ -103,7 +104,7 @@ void ofApp::draw()
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
 	}
 	ofSetColor(ofColor::white);
-	if(input.GetAfficherPositions())
+	if(input.GetAfficherPositions()) //Si la position des particules est activée par l'utilisateur
 	{
 		//affiche la position des particules
 		for (int i = 0; i < SystemeParticules.size(); ++i)
@@ -111,15 +112,22 @@ void ofApp::draw()
 			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
 		}
 	}
+
+	// Affiche le mode de calcul de la position
+	if (isEuler) {ofDrawBitmapString("Integration Mode : Euler", 20, ofGetHeight() - 40);}
+	else {ofDrawBitmapString("Integration Mode : Verlet", 20, ofGetHeight() - 40);}
+	// Affiche le mode de calcul de la position
+	if (damping == 1.0) { ofDrawBitmapString("Frottements: OFF", 20, ofGetHeight() - 60); }
+	else { ofDrawBitmapString("Frottements: ON", 20, ofGetHeight() - 60); }
 	
 	ofSetColor(ofColor::red);
-	ofDrawSphere(ground.impact_point.toVec3(), 5.0f);
+	ofDrawSphere(ground.impact_point.toVec3(), 5.0f); // Dessine le point d'impact prévisionnel
 	ofSetColor(ofColor::white);
 
 	ofSetColor(ofColor::forestGreen);
-	ofDrawSphere(input.max_point.toVec3(), 5.0f);
+	ofDrawSphere(input.max_point.toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
 	ofSetColor(ofColor::white);
-	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6);
+	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6); // Dessine la flèche du vecteur vitesse
 
 }
 
@@ -138,11 +146,13 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': SystemeParticules.push_back(new Particule(current_mass, init_point, v));
+	case ' ': SystemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
 		break;
-	case 'b': SystemeParticules.push_back(new BouncingParticule(current_mass, init_point, v));
+	case 'b': SystemeParticules.push_back(new BouncingParticule(current_mass, init_point, v)); // Création d'une particule rebondissante
 		break;
-	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));
+	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));// Création d'une particule boule de feu
+		break;
+	case 'i': isEuler = !isEuler; // Switch du mode d'intégration
 		break;
 	case 'v': 
 		if (gravity.get_y() > 0)
@@ -160,9 +170,12 @@ void ofApp::keyPressed(int key)
 
 		}
 		break;
+	case 'g': if (gravity.get_y() > verticalGravity) gravity.set(0, verticalGravity , 0); //Changer la gravité
+			else gravity.set(0, verticalGravity * 1.5, 0);
+		break;
 	case 'r': TracePositions.clear();
 		break;
-	case 'g': input.ground_key = true;
+	case 'h': input.ground_key = true;
 		break;
 	case 'f': if (damping > 0.9f) damping = 0.7f;
 			else damping = 1.0f;
@@ -180,7 +193,7 @@ void ofApp::keyReleased(int key)
 	switch (key) {
 	case 'e':input.angle_key = false;
 		break;
-	case 'g': input.ground_key= false;
+	case 'h': input.ground_key= false;
 		break;
 	default: break;
 	}
@@ -191,7 +204,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if (input.angle_key)
+	if (input.angle_key) //Changement d'angle
 	{
 		int diffx = x - input.last_pos_x;
 		int diffy = y - input.last_pos_y;
@@ -231,7 +244,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-	if (button == 0)
+	if (button == 0) //Changement de la position initiale
 	{
 		init_point.set(x, y, 0);
 		input.calculSomePoints(v, init_point, gravity, ground);
