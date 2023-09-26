@@ -64,7 +64,7 @@ bool testIncreaseAngle()
 {
 	input.reset();
 	Vector& v = Vector(0, 0, 0);
-	input.change_angle1(true);
+	input.change_angle1(1);
 	input.set_Input(v);
 
 	return v.get_y() > 0;
@@ -74,7 +74,7 @@ bool testDecreaseAngle()
 {
 	input.reset();
 	Vector& v = Vector(0, 0, 0);
-	input.change_angle1(false);
+	input.change_angle1(-1);
 	input.set_Input(v);
 
 	return v.get_y() < 0;
