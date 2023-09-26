@@ -19,6 +19,7 @@ COMMANDES DE BASE:
 	- 'R' : vider l'historique de trace des particules
 	- 'G' : bouger le sol
 	- 'F' : activer ou désactiver les frottements
+	- 'I' : changer entre intégration d'Euler et de Verlet
 
 Lancer les tests:
 
