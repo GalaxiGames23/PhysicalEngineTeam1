@@ -1,6 +1,6 @@
 #include "Particule.h"
-// Constructors
 
+// Constructor Particule
 Particule::Particule()
 {
 	this->mass = 0;
@@ -11,7 +11,7 @@ Particule::Particule()
 	this->lastPosition = Vector(0, 0, 0);
 	isPresetVerlet = false;
 }
-
+//Constructor Particule with parameters mass, position and velocity
 Particule::Particule(double mass, Vector position, Vector velocity)
 {
 	this->mass = mass;
@@ -22,20 +22,22 @@ Particule::Particule(double mass, Vector position, Vector velocity)
 	this->lastPosition = Vector(0, 0, 0);
 	isPresetVerlet = false;
 }
-
+//Constructor Particule with parameters mass, position and velocity and color
 Particule::Particule(double mass, Vector position, Vector velocity, ofColor c)
 {
 
-	this->mass = mass;
-	this->position = position;
-	this->velocity = velocity;
-	this->c = c;
+	this->mass = mass; //initialize mass of particul
+	this->position = position; //initialize position of particule
+	this->velocity = velocity; // initialize type object of vector - particule's speed
+	this->c = c; //type ofColor for particule's color
 
+	//initialize lastPosition to 0
 	this->lastPosition = Vector(0, 0, 0);
+	//Initialize "isPresetVerlet" to "false"
 	isPresetVerlet = false;
 }
 
-// ToString
+// Operator << with particule (ofstring)
 ostream& operator<< (ostream& out, const Particule& particule)
 {
 	out << "--- Particule ---\nMass : " << particule.mass << "\nTime : " << particule.position << "\n Distance : " << particule.velocity << "\n-----------------";
@@ -43,17 +45,23 @@ ostream& operator<< (ostream& out, const Particule& particule)
 }
 
 // Integrators
+
+//Euler Integration
 void Particule::IntegrateEuler(float duration, Vector gravity, float damping)
 {
 	if (this->isPresetVerlet) // Calcul of last position if change of integration mode
 	{
+		//Calculate the velocity using the Verlet integration formule
 		this->velocity = 1 / duration * (this->position - this->lastPosition);
-		isPresetVerlet = false;
+		isPresetVerlet = false; //Set the integration mode to Euler
 	}
+	//Set the particule's velocity using Euler integration with damping and gravity
 	this->velocity = pow(damping, duration) * this->velocity + duration * gravity;
+	//Set the particule's position using Euler integration
 	this->position =  this->position + duration * this->velocity;
 }
 
+//Verlet Integration
 void Particule::IntegrateVerlet(float duration, Vector gravity)
 {
 	if (!this->isPresetVerlet) // Calcul of last position if first call or change of integration mode
