@@ -25,6 +25,9 @@
     <ClCompile Include="src\FireBallParticule.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameWorld.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -51,6 +54,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\FireBallParticule.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameWorld.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

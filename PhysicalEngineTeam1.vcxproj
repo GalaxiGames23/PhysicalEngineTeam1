@@ -106,6 +106,7 @@
   <ItemGroup>
     <ClCompile Include="src\BouncingParticule.cpp" />
     <ClCompile Include="src\FireBallParticule.cpp" />
+    <ClCompile Include="src\GameWorld.cpp" />
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -116,6 +117,7 @@
   <ItemGroup>
     <ClInclude Include="src\BouncingParticule.h" />
     <ClInclude Include="src\FireBallParticule.h" />
+    <ClInclude Include="src\GameWorld.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Particule.h" />

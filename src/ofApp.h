@@ -7,6 +7,7 @@
 #include "FireBallParticule.h"
 #include "Input.h"
 #include "Ground.h"
+#include "GameWorld.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
