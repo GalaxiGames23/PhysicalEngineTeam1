@@ -15,6 +15,9 @@ class Particule
 private:
 	Vector lastPosition;
 	bool isStatic = false;
+
+	////////Phase 2/////
+	Vector AccumForce; //<<<Force résultante pour la particule
 	
 
 protected :
@@ -55,6 +58,10 @@ public:
 	// Manage collisions
 	virtual void onCollisionDetected( vector<Particule*> &allParticles);
 	Vector calculGravitationAccelerationWith(Particule* p);
+
+	////////Phase 2/////
+	void addForce(const Vector& force); //AccumForce += force
+	void clearAccum();// vide l'accumulateur
 };
 
 #endif

@@ -118,3 +118,15 @@ Vector Particule::calculGravitationAccelerationWith(Particule* p)
 	}
 	return G * p->GetMass() / (d * d) * axe;
 }
+
+////////Phase 2/////
+
+void Particule::addForce(const Vector& force)
+{
+	AccumForce += force;
+}
+
+void Particule::clearAccum()
+{
+	AccumForce = Vector(0, 0, 0);
+}

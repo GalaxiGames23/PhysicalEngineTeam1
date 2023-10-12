@@ -104,6 +104,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ParticuleForceGenerator.cpp" />
     <ClCompile Include="src\BouncingParticule.cpp" />
     <ClCompile Include="src\FireBallParticule.cpp" />
     <ClCompile Include="src\GameWorld.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ParticuleForceGenerator.h" />
     <ClInclude Include="src\BouncingParticule.h" />
     <ClInclude Include="src\FireBallParticule.h" />
     <ClInclude Include="src\GameWorld.h" />

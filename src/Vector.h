@@ -41,6 +41,7 @@ class Vector
 		Vector operator *(const double& a) const;
 
 		Vector operator +(const Vector& v) const;
+		Vector operator +=(const Vector& v) const;
 
 		friend Vector operator*(const double& a, const Vector& vec);
 		friend ostream& operator<< (ostream&, const Vector& vec);
