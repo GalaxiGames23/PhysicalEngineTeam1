@@ -2,6 +2,8 @@
 #define GAMEWORLD_H
 
 #include "Particule.h"
+#include "ParticuleForceGenerator.h"
+#include "ParticuleForceRegistry.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -11,11 +13,23 @@ using namespace std;
 class GameWorld
 {
 public:
-	std::vector<Particule*> SystemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
+	std::vector<Particule*> systemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
+
+	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
+
+	ParticuleForceRegistry& registre; //<<<registre des forces
 
 	//Constructors
 
-	GameWorld();
+	//GameWorld();
+
+	//calcule les nouvelles position de chaque 
+	void UpdateLogic(float duration);
+
+private:
+	
+	//ajoute les forces au registre
+	void addForces();
 };
 
 #endif

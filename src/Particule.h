@@ -55,6 +55,9 @@ public:
 	void IntegrateEuler(float duration, Vector gravity, float damping);
 	void IntegrateVerlet(float duration, Vector gravity, float damping);
 
+	/////Phase 2////
+	void IntegrateWithAccum(float duration);
+
 	// Manage collisions
 	virtual void onCollisionDetected( vector<Particule*> &allParticles);
 	Vector calculGravitationAccelerationWith(Particule* p);
