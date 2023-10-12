@@ -28,9 +28,11 @@
     <ClCompile Include="src\GameWorld.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="ParticuleForceGenerator.cpp">
+    <ClCompile Include="src\ParticuleForceGenerator.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParticuleForceRegistry.cpp" />
+    <ClCompile Include="src\ParticuleGravity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -62,9 +64,11 @@
     <ClInclude Include="src\GameWorld.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="ParticuleForceGenerator.h">
+    <ClInclude Include="src\ParticuleForceGenerator.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\ParticuleForceRegistry.h" />
+    <ClInclude Include="src\ParticuleGravity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
