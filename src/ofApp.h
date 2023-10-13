@@ -8,6 +8,8 @@
 #include "Input.h"
 #include "Ground.h"
 #include "GameWorld.h"
+#include "PlayerController.h"
+#include "Camera.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -47,4 +49,7 @@ class ofApp : public ofBaseApp{
 		double current_mass = 5;
 		float timer;
 		bool isEuler; //<<< Mode d'intégration de la position des particules
+		Camera *myCam;
+		PlayerController myController;
+		
 };

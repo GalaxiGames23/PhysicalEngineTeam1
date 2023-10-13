@@ -9,6 +9,8 @@ void ofApp::setup()
 	input.calculSomePoints(v, init_point, gravity, ground);
 	timer = 0;
 	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
+	myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
+	myController = PlayerController(moonParticle, myCam);
 }
 
 //--------------------------------------------------------------
@@ -68,10 +70,13 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	if (myCam->isActivated)
+	{
+		myCam->beginCam();
+
+	}
 	ofSetColor(ofColor::white);
 
-	//dessine les commandes
-	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne & mouse:change angle\ni:change integration mode\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: change gravity\nh & mouse: move ground", 20, 20);
 	
 	ofSetColor(ofColor::brown);
 	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
@@ -88,14 +93,9 @@ void ofApp::draw()
 		}
 		ofSetColor(ofColor::white);
 
-		//affiche la mention de ON/OFF pour la trace
-		ofDrawBitmapString("Previous Positions: ON", 20, ofGetHeight() - 20);
+		
 	}
-	else
-	{
-		//affiche la mention de ON/OFF pour la trace
-		ofDrawBitmapString("Previous Positions: OFF", 20, ofGetHeight() - 20);
-	}
+	
 	
 	//dessine toutes les particules listées
 	for (Particule* particule : SystemeParticules)
@@ -104,24 +104,16 @@ void ofApp::draw()
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
 	}
 	ofSetColor(ofColor::white);
-	if(input.GetAfficherPositions()) //Si la position des particules est activée par l'utilisateur
-	{
-		//affiche la position des particules
-		for (int i = 0; i < SystemeParticules.size(); ++i)
-		{
-			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
-		}
-	}
+	
 
-	// Affiche le mode de calcul de la position
-	if (isEuler) {ofDrawBitmapString("Integration Mode : Euler", 20, ofGetHeight() - 40);}
-	else {ofDrawBitmapString("Integration Mode : Verlet", 20, ofGetHeight() - 40);}
-	// Affiche le mode de calcul de la position
-	if (damping == 1.0) { ofDrawBitmapString("Frottements: OFF", 20, ofGetHeight() - 60); }
-	else { ofDrawBitmapString("Frottements: ON", 20, ofGetHeight() - 60); }
+
 	
 	ofSetColor(ofColor::red);
 	ofDrawSphere(ground.impact_point.toVec3(), 5.0f); // Dessine le point d'impact prévisionnel
+	ofSetColor(ofColor::white);
+
+	ofSetColor(ofColor::darkGrey);
+	ofDrawSphere(myCam->getPosition().toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
 	ofSetColor(ofColor::white);
 
 	ofSetColor(ofColor::forestGreen);
@@ -129,6 +121,41 @@ void ofApp::draw()
 	ofSetColor(ofColor::white);
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6); // Dessine la flèche du vecteur vitesse
 
+	if (myCam->isActivated)
+	{
+		myCam->endCam();
+	}
+
+	ofPushStyle();
+	ofSetupScreenOrtho();
+	//dessine les commandes
+	ofDrawBitmapString("Commands:\nc: increase norm\nx: decrease norm\ne & mouse:change angle\ni:change integration mode\nt: show previous positions on/off\nr: clear previous positions\np: display current position values\nspace: spawn normal particle\nb: spawn bouncing particle\nn: spawn fireball particle \nv: no gravity + spawn moon \nf: damping\ng: change gravity\nh & mouse: move ground", 20, 20);
+	if (input.GetAfficherPositions()) //Si la position des particules est activée par l'utilisateur
+	{
+		//affiche la position des particules
+		for (int i = 0; i < SystemeParticules.size(); ++i)
+		{
+			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
+		}
+	}
+	if (input.GetDessinerTrace()) //si les traces sont activées par l'utilisateur
+	{
+		ofDrawBitmapString("Previous Positions: ON", 20, ofGetHeight() - 20);//affiche la mention de ON/OFF pour la trace
+
+	}
+	else
+	{
+		ofDrawBitmapString("Previous Positions: OFF", 20, ofGetHeight() - 20);
+	}
+	
+	// Affiche le mode de calcul de la position
+	if (isEuler) { ofDrawBitmapString("Integration Mode : Euler", 20, ofGetHeight() - 40); }
+	else { ofDrawBitmapString("Integration Mode : Verlet", 20, ofGetHeight() - 40); }
+	// Affiche le mode de calcul de la position
+	if (damping == 1.0) { ofDrawBitmapString("Frottements: OFF", 20, ofGetHeight() - 60); }
+	else { ofDrawBitmapString("Frottements: ON", 20, ofGetHeight() - 60); }
+	
+	ofPopStyle();
 }
 
 
@@ -180,8 +207,23 @@ void ofApp::keyPressed(int key)
 	case 'f': if (damping > 0.9f) damping = 0.7f;
 			else damping = 1.0f;
 		break;
+	case 'k': myCam->changeNorm(-ofGetLastFrameTime());
+		break;
+	case 'j': myCam->changeNorm(ofGetLastFrameTime());
+		break;
+	case 'm': myCam->isActivated = !myCam->isActivated;
+		break;
+	case 'z': myController.moveParticuleForward(ofGetLastFrameTime());
+		break;
+	case 's':  myController.moveParticuleForward(-ofGetLastFrameTime());
+		break;
+	case 'd': myController.moveParticuleRight(ofGetLastFrameTime());
+		break;
+	case 'q': myController.moveParticuleRight(-ofGetLastFrameTime());
+		break;
 	default: break;
 	}
+
 	input.set_Input(v);
 	input.calculSomePoints(v, init_point, gravity, ground);
 
@@ -230,6 +272,21 @@ void ofApp::mouseMoved(int x, int y )
 			 ground.change_ground_height(diffy);
 		}
 		 input.calculSomePoints(v, init_point, gravity, ground);
+	}
+	else if (myCam->isActivated)
+	{
+		int diffx = x - input.last_pos_x;
+		int diffy = y - input.last_pos_y;
+		if (abs(diffx) > abs(diffy) + 1 && diffx != 0)
+		{
+			myCam->changePitchAngle(ofGetLastFrameTime() * diffx);
+
+		}
+		else if (abs(diffy) > abs(diffx) + 1 && diffy != 0)
+		{
+			myCam->changeRollAngle(ofGetLastFrameTime() * diffy);
+		}
+		
 	}
 	input.last_pos_x = x;
 	input.last_pos_y = y;

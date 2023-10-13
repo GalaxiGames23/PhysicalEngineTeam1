@@ -105,6 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BouncingParticule.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\FireBallParticule.cpp" />
     <ClCompile Include="src\GameWorld.cpp" />
     <ClCompile Include="src\Ground.cpp" />
@@ -115,10 +116,12 @@
     <ClCompile Include="src\ParticuleForceGenerator.cpp" />
     <ClCompile Include="src\ParticuleForceRegistry.cpp" />
     <ClCompile Include="src\ParticuleGravity.cpp" />
+    <ClCompile Include="src\PlayerController.cpp" />
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BouncingParticule.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\FireBallParticule.h" />
     <ClInclude Include="src\GameWorld.h" />
     <ClInclude Include="src\Input.h" />
@@ -127,6 +130,7 @@
     <ClInclude Include="src\ParticuleForceGenerator.h" />
     <ClInclude Include="src\ParticuleForceRegistry.h" />
     <ClInclude Include="src\ParticuleGravity.h" />
+    <ClInclude Include="src\PlayerController.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\Ground.h" />
   </ItemGroup>
