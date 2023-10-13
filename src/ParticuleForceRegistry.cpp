@@ -18,18 +18,24 @@ void ParticuleForceRegistry::add(Particule* particule, ParticuleForceGenerator* 
 
 void ParticuleForceRegistry::remove(Particule* particule, ParticuleForceGenerator* fg)
 {
-	//on crée une entrée
-	ParticuleForceRegistration entry;
-	entry.particule = particule;
-	entry.fg = fg;
-
-	//on trouve et supprime l'entrée du registre
-	
+	//on trouve l'entrée dans le registre et on la supprime
+	for (auto it = registre.begin(); it != registre.end();)
+	{
+		if (it->fg == fg && it->particule == particule)
+		{
+			registre.erase(it);
+			return;
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
 void ParticuleForceRegistry::clear()
 {
-
+	registre.clear();
 }
 
 void ParticuleForceRegistry::updateForces(float duration)

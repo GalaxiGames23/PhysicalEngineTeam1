@@ -9,6 +9,7 @@
 #include "Ground.h"
 #include "GameWorld.h"
 #include "PlayerController.h"
+#include "ParticuleGravity.h"
 #include "Camera.h"
 #include <iostream>
 #include <cstdlib>
