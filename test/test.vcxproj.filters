@@ -19,6 +19,18 @@
     <ClCompile Include="src\TestInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\TestRegistre.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ParticuleForceRegistry.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Particule.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ParticuleGravity.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -39,6 +51,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\TestInput.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestRegistre.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ParticuleForceRegistry.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Particule.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ParticuleGravity.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

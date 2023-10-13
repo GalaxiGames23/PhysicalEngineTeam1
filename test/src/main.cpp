@@ -3,6 +3,7 @@
 #include "../../src/Particule.h"
 #include "TestVector.h"
 #include "TestInput.h"
+#include "TestRegistre.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
@@ -56,6 +57,12 @@ int main() {
 
     runTest("Decroitre l'angle:", testDecreaseAngle);
     
+    runTest("Addition au registre", testRegistreAdd);
+    
+    runTest("Retrait du registre", testRegistreRemove);
+    
+    runTest("Clear du registre", testRegistreClear);
+
 
     return 0;
 }

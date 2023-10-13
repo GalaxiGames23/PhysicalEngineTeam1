@@ -12,17 +12,6 @@ void ofApp::setup()
 	myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
 	myController = PlayerController(moonParticle, myCam);
 
-	//LIGNES DE TEST A BOUGER VERS LES CLASSES DE TEST
-	/*ParticuleForceRegistry registre;
-	Vector& vect = Vector();
-	Particule &part = Particule(5,vect,vect);
-	ParticuleGravity gen;
-	registre.add(&part, &gen);
-	std::cout << "Masse particule"<<registre.registre[0].particule->GetMass()<<std::endl;
-	//registre.remove(&part, &gen);
-	registre.clear();
-	std::cout << "taille registre"<<registre.registre.size()<<std::endl;
-	std::cout << "Masse particule" << part.GetMass() << std::endl;*/
 }
 
 //--------------------------------------------------------------
