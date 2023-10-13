@@ -18,6 +18,14 @@ void ofApp::setup()
 void ofApp::update()
 {
 	double delta = ofGetLastFrameTime();
+
+	//////PHASE 2/////
+
+	gameworld.UpdateLogic(delta);
+
+
+
+
 	//pour la trace, on enregistre une position tous les intervalles fixes
 	timer += delta;
 	bool temp = timer>0.2f;
@@ -71,6 +79,8 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	//////PHASE 2/////
+
 	if (myCam->isActivated)
 	{
 		myCam->beginCam();
@@ -78,7 +88,15 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
-	
+	for (Particule* particule : gameworld.systemeParticules)
+	{
+		ofSetColor(particule->GetColor());
+		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
+	}
+	ofSetColor(ofColor::white);
+
+
+
 	ofSetColor(ofColor::brown);
 	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
 	ofSetColor(ofColor::white);
@@ -174,15 +192,17 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': SystemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
+	case ' ': gameworld.systemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
 		break;
+	/*case ' ': SystemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
+		break;*/
 	case 'b': SystemeParticules.push_back(new BouncingParticule(current_mass, init_point, v)); // Création d'une particule rebondissante
 		break;
 	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));// Création d'une particule boule de feu
 		break;
 	case 'i': isEuler = !isEuler; // Switch du mode d'intégration
 		break;
-	case 'v': 
+	case 'v':
 		if (gravity.get_y() > 0)
 		{
 			gravity.set(0, 0, 0);

@@ -4,6 +4,7 @@
 #include "Particule.h"
 #include "ParticuleForceGenerator.h"
 #include "ParticuleForceRegistry.h"
+#include "ParticuleGravity.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -17,11 +18,13 @@ public:
 
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
-	ParticuleForceRegistry& registre; //<<<registre des forces
+	ParticuleGravity worldGravity;
+
+	ParticuleForceRegistry registre; //<<<registre des forces
 
 	//Constructors
 
-	//GameWorld();
+	GameWorld();
 
 	//calcule les nouvelles position de chaque 
 	void UpdateLogic(float duration);

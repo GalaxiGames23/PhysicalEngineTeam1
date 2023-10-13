@@ -31,12 +31,16 @@
     <ClCompile Include="src\ParticuleForceGenerator.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticuleForceRegistry.cpp" />
-    <ClCompile Include="src\ParticuleGravity.cpp" />
     <ClCompile Include="src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleGravity.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleForceRegistry.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,12 +77,16 @@
     <ClInclude Include="src\ParticuleForceGenerator.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticuleForceRegistry.h" />
-    <ClInclude Include="src\ParticuleGravity.h" />
     <ClInclude Include="src\Camera.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleGravity.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleForceRegistry.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -47,6 +47,7 @@ public:
 	Vector GetLastPosition() { return this->lastPosition; }
 	Vector GetVelocity() { return this->velocity; }
 	bool particleCanMove() { return !isStatic; }
+	Vector GetAccumForce() { return this->AccumForce; }
 
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);

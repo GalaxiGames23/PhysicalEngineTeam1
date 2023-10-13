@@ -1,10 +1,11 @@
 #include "GameWorld.h"
 
 //Constructeur par défaut
-/*GameWorld::GameWorld()
+GameWorld::GameWorld()
 {
 	registre = ParticuleForceRegistry();
-}*/
+	worldGravity = ParticuleGravity();
+}
 
 void GameWorld::UpdateLogic(float duration) 
 {
@@ -21,6 +22,7 @@ void GameWorld::UpdateLogic(float duration)
 	//intégration de chaque particule
 	for (int i = 0; i < systemeParticules.size(); ++i)
 	{
+		std::cout << systemeParticules[i]->GetAccumForce() << endl;
 		systemeParticules[i]->IntegrateWithAccum(duration);
 
 		//on vide l'accumulateur
@@ -30,5 +32,9 @@ void GameWorld::UpdateLogic(float duration)
 
 void GameWorld::addForces()
 {
-	//TODO: ajouter les forces au registre
+	//gestion de la gravité
+	for (Particule* particule : systemeParticules)
+	{
+		registre.add(particule, &worldGravity);
+	}
 }

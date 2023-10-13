@@ -3,7 +3,7 @@
 /////Constructors
 ParticuleGravity::ParticuleGravity()
 {
-	gravity = Vector(0.0f, -9.81f, 0.0f);
+	gravity = Vector(0.0f, 9.81f, 0.0f);
 }
 
 ParticuleGravity::ParticuleGravity(Vector gravity) {

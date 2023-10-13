@@ -50,7 +50,10 @@ class ofApp : public ofBaseApp{
 		double current_mass = 5;
 		float timer;
 		bool isEuler; //<<< Mode d'intégration de la position des particules
+
+		/////////PHASE 2//////
 		Camera *myCam;
 		PlayerController myController;
+		GameWorld& gameworld = GameWorld();
 		
 };

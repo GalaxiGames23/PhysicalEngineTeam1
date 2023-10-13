@@ -90,15 +90,6 @@ void Particule::IntegrateVerlet(float duration, Vector gravity, float damping)
 	this->lastPosition = storeActualPos;
 }
 
-//Phase 2 integration
-void Particule::IntegrateWithAccum(float duration)
-{
-	//Set the particule's velocity using Euler integration with AccumForces
-	this->velocity = this->velocity + duration * this->AccumForce;
-	//Set the particule's position using Euler integration
-	this->position = this->position + duration * this->velocity;
-}
-
 
 // Manage collisions
 void Particule::onCollisionDetected(vector<Particule*>& allParticles)
@@ -132,10 +123,19 @@ Vector Particule::calculGravitationAccelerationWith(Particule* p)
 
 void Particule::addForce(const Vector& force)
 {
-	AccumForce += force;
+	AccumForce = AccumForce + force;
 }
 
 void Particule::clearAccum()
 {
 	AccumForce = Vector(0, 0, 0);
+}
+
+//Phase 2 integration
+void Particule::IntegrateWithAccum(float duration)
+{
+	//Set the particule's velocity using Euler integration with AccumForces
+	this->velocity = this->velocity + duration * this->AccumForce;
+	//Set the particule's position using Euler integration
+	this->position = this->position + duration * this->velocity;
 }
