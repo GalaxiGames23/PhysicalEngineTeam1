@@ -60,6 +60,11 @@ Vector Vector::normalisation() const
 	}
 }
 
+Vector Vector::projection(const Vector& v) const
+{
+	return this->prod_scalar(v) * v.normalisation();
+}
+
 
 double Vector::prod_scalar(const Vector& v) const
 {

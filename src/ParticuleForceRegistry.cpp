@@ -7,18 +7,18 @@ ParticuleForceRegistry::ParticuleForceRegistry()
 
 void ParticuleForceRegistry::add(Particule* particule, ParticuleForceGenerator* fg)
 {
-	//on crée une entrée
+	// Création de la struct particule / ParticuleForceGenerator avec les entrées
 	ParticuleForceRegistration entry;
 	entry.particule = particule;
 	entry.fg = fg;
 
-	//on ajoute l'entrée 
+	// Ajout de la struct ParticuleForceRegistration
 	registre.push_back(entry);
 }
 
 void ParticuleForceRegistry::remove(Particule* particule, ParticuleForceGenerator* fg)
 {
-	//on trouve l'entrée dans le registre et on la supprime
+	// Recherche de la struct d'entrée dans le registre et supression
 	for (auto it = registre.begin(); it != registre.end();)
 	{
 		if (it->fg == fg && it->particule == particule)
@@ -26,15 +26,13 @@ void ParticuleForceRegistry::remove(Particule* particule, ParticuleForceGenerato
 			registre.erase(it);
 			return;
 		}
-		else
-		{
-			++it;
-		}
+		else ++it;
 	}
 }
 
 void ParticuleForceRegistry::clear()
 {
+	// On vide le registre des forces après mise à jour complète
 	registre.clear();
 }
 
@@ -42,6 +40,7 @@ void ParticuleForceRegistry::updateForces(float duration)
 {
 	for (ParticuleForceRegistration x : registre)
 	{
+		// Mise à jour de toutes les forces ajoutées au registre
 		x.fg->updateForce(x.particule, duration);
 	}
 }

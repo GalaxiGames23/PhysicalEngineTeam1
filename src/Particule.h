@@ -18,8 +18,10 @@ private:
 
 	////////Phase 2/////
 	Vector AccumForce; //<<<Force résultante pour la particule
+	float time = 0;
+	Vector position0;
+	Vector velocity0;
 	
-
 protected :
 	bool isPresetVerlet;
 	Vector position;
@@ -49,6 +51,8 @@ public:
 	bool particleCanMove() { return !isStatic; }
 	Vector GetAccumForce() { return this->AccumForce; }
 
+	Vector GetDirection();
+
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);
 	
@@ -56,8 +60,6 @@ public:
 	void IntegrateEuler(float duration, Vector gravity, float damping);
 	void IntegrateVerlet(float duration, Vector gravity, float damping);
 
-	/////Phase 2////
-	void IntegrateWithAccum(float duration);
 
 	// Manage collisions
 	virtual void onCollisionDetected( vector<Particule*> &allParticles);
@@ -66,6 +68,12 @@ public:
 	////////Phase 2/////
 	void addForce(const Vector& force); //AccumForce += force
 	void clearAccum();// vide l'accumulateur
+
+	void IntegrateEulerWithAccum(float duration);
+	void IntegrateVerletWithAccum(float duration);
+
+	void HarmonicMovement(double K, float time); // K : Constante d'élasticité
+	void HarmonicMovementDamping(double K, double c, float time); // K : Constante de friction
 };
 
 #endif

@@ -35,6 +35,8 @@ class Vector
 
 		Vector prod_vector(const Vector& v) const ;
 
+		Vector projection(const Vector& v) const;
+
 		double distance(const Vector& v) const;
 
 		Vector operator *(const Vector &v) const;

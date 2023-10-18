@@ -23,7 +23,7 @@ void GameWorld::UpdateLogic(float duration)
 	for (int i = 0; i < systemeParticules.size(); ++i)
 	{
 		std::cout << systemeParticules[i]->GetAccumForce() << endl;
-		systemeParticules[i]->IntegrateWithAccum(duration);
+		systemeParticules[i]->IntegrateEulerWithAccum(duration);
 
 		//on vide l'accumulateur
 		systemeParticules[i]->clearAccum();
