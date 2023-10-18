@@ -43,6 +43,18 @@
     <ClCompile Include="src\ParticuleForceRegistry.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Matrix.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleFrictionCinetic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleFrictionStatic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleSpring.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -87,6 +99,18 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleForceRegistry.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Matrix.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleFrictionCinetic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleFrictionStatic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleSpring.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

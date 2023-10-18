@@ -36,20 +36,21 @@ void ParticuleSpring::updateForce(Particule* p1, float duration)
 	Vector direction; // Direction entre les deux points
 	Vector force; // Force de ressort résultante
 
+
 	if (this->isP2P)
 	{
 		l = p1->GetPosition().distance(this->p2->GetPosition());
 		direction = (this->p2->GetPosition() - p1->GetPosition()).normalisation();
 
-		Vector force = this->k * (this->l0 - l) * direction;
+		force = this->k * (this->l0 - l) * direction;
 		this->p2->addForce(Vector() - force);
 	}
 	else
 	{
 		l = p1->GetPosition().distance(this->v);
-		direction = (this->v - p1->GetPosition()).normalisation();
+		direction = Vector()-(this->v - p1->GetPosition()).normalisation();
 
-		Vector force = this->k * (this->l0 - l) * direction;
+		force = this->k * (this->l0 - l) * direction;
 	}
 	p1->addForce(force);
 }

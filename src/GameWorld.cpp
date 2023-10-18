@@ -5,6 +5,15 @@ GameWorld::GameWorld()
 {
 	registre = ParticuleForceRegistry();
 	worldGravity = ParticuleGravity();
+
+	Particule* particule = new Particule(5.0f,Vector(100,100,0),Vector(0,0,0));
+	systemeParticules.push_back(particule);
+	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
+	Spring* entry = new Spring();
+	entry->particule1 = particule;
+	entry->spring = spring;
+	springList.push_back(entry);
+
 }
 
 void GameWorld::UpdateLogic(float duration) 
@@ -22,7 +31,6 @@ void GameWorld::UpdateLogic(float duration)
 	//intégration de chaque particule
 	for (int i = 0; i < systemeParticules.size(); ++i)
 	{
-		std::cout << systemeParticules[i]->GetAccumForce() << endl;
 		systemeParticules[i]->IntegrateEulerWithAccum(duration);
 
 		//on vide l'accumulateur
@@ -36,5 +44,10 @@ void GameWorld::addForces()
 	for (Particule* particule : systemeParticules)
 	{
 		registre.add(particule, &worldGravity);
+	}
+
+	for (Spring* spring : springList)
+	{
+		registre.add(spring->particule1,spring->spring);
 	}
 }

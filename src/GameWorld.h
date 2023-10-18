@@ -5,6 +5,7 @@
 #include "ParticuleForceGenerator.h"
 #include "ParticuleForceRegistry.h"
 #include "ParticuleGravity.h"
+#include "ParticuleSpring.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -13,10 +14,17 @@ using namespace std;
 
 class GameWorld
 {
+	struct Spring {
+		Particule* particule1;
+		ParticuleSpring* spring;
+	};
+
 public:
 	std::vector<Particule*> systemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
 
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
+
+	std::vector<Spring*> springList;
 
 	ParticuleGravity worldGravity;
 
