@@ -42,7 +42,7 @@ void ParticuleSpring::updateForce(Particule* p1, float duration)
 		direction = (this->p2->GetPosition() - p1->GetPosition()).normalisation();
 
 		Vector force = this->k * (this->l0 - l) * direction;
-		this->p2->addForce(force);
+		this->p2->addForce(Vector() - force);
 	}
 	else
 	{
