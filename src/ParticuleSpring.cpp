@@ -9,6 +9,7 @@ ParticuleSpring::ParticuleSpring()
 	this->v = Vector(0.0f, 0.0f, 0.0f);
 	this->p2 = &Particule();
 	this->isP2P = false;
+	this->HarmonicInitialized = false;
 }
 
 ParticuleSpring::ParticuleSpring(double k, double l0, Particule* p2) {
@@ -17,6 +18,7 @@ ParticuleSpring::ParticuleSpring(double k, double l0, Particule* p2) {
 
 	this->p2 = p2;
 	this->isP2P = true;
+	this->HarmonicInitialized = false;
 }
 
 ParticuleSpring::ParticuleSpring(double k, double l0, Vector v) {
@@ -26,6 +28,7 @@ ParticuleSpring::ParticuleSpring(double k, double l0, Vector v) {
 	this->v = v;
 	this->p2 = &Particule();
 	this->isP2P = false;
+	this->HarmonicInitialized = false;
 }
 
 ////////
@@ -53,4 +56,19 @@ void ParticuleSpring::updateForce(Particule* p1, float duration)
 		force = this->k * (this->l0 - l) * direction;
 	}
 	p1->addForce(force);
+
+	/*if (force != Vector(0, 0, 0) && !this->HarmonicInitialized)
+	{
+		p1->SetUpHarmonic();
+		std::cout << "ok" << endl;
+		if (this->isP2P) p2->SetUpHarmonic();
+		this->HarmonicInitialized = true;
+	}
+
+	if (this->HarmonicInitialized)
+	{
+		
+		p1->HarmonicMovementDamping(this->k,0.5 , duration);
+		if (this->isP2P) p2->HarmonicMovementDamping(this->k,0.5, duration);
+	}*/
 }

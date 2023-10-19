@@ -177,3 +177,10 @@ void Particule::AddVelocityOnColliding(double groundY)
 	this->velocity = this->velocity - this->InversMass * K * n;
 	this->position = this->position + d * n;
 }
+
+void Particule::SetUpHarmonic()
+{
+	this->time = 0;
+	this->position0 = this->position;
+	this->velocity0 = this->velocity;
+}

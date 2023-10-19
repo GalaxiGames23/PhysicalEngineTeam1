@@ -16,6 +16,7 @@ private:
     Vector v; // Vecteur accroché à la particule
 
     bool isP2P; // Vérifie type d'accroche
+    bool HarmonicInitialized; //vérifie l'état du damping
 
 public:
 

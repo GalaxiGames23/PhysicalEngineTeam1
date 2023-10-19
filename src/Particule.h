@@ -75,6 +75,8 @@ public:
 
 	void AddVelocityOnColliding(Particule* p);
 	void AddVelocityOnColliding(double groundY);
+
+	void SetUpHarmonic();
 };
 
 #endif
