@@ -73,7 +73,7 @@ void GameWorld::dealCollisions(float duration)
 		{
 			if ((worldGravity.GetGravity().projection(s1->GetDirection())).norm() != 0)
 			{
-				ParticuleFrictionStatic* forceStatic = new ParticuleFrictionStatic();
+				ParticuleFrictionStatic* forceStatic = new ParticuleFrictionStatic(this->worldGravity.GetGravity());
 				registre.add(s1, forceStatic);
 			}
 			else

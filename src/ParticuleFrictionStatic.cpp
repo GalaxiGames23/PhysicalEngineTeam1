@@ -4,10 +4,18 @@
 ParticuleFrictionStatic::ParticuleFrictionStatic()
 {
 	this->us = 0.0f;
+	this->g = Vector(0, 9.81f, 0);
 }
 
-ParticuleFrictionStatic::ParticuleFrictionStatic(double us) {
+ParticuleFrictionStatic::ParticuleFrictionStatic(Vector g)
+{
+	this->us = 1.0f;
+	this->g = g;
+}
+
+ParticuleFrictionStatic::ParticuleFrictionStatic(Vector g, double us) {
 	this->us = us;
+	this->g = g;
 }
 
 ////////
@@ -20,13 +28,13 @@ void ParticuleFrictionStatic::updateForce(Particule* p, float duration) // To Up
 
 	direction = Vector() - p->GetDirection();
 
-	gk = p->GetAccumForce().projection(p->GetDirection());
-	r = Vector() - (p->GetAccumForce() + gk);
+	gk = g.projection(p->GetDirection());
+	r = Vector() - (g + gk);
 	force = us * r.norm() * direction;
 
 	if (gk.norm() <= force.norm())
 	{
-		force = Vector() - p->GetAccumForce();
+		force = Vector() - g;
 	}
 	p->addForce(force);
 }

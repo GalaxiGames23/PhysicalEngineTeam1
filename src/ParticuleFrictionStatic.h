@@ -9,12 +9,14 @@ class ParticuleFrictionStatic :
 {
 private:
     double us; // Coefficient de friction statique
+    Vector g; //gravité sur la particule
 
 public:
 
     //constructors
     ParticuleFrictionStatic();
-    ParticuleFrictionStatic(double us);
+    ParticuleFrictionStatic(Vector g);
+    ParticuleFrictionStatic(Vector g, double us);
 
     //getters
     double GetStaticCoeff() { return this->us; }
