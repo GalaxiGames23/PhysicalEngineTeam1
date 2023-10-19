@@ -11,6 +11,7 @@ class PlayerController
 		PlayerController() {};
 		PlayerController(Particule* particule, Camera* cam);
 
+		void changeController(Particule* particule, Camera* cam);
 		void moveParticuleForward(double amount);
 		void moveParticuleRight(double amount);
 

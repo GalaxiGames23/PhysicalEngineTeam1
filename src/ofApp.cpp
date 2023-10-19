@@ -9,8 +9,8 @@ void ofApp::setup()
 	input.calculSomePoints(v, init_point, gravity, ground);
 	timer = 0;
 	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
-	myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
-	myController = PlayerController(moonParticle, myCam);
+	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
+	myController = new PlayerController(moonParticle, gameworld->myCam);
 
 }
 
@@ -21,7 +21,7 @@ void ofApp::update()
 
 	//////PHASE 2/////
 
-	gameworld.UpdateLogic(delta);
+	gameworld->UpdateLogic(delta);
 
 
 
@@ -35,7 +35,7 @@ void ofApp::update()
 		{
 			continue;
 		}
-		Vector otherAcceleration = otherAcceleration = Vector(0, 0, 0);
+		Vector otherAcceleration = Vector(0, 0, 0);
 		if (gravity.get_y() == 0)
 		{
 			for (int j = 0; j < SystemeParticules.size(); ++j)
@@ -80,15 +80,19 @@ void ofApp::update()
 void ofApp::draw()
 {
 	//////PHASE 2/////
-
-	if (myCam->isActivated)
+	
+	if (gameworld->myCam->isActivated)
 	{
-		myCam->beginCam();
+		gameworld->myCam->beginCam();
 
 	}
 	ofSetColor(ofColor::white);
-
-	for (Particule* particule : gameworld.systemeParticules)
+	if (gameworld->myBlob)
+	{
+		ofSetColor(ofColor::darkCyan);
+		gameworld->myBlob->draw();
+	}
+	for (Particule* particule : gameworld->systemeParticules)
 	{
 		ofSetColor(particule->GetColor());
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
@@ -132,17 +136,19 @@ void ofApp::draw()
 	ofSetColor(ofColor::white);
 
 	ofSetColor(ofColor::darkGrey);
-	ofDrawSphere(myCam->getPosition().toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
+	ofDrawSphere(gameworld->myCam->getPosition().toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
 	ofSetColor(ofColor::white);
-
+	
+	ofDrawSphere(input.max_point.toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
+	ofSetColor(ofColor::white);
 	ofSetColor(ofColor::forestGreen);
 	ofDrawSphere(input.max_point.toVec3(), 5.0f); // Dessine le point vertical maximum prévisionnel
 	ofSetColor(ofColor::white);
 	ofDrawArrow(init_point.toVec3(), v.toVec3() + init_point.toVec3(), 6); // Dessine la flèche du vecteur vitesse
 
-	if (myCam->isActivated)
+	if (gameworld->myCam->isActivated)
 	{
-		myCam->endCam();
+		gameworld->myCam->endCam();
 	}
 
 	ofPushStyle();
@@ -192,11 +198,14 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': gameworld.systemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
+	case ' ': gameworld->systemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
 		break;
-	/*case ' ': SystemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
-		break;*/
-	case 'b': SystemeParticules.push_back(new BouncingParticule(current_mass, init_point, v)); // Création d'une particule rebondissante
+	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300, 300, 0), 35, 10, 0.2, gameworld->myCam, myController, gameworld);
+			else
+	{
+		delete gameworld->myBlob;
+		gameworld->myBlob = NULL;
+	}
 		break;
 	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));// Création d'une particule boule de feu
 		break;
@@ -228,19 +237,19 @@ void ofApp::keyPressed(int key)
 	case 'f': if (damping > 0.9f) damping = 0.7f;
 			else damping = 1.0f;
 		break;
-	case 'k': myCam->changeNorm(-ofGetLastFrameTime());
+	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
 		break;
-	case 'j': myCam->changeNorm(ofGetLastFrameTime());
+	case 'j': gameworld->myCam->changeNorm(ofGetLastFrameTime());
 		break;
-	case 'm': myCam->isActivated = !myCam->isActivated;
+	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-	case 'z': myController.moveParticuleForward(ofGetLastFrameTime());
+	case 'z': myController->moveParticuleForward(ofGetLastFrameTime());
 		break;
-	case 's':  myController.moveParticuleForward(-ofGetLastFrameTime());
+	case 's':  myController->moveParticuleForward(-ofGetLastFrameTime());
 		break;
-	case 'd': myController.moveParticuleRight(ofGetLastFrameTime());
+	case 'd': myController->moveParticuleRight(ofGetLastFrameTime());
 		break;
-	case 'q': myController.moveParticuleRight(-ofGetLastFrameTime());
+	case 'q': myController->moveParticuleRight(-ofGetLastFrameTime());
 		break;
 	default: break;
 	}
@@ -294,18 +303,18 @@ void ofApp::mouseMoved(int x, int y )
 		}
 		 input.calculSomePoints(v, init_point, gravity, ground);
 	}
-	else if (myCam->isActivated)
+	else if (gameworld->myCam->isActivated)
 	{
 		int diffx = x - input.last_pos_x;
 		int diffy = y - input.last_pos_y;
 		if (abs(diffx) > abs(diffy) + 1 && diffx != 0)
 		{
-			myCam->changePitchAngle(ofGetLastFrameTime() * diffx);
+			gameworld->myCam->changePitchAngle(-ofGetLastFrameTime() * diffx);
 
 		}
 		else if (abs(diffy) > abs(diffx) + 1 && diffy != 0)
 		{
-			myCam->changeRollAngle(ofGetLastFrameTime() * diffy);
+			gameworld->myCam->changeRollAngle(-ofGetLastFrameTime() * diffy);
 		}
 		
 	}

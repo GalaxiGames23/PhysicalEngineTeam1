@@ -6,6 +6,12 @@ PlayerController::PlayerController(Particule* particule, Camera* cam)
 	this->cam = cam;
 }
 
+void PlayerController::changeController(Particule* particule, Camera* cam)
+{
+	this->particule = particule;
+	this->cam = cam;
+}
+
 void PlayerController::moveParticuleForward(double amount)
 {
 	Vector direction = (particule->GetPosition() - cam->getPosition()).normalisation();

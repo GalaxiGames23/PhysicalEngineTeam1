@@ -19,7 +19,7 @@ Camera::Camera()
 Camera::Camera(Vector startPosition, Particule* followParticule)
 {
     this->position = startPosition;
-    setParticuleFollow(followParticule);
+    setParticuleFollow(startPosition, followParticule);
 }
 
 
@@ -28,7 +28,6 @@ Camera::Camera(Vector startPosition, Particule* followParticule)
 void Camera::changeNorm(double changeValue) {
     norm += (changeValue * speedZoom);
     norm = max(norm, 0.0);
-    setPosition();
     
 }
 
@@ -37,7 +36,6 @@ void Camera::changeRollAngle(double changeValue) {
 
     rollAngle = max(-maxAngle, rollAngle);
     rollAngle = min(maxAngle, rollAngle);
-    setPosition();
     // Appliquer la rotation autour de la particule ici
 
 }
@@ -45,22 +43,19 @@ void Camera::changeRollAngle(double changeValue) {
 void Camera::changePitchAngle(double changeValue) {
     pitchAngle += changeValue * speedAngle;
     pitchAngle = fmod(pitchAngle, 2 * PI);
-    setPosition();
 
 
 }
 
-void Camera::setParticuleFollow(Particule *newParticule)
+void Camera::setParticuleFollow(Vector new_position, Particule *newParticule)
 {
+    this->position = new_position;
     this->followParticule = newParticule;
     this->norm = followParticule->GetPosition().distance(position);
     Vector diff = position - followParticule->GetPosition();
-    printf("%d\n", (diff.get_y() / norm));
     this->rollAngle = atan2(diff.get_y(), diff.get_x());
     this->pitchAngle = asin((diff.get_z()) / norm);
   
-    printf("%f\n", pitchAngle);
-    printf("%f\n", rollAngle);
     if (rollAngle > maxAngle)
     {
         pitchAngle += PI;
@@ -71,12 +66,12 @@ void Camera::setParticuleFollow(Particule *newParticule)
         pitchAngle -= PI;
         rollAngle += PI;
     }
-    printf("%f\n", rollAngle);
    
     
-    printf("%f\n", pitchAngle);
     setPosition();
 }
+
+
 
 Vector Camera::getPosition() {
     return position;

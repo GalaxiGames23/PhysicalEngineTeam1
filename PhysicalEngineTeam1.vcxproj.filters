@@ -7,111 +7,132 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particule.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vector.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Ground.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\BouncingParticule.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Particules</Filter>
     </ClCompile>
     <ClCompile Include="src\FireBallParticule.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Particules</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameWorld.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Particule.cpp">
+      <Filter>src\Particules</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticuleForceGenerator.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlayerController.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleGravity.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticuleForceRegistry.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Matrix.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticuleFrictionCinetic.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticuleFrictionStatic.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleGravity.cpp">
+      <Filter>src\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Matrix.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vector.cpp">
+      <Filter>src\Tools</Filter>
     </ClCompile>
     <ClCompile Include="src\ParticuleSpring.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerController.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blob.cpp">
+      <Filter>src\Blob</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameWorld.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ground.cpp">
+      <Filter>src\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Blob">
+      <UniqueIdentifier>{ee62be94-8e54-4ef2-aa33-34919149ddef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Forces">
+      <UniqueIdentifier>{9d6f3c83-009b-47fc-8334-cd9f3e5c2941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Particules">
+      <UniqueIdentifier>{2cc42cf8-be38-463b-a03c-e95d41ad791c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Input">
+      <UniqueIdentifier>{95564b2e-e3c3-4970-9d9c-bb86cefa7a8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Tools">
+      <UniqueIdentifier>{e6db230b-308d-463b-b7f2-163df12def96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Particule.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Vector.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Ground.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\BouncingParticule.h">
-      <Filter>src</Filter>
+      <Filter>src\Particules</Filter>
     </ClInclude>
     <ClInclude Include="src\FireBallParticule.h">
-      <Filter>src</Filter>
+      <Filter>src\Particules</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameWorld.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Particule.h">
+      <Filter>src\Particules</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleForceGenerator.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PlayerController.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleGravity.h">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleForceRegistry.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Matrix.h">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleFrictionCinetic.h">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleFrictionStatic.h">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleGravity.h">
+      <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Matrix.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleSpring.h">
-      <Filter>src</Filter>
+      <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerController.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
+      <Filter>src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ground.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameWorld.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Blob.h">
+      <Filter>src\Blob</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

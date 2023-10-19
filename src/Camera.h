@@ -30,10 +30,12 @@ class Camera
 		void changeRollAngle(double changeValue);
 		void changePitchAngle(double changeValue);
 
-		void setParticuleFollow(Particule *newParticule);
+		void setParticuleFollow(Vector startPosition, Particule *newParticule);
+
 		Vector getPosition();
 		void beginCam();
 		void endCam();
+
 
 		void setPosition();
 		

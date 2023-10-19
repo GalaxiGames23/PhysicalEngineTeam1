@@ -6,18 +6,21 @@
 #include "ParticuleForceRegistry.h"
 #include "ParticuleGravity.h"
 #include "ParticuleSpring.h"
+#include "Blob.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
 
 using namespace std;
 
+struct Spring {
+	Particule* particule1;
+	ParticuleSpring* spring;
+};
+
 class GameWorld
 {
-	struct Spring {
-		Particule* particule1;
-		ParticuleSpring* spring;
-	};
+	
 
 public:
 	std::vector<Particule*> systemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
@@ -25,6 +28,10 @@ public:
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
 	std::vector<Spring*> springList;
+
+	Blob *myBlob = NULL;
+	
+	Camera* myCam;
 
 	ParticuleGravity worldGravity;
 

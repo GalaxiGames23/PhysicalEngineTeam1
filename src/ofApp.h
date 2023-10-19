@@ -52,8 +52,8 @@ class ofApp : public ofBaseApp{
 		bool isEuler; //<<< Mode d'intégration de la position des particules
 
 		/////////PHASE 2//////
-		Camera *myCam;
-		PlayerController myController;
-		GameWorld& gameworld = GameWorld();
+		
+		PlayerController *myController;
+		GameWorld* gameworld = new GameWorld();
 		
 };
