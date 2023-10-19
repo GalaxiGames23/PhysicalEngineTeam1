@@ -41,6 +41,8 @@ void GameWorld::UpdateLogic(float duration)
 
 		//on vide l'accumulateur
 		systemeSpheres[i]->clearAccum();
+
+		//std::cout << systemeSpheres[i]->GetPosition() << endl;
 	}
 	myCam->setPosition();
 }
@@ -65,13 +67,27 @@ void GameWorld::dealCollisions(float duration)
 	{
 		for (Sphere* s2 : systemeSpheres)
 		{
-			if ((s1 != s2) && s1->isColliding(s2)) {
+			if ((s1 != s2) && s1->isColliding(s2)) { // 2 particules entrent en collision
 				s1->AddVelocityOnColliding(s2);
 			}
 		}
-		if (s1->GetPosition().get_y() >= ground.yCoord)
+		if (s1->GetPosition().get_y() + s1->GetRadius() >= ground.yCoord) // La sphère touche le sol
 		{
-			if ((worldGravity.GetGravity().projection(s1->GetDirection())).norm() != 0)
+			s1->AddVelocityOnColliding(ground.yCoord);
+			if (gravity*s1->GetMass() == s1->GetAccumForce()) // Il n'y a que la gravité appliquée à la sphère
+				{
+					std::cout << s1->GetVelocity() << endl;
+					s1->clearAccum();
+					if (abs(s1->GetVelocity().norm()) < 200)
+					{
+						s1->NullifyVelocityAlongNormal(Vector(0, -1, 0));
+					}
+					std::cout << s1->GetVelocity().norm() << std::endl;
+					/*ParticuleGravity* inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
+					registre.add(s1, inversGravity);*/
+				}
+			/*
+			if ((worldGravity.GetGravity().prod_vector(s1->GetDirection())).norm() != 0)
 			{
 				ParticuleFrictionStatic* forceStatic = new ParticuleFrictionStatic(this->worldGravity.GetGravity());
 				registre.add(s1, forceStatic);
@@ -88,6 +104,7 @@ void GameWorld::dealCollisions(float duration)
 					s1->AddVelocityOnColliding(ground.yCoord);
 				}
 			}
+			*/
 		}
 	}
 }

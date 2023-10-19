@@ -46,7 +46,7 @@ void ofApp::draw()
 
 
 	ofSetColor(ofColor::brown);
-	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
+	//ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
 	ofSetColor(ofColor::white);
 	
 

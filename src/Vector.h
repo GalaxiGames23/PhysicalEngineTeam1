@@ -23,6 +23,8 @@ class Vector
 		Vector(double x, double y, double z);
 
 		void set(double x, double y, double z);
+
+		Vector set_y(double y);
 		double get_x() const;
 		double get_y() const;
 		double get_z() const;

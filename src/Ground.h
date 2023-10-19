@@ -7,7 +7,7 @@ class Ground
 		Ground() { };
 
 	public:
-		double yCoord = 800.0;
+		double yCoord = 600.0;
 		double change_speed = 15;
 		void change_ground_height(int changeValue);
 		Vector& impact_point = Vector();

@@ -77,6 +77,8 @@ public:
 	void AddVelocityOnColliding(double groundY);
 
 	void SetUpHarmonic();
+
+	void NullifyVelocityAlongNormal(Vector normale);
 };
 
 #endif

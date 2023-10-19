@@ -184,3 +184,8 @@ void Particule::SetUpHarmonic()
 	this->position0 = this->position;
 	this->velocity0 = this->velocity;
 }
+
+void Particule::NullifyVelocityAlongNormal(Vector normale)
+{
+	this->velocity = this->velocity.set_y(0);
+}

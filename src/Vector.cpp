@@ -72,6 +72,12 @@ double Vector::prod_scalar(const Vector& v) const
 	return x * v.x + y * v.y + z * v.z;
 }
 
+Vector Vector::set_y(double y)
+{
+	this->y = y;
+	return *this;
+}
+
 Vector Vector::prod_vector(const Vector& v) const
 {
 	return Vector(y * v.z - v.y * z, z * v.x - v.z * x, x * v.y - v.x * y);
