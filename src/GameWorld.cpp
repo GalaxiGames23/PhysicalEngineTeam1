@@ -14,8 +14,8 @@ GameWorld::GameWorld()
 	entry->spring = spring;
 	springList.push_back(entry);
 	
-	/*Sphere* particule2 = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
-	systemeSpheres.push_back(particule2);*/
+	Sphere* particule2 = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
+	systemeSpheres.push_back(particule2);
 }
 
 void GameWorld::UpdateLogic(float duration) 
@@ -73,15 +73,15 @@ void GameWorld::dealCollisions(float duration)
 		{
 			if ((worldGravity.GetGravity().projection(s1->GetDirection())).norm() != 0)
 			{
-				ParticuleFrictionStatic forceStatic = ParticuleFrictionStatic();
-				registre.add(s1, &forceStatic);
+				ParticuleFrictionStatic* forceStatic = new ParticuleFrictionStatic();
+				registre.add(s1, forceStatic);
 			}
 			else
 			{
 				if (gravity == s1->GetAccumForce() && (duration * gravity).norm() > s1->GetVelocity().norm())
 				{
-					ParticuleGravity inversGravity = ParticuleGravity(Vector() - s1->GetAccumForce());
-					registre.add(s1, &inversGravity);
+					ParticuleGravity *inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
+					registre.add(s1, inversGravity);
 				}
 				else
 				{
