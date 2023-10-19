@@ -37,16 +37,9 @@ class ofApp : public ofBaseApp{
 		Ground &ground = Ground::getGround();
 		Vector &init_point = Vector(300, 300, 0);
 
-		std::vector<Particule*> SystemeSpheres;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
-			
-		std::vector<Vector> TracePositions; //<<< Vector de la STL pour stocker les positions de la trace des particules quand l'option est activée
-
 		const float verticalGravity = 9.81f * 5; //<<< Norme de la gravité (fixe à la gravité terrestre)
 		float damping = 1.0f; //<<< Coefficient de frottement (fixe pour l'absence de frottements)
 		Sphere* moonParticle = new Sphere(900000, Vector(1000, 400, 0), Vector(0, 0, 0), 1);
-		double current_mass = 5;
-		float timer;
-		bool isEuler; //<<< Mode d'intégration de la position des particules
 
 		/////////PHASE 2//////
 		

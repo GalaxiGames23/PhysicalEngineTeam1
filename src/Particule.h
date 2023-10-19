@@ -40,8 +40,7 @@ public:
 	void SetVelocity(Vector velocity) { this->velocity = velocity; }
 
 	// Getters
-	double GetMass() { return this->InversMass; }
-	double InverseMass() { return 1/this->InversMass; }
+	double GetMass() { return  1 / this->InversMass; }
 	Vector GetPosition() { return this->position; }
 	Vector GetLastPosition() { return this->lastPosition; }
 	Vector GetVelocity() { return this->velocity; }

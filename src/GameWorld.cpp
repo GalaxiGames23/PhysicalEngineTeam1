@@ -6,7 +6,7 @@ GameWorld::GameWorld()
 	registre = ParticuleForceRegistry();
 	worldGravity = ParticuleGravity();
 	myBlob = NULL;
-	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 5);
+	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 0.5f);
 	systemeSpheres.push_back(particule);
 	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
 	Spring* entry = new Spring();
@@ -14,7 +14,8 @@ GameWorld::GameWorld()
 	entry->spring = spring;
 	springList.push_back(entry);
 	
-
+	/*Sphere* particule2 = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
+	systemeSpheres.push_back(particule2);*/
 }
 
 void GameWorld::UpdateLogic(float duration) 
@@ -23,11 +24,11 @@ void GameWorld::UpdateLogic(float duration)
 	//ajoute les forces au registre
 	addForces();
 
-	//clear du registre
-	registre.clear();
-
 	//update des forces
 	registre.updateForces(duration);
+
+	//clear du registre
+	registre.clear();
 
 	// Recherche et traitement des collisions
 	dealCollisions(duration);
@@ -51,7 +52,6 @@ void GameWorld::addForces()
 	{
 		registre.add(particule, &worldGravity);
 	}
-	printf("%d\n", springList.size());
 	for (Spring* spring : springList)
 	{
 		registre.add(spring->particule1,spring->spring);
