@@ -9,7 +9,6 @@ void ofApp::setup()
 	input.calculSomePoints(v, init_point, gravity, ground);
 	timer = 0;
 	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
-	myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
 	myController = PlayerController(moonParticle, myCam);
 
 }
@@ -88,7 +87,7 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
-	for (Particule* particule : gameworld.systemeParticules)
+	for (Particule* particule : gameworld.systemeSpheres)
 	{
 		ofSetColor(particule->GetColor());
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);

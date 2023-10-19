@@ -63,6 +63,7 @@ Vector Vector::normalisation() const
 Vector Vector::projection(const Vector& v) const
 {
 	return this->prod_scalar(v) * v.normalisation();
+	return this->prod_scalar(v) * v.normalisation();
 }
 
 
@@ -123,4 +124,11 @@ ostream& operator<< (ostream& out, const Vector& vec)
 {
 	out << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
 	return out;
+}
+
+
+
+bool Vector::operator ==(const Vector& v) const
+{
+	return x == v.x && y == v.y && z == v.z;
 }
