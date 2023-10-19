@@ -7,6 +7,9 @@
 #include "ParticuleGravity.h"
 #include "ParticuleSpring.h"
 #include "Blob.h"
+#include "ParticuleFrictionStatic.h"
+#include "Ground.h"
+#include "Sphere.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -20,10 +23,8 @@ struct Spring {
 
 class GameWorld
 {
-	
-
 public:
-	std::vector<Particule*> systemeParticules;//<<< Vector de la STL pour stocker les particules à considérer dans les calculs
+	std::vector<Sphere*> systemeSpheres;//<<< Vector de la STL pour stocker les sphères à considérer dans les calculs
 
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
@@ -37,6 +38,8 @@ public:
 
 	ParticuleForceRegistry registre; //<<<registre des forces
 
+	Ground& ground = Ground::getGround(); // LE SOL
+
 	//Constructors
 
 	GameWorld();
@@ -48,6 +51,7 @@ private:
 	
 	//ajoute les forces au registre
 	void addForces();
+	void dealCollisions(float duration);
 };
 
 #endif

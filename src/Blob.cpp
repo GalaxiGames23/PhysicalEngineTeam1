@@ -26,9 +26,9 @@ void Blob::clearBlob()
 	}
 	for (BlobParticule* particle : particlesArray)
 	{
-		auto it = std::find(refGameWorld->systemeParticules.begin(), refGameWorld->systemeParticules.end(), particle->particle);
-		if (it != refGameWorld->systemeParticules.end()) {
-			refGameWorld->systemeParticules.erase(it);
+		auto it = std::find(refGameWorld->systemeSpheres.begin(), refGameWorld->systemeSpheres.end(), particle->particle);
+		if (it != refGameWorld->systemeSpheres.end()) {
+			refGameWorld->systemeSpheres.erase(it);
 			delete particle->particle;
 			delete particle;
 		}
@@ -51,9 +51,9 @@ Blob::Blob(Vector init_position, int nb_Blob, int mass_blob, float ressort_k, Ca
 	this->init_position = init_position;
 	mainParticule = new BlobParticule();
 	mainParticule->layerforSplit= 0;
-	mainParticule->particle = new Particule(massBlob, init_position, Vector(0,0,0));
+	mainParticule->particle = new Sphere(massBlob, init_position, Vector(0,0,0), 1);
 	particlesArray.push_back(mainParticule);
-	refGameWorld->systemeParticules.push_back(mainParticule->particle);
+	refGameWorld->systemeSpheres.push_back(mainParticule->particle);
 	cam->setParticuleFollow(mainParticule->particle->GetPosition() - Vector(0,0,300), mainParticule->particle);
 	p->changeController(mainParticule->particle, cam);
 	spawnAllParticule();
@@ -105,10 +105,10 @@ void Blob::spawnAllParticule()
 		
 		
 		BlobParticule* p = new BlobParticule();
-		p->particle = new Particule(massBlob, init_position + position, Vector(0, 0, 0));
+		p->particle = new Sphere(massBlob, init_position + position, Vector(0, 0, 0), 1);
 		p->layerforSplit = 0;
 		particlesArray.push_back(p);
-		refGameWorld->systemeParticules.push_back(p->particle);
+		refGameWorld->systemeSpheres.push_back(p->particle);
 		count++;
 		
 

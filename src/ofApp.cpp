@@ -6,7 +6,7 @@ void ofApp::setup()
 	input.set_Input(v);
 	input.SetDessinerTrace(false);
 	input.SetAfficherPositions(false);
-	input.calculSomePoints(v, init_point, gravity, ground);
+	input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
 	timer = 0;
 	isEuler = true; // Intégration d'Euler pour la position des particules par défaut
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
@@ -29,50 +29,50 @@ void ofApp::update()
 	//pour la trace, on enregistre une position tous les intervalles fixes
 	timer += delta;
 	bool temp = timer>0.2f;
-	for (int i = 0; i<SystemeParticules.size();++i)
+	for (int i = 0; i< gameworld->systemeSpheres.size();++i)
 	{
-		if (!SystemeParticules[i]->particleCanMove()) //Si la particule est static, on n'a pas besoin de calculer sa nouvelle position
+		if (!gameworld->systemeSpheres[i]->particleCanMove()) //Si la particule est static, on n'a pas besoin de calculer sa nouvelle position
 		{
 			continue;
 		}
 		Vector otherAcceleration = Vector(0, 0, 0);
-		if (gravity.get_y() == 0)
+		if (gameworld->worldGravity.GetGravity().get_y() == 0)
 		{
-			for (int j = 0; j < SystemeParticules.size(); ++j)
+			for (int j = 0; j < gameworld->systemeSpheres.size(); ++j)
 			{
 				if (i != j)
-					otherAcceleration = otherAcceleration + SystemeParticules[i]->calculGravitationAccelerationWith(SystemeParticules[j]);
+					otherAcceleration = otherAcceleration + gameworld->systemeSpheres[i]->calculGravitationAccelerationWith(gameworld->systemeSpheres[j]);
 			}
 		}
 
 		//update de la position de chaque particule avec une des méthodes d'intégration
 		if (isEuler)
 		{
-			SystemeParticules[i]->IntegrateEuler(delta, gravity + otherAcceleration, damping);
+			gameworld->systemeSpheres[i]->IntegrateEuler(delta, gameworld->worldGravity.GetGravity() + otherAcceleration, damping);
 		}
 		else
 		{
-			SystemeParticules[i]->IntegrateVerlet(delta, gravity + otherAcceleration, damping);
+			gameworld->systemeSpheres[i]->IntegrateVerlet(delta, gameworld->worldGravity.GetGravity() + otherAcceleration, damping);
 		}
 
 		if(temp)
 		{
 			//enregistrer les positions pour la trace
-			TracePositions.push_back(SystemeParticules[i]->GetPosition());
+			TracePositions.push_back(gameworld->systemeSpheres[i]->GetPosition());
 		}
 	}
 	
 	if (temp) { timer = 0; }
 	//obligé si on veut parcourir le tableau sans les nouveaux éléments
-	vector<Particule*> save  = SystemeParticules;
+	vector<Sphere*> save  = gameworld->systemeSpheres;
 	//on exécute la fonction de collision
 	for (Particule *particule: save)
 	{
 
-		if (particule->GetPosition().get_y() >= ground.yCoord) // si on est plus bas ou égal que le sol
-		{
-			particule->onCollisionDetected(SystemeParticules);
-		}
+		//if (particule->GetPosition().get_y() >= ground.yCoord) // si on est plus bas ou égal que le sol
+		//{
+		//	particule->onCollisionDetected(gameworld->systemeSpheres);
+		//}
 	}
 }
 
@@ -92,7 +92,7 @@ void ofApp::draw()
 		ofSetColor(ofColor::darkCyan);
 		gameworld->myBlob->draw();
 	}
-	for (Particule* particule : gameworld->systemeParticules)
+	for (Sphere* particule : gameworld->systemeSpheres)
 	{
 		ofSetColor(particule->GetColor());
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
@@ -108,7 +108,7 @@ void ofApp::draw()
 	if (input.GetDessinerTrace()) //si les traces sont activées par l'utilisateur
 	{
 		ofSetColor(ofColor::orange);
-		int size = TracePositions.size() - SystemeParticules.size();
+		int size = TracePositions.size() - gameworld->systemeSpheres.size();
 		//affiche la trace
 		for (int i = 0; i < size; ++i)
 		{
@@ -121,7 +121,7 @@ void ofApp::draw()
 	
 	
 	//dessine toutes les particules listées
-	for (Particule* particule : SystemeParticules)
+	for (Sphere* particule : gameworld->systemeSpheres)
 	{
 		ofSetColor(particule->GetColor());
 		ofDrawSphere(particule->GetPosition().toVec3(), 10.0f);
@@ -158,9 +158,9 @@ void ofApp::draw()
 	if (input.GetAfficherPositions()) //Si la position des particules est activée par l'utilisateur
 	{
 		//affiche la position des particules
-		for (int i = 0; i < SystemeParticules.size(); ++i)
+		for (int i = 0; i < gameworld->systemeSpheres.size(); ++i)
 		{
-			ofDrawBitmapString("value: " + ofToString(SystemeParticules[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (SystemeParticules.size() - i - 1));
+			ofDrawBitmapString("value: " + ofToString(gameworld->systemeSpheres[i]->GetPosition()), ofGetWidth() - 200, 30 + 15 * (gameworld->systemeSpheres.size() - i - 1));
 		}
 	}
 	if (input.GetDessinerTrace()) //si les traces sont activées par l'utilisateur
@@ -198,37 +198,35 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'p': input.SetAfficherPositions(!input.GetAfficherPositions());
 		break;
-	case ' ': gameworld->systemeParticules.push_back(new Particule(current_mass, init_point, v)); // Création d'une particule
+	case ' ': gameworld->systemeSpheres.push_back(new Sphere(current_mass, init_point, v, 1)); // Création d'une particule
 		break;
-	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300, 300, 0), 35, 10, 0.2, gameworld->myCam, myController, gameworld);
+	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300, 300, 0), 35, 10, 50, gameworld->myCam, myController, gameworld);
 			else
 	{
 		delete gameworld->myBlob;
 		gameworld->myBlob = NULL;
 	}
 		break;
-	case 'n': SystemeParticules.push_back(new FireBallParticule(current_mass, init_point, v));// Création d'une particule boule de feu
-		break;
 	case 'i': isEuler = !isEuler; // Switch du mode d'intégration
 		break;
 	case 'v':
-		if (gravity.get_y() > 0)
+		if (gameworld->worldGravity.GetGravity().get_y() > 0)
 		{
-			gravity.set(0, 0, 0);
-			SystemeParticules.push_back(moonParticle);
+			gameworld->worldGravity.GetGravity().set(0, 0, 0);
+			gameworld->systemeSpheres.push_back(moonParticle);
 		}
 		else
 		{
-			gravity.set(0, verticalGravity, 0);
-			auto it = std::find(SystemeParticules.begin(), SystemeParticules.end(), moonParticle);
-			if (it != SystemeParticules.end()) {
-				SystemeParticules.erase(it);
+			gameworld->worldGravity.GetGravity().set(0, verticalGravity, 0);
+			auto it = std::find(gameworld->systemeSpheres.begin(), gameworld->systemeSpheres.end(), moonParticle);
+			if (it != gameworld->systemeSpheres.end()) {
+				gameworld->systemeSpheres.erase(it);
 			}
 
 		}
 		break;
-	case 'g': if (gravity.get_y() > verticalGravity) gravity.set(0, verticalGravity , 0); //Changer la gravité
-			else gravity.set(0, verticalGravity * 1.5, 0);
+	case 'g': if (gameworld->worldGravity.GetGravity().get_y() > verticalGravity) gameworld->worldGravity.GetGravity().set(0, verticalGravity , 0); //Changer la gravité
+			else  gameworld->worldGravity.GetGravity().set(0, verticalGravity * 1.5, 0);
 		break;
 	case 'r': TracePositions.clear();
 		break;
@@ -255,7 +253,7 @@ void ofApp::keyPressed(int key)
 	}
 
 	input.set_Input(v);
-	input.calculSomePoints(v, init_point, gravity, ground);
+	input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
 
 }
 
@@ -290,7 +288,7 @@ void ofApp::mouseMoved(int x, int y )
 			input.change_angle1(diffy);
 		}
 		input.set_Input(v);
-		input.calculSomePoints(v, init_point, gravity, ground);
+		input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
 
 	}
 	else if (input.ground_key)
@@ -301,7 +299,7 @@ void ofApp::mouseMoved(int x, int y )
 		{
 			 ground.change_ground_height(diffy);
 		}
-		 input.calculSomePoints(v, init_point, gravity, ground);
+		 input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
 	}
 	else if (gameworld->myCam->isActivated)
 	{
@@ -334,7 +332,7 @@ void ofApp::mousePressed(int x, int y, int button)
 	if (button == 0) //Changement de la position initiale
 	{
 		init_point.set(x, y, 0);
-		input.calculSomePoints(v, init_point, gravity, ground);
+		input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
 	}
 }
 

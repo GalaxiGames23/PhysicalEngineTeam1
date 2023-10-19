@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "of3dGraphics.h"
 #include "PlayerController.h"
+#include "Sphere.h"
 #include <cstdio>
 
 class GameWorld;
@@ -14,7 +15,7 @@ class Blob
 	struct BlobParticule
 	{
 		int layerforSplit;
-		Particule *particle;
+		Sphere *particle;
 		std::vector<BlobParticule*> neighboor;
 
 	};

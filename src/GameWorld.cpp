@@ -6,8 +6,8 @@ GameWorld::GameWorld()
 	registre = ParticuleForceRegistry();
 	worldGravity = ParticuleGravity();
 	myBlob = NULL;
-	Particule* particule = new Particule(5.0f,Vector(100,100,0),Vector(0,0,0));
-	systemeParticules.push_back(particule);
+	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 5);
+	systemeSpheres.push_back(particule);
 	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
 	Spring* entry = new Spring();
 	entry->particule1 = particule;
@@ -23,20 +23,23 @@ void GameWorld::UpdateLogic(float duration)
 	//ajoute les forces au registre
 	addForces();
 
-	//update des forces
-	registre.updateForces(duration);
-
 	//clear du registre
 	registre.clear();
 
+	//update des forces
+	registre.updateForces(duration);
+
+	// Recherche et traitement des collisions
+	dealCollisions(duration);
+
 	//intégration de chaque particule
-	for (int i = 0; i < systemeParticules.size(); ++i)
+	for (int i = 0; i < systemeSpheres.size(); ++i)
 	{
-		systemeParticules[i]->IntegrateEulerWithAccum(duration);
+		systemeSpheres[i]->IntegrateEulerWithAccum(duration);
 		
 
 		//on vide l'accumulateur
-		systemeParticules[i]->clearAccum();
+		systemeSpheres[i]->clearAccum();
 	}
 	myCam->setPosition();
 }
@@ -44,13 +47,47 @@ void GameWorld::UpdateLogic(float duration)
 void GameWorld::addForces()
 {
 	//gestion de la gravité
-	for (Particule* particule : systemeParticules)
+	for (Particule* particule : systemeSpheres)
 	{
 		registre.add(particule, &worldGravity);
 	}
-
+	printf("%d\n", springList.size());
 	for (Spring* spring : springList)
 	{
 		registre.add(spring->particule1,spring->spring);
+	}
+}
+
+void GameWorld::dealCollisions(float duration)
+{
+	Vector gravity = worldGravity.GetGravity();
+	for (Sphere* s1 : systemeSpheres)
+	{
+		for (Sphere* s2 : systemeSpheres)
+		{
+			if ((s1 != s2) && s1->isColliding(s2)) {
+				s1->AddVelocityOnColliding(s2);
+			}
+		}
+		if (s1->GetPosition().get_y() >= ground.yCoord)
+		{
+			if ((worldGravity.GetGravity().projection(s1->GetDirection())).norm() != 0)
+			{
+				ParticuleFrictionStatic forceStatic = ParticuleFrictionStatic();
+				registre.add(s1, &forceStatic);
+			}
+			else
+			{
+				if (gravity == s1->GetAccumForce() && (duration * gravity).norm() > s1->GetVelocity().norm())
+				{
+					ParticuleGravity inversGravity = ParticuleGravity(Vector() - s1->GetAccumForce());
+					registre.add(s1, &inversGravity);
+				}
+				else
+				{
+					s1->AddVelocityOnColliding(ground.yCoord);
+				}
+			}
+		}
 	}
 }
