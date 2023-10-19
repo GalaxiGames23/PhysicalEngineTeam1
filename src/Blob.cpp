@@ -14,11 +14,12 @@ void Blob::clearBlob()
 			refGameWorld->springList.pop_back();
 			if (p->particule1 == particle->particle)
 			{
+				printf("OK RESET\n");
 				delete p;
 			}
 			else
 			{
-				refGameWorld->springList.push_back(p);
+				refGameWorld->springList.insert(refGameWorld->springList.begin(), p);
 			}
 		}
 		
