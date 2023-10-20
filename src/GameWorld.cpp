@@ -73,19 +73,21 @@ void GameWorld::dealCollisions(float duration)
 		}
 		if (s1->GetPosition().get_y() + s1->GetRadius() >= ground.yCoord) // La sphère touche le sol
 		{
-			s1->AddVelocityOnColliding(ground.yCoord);
 			if (gravity*s1->GetMass() == s1->GetAccumForce()) // Il n'y a que la gravité appliquée à la sphère
 				{
-					std::cout << s1->GetVelocity() << endl;
 					s1->clearAccum();
 					if (abs(s1->GetVelocity().norm()) < 200)
 					{
-						s1->NullifyVelocityAlongNormal(Vector(0, -1, 0));
+						s1->NullifyVelocityAlongNormal(Vector(0, 1, 0));
 					}
-					std::cout << s1->GetVelocity().norm() << std::endl;
+					else 
+					{
+						s1->AddVelocityOnColliding(ground.yCoord);
+					}
 					/*ParticuleGravity* inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
 					registre.add(s1, inversGravity);*/
 				}
+			
 			/*
 			if ((worldGravity.GetGravity().prod_vector(s1->GetDirection())).norm() != 0)
 			{
