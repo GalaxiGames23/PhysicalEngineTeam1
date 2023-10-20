@@ -76,7 +76,9 @@ void GameWorld::dealCollisions(float duration)
 			if (gravity*s1->GetMass() == s1->GetAccumForce()) // Il n'y a que la gravité appliquée à la sphère
 				{
 					s1->clearAccum();
-					if (abs(s1->GetVelocity().norm()) < 200)
+					std::cout << "v: " << s1->GetVelocity().norm()*duration << endl;
+					std::cout << "g t: " << (gravity * s1->GetMass()).norm() * duration << endl;
+					if (s1->GetVelocity().norm() < (gravity*s1->GetMass()).norm())
 					{
 						s1->NullifyVelocityAlongNormal(Vector(0, 1, 0));
 					}
