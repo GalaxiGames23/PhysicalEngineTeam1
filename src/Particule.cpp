@@ -165,6 +165,29 @@ void Particule::AddVelocityOnColliding(Particule* p)
 	this->position = this->position + p->InversMass / (this->InversMass + p->InversMass) * d * n;
 }
 
+void Particule::AddVelocityOnCable(Particule* p, double e)
+{
+	Vector n = Vector() - (this->position - p->position).normalisation();
+	double d = this->distanceParticules(p);
+
+	double num = (this->e + 1) * (this->velocity - p->velocity).prod_scalar(n);
+	double denom = (this->InversMass + p->InversMass) * n.square_norm();
+	double K = 1 / denom * num;
+
+	this->velocity = this->velocity - this->InversMass * K * n;
+}
+
+
+void Particule::AddForceOnRod(Particule* p)
+{
+	Vector direction = (p->GetPosition() - this->position).normalisation();
+	Vector force = this->AccumForce.projection(direction);
+	std::cout<<force<<std::endl;
+
+	this->addForce(force);
+}
+
+
 void Particule::AddVelocityOnColliding(double groundY)
 {
 	Vector n = Vector(0, -1, 0);

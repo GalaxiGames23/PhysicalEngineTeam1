@@ -8,7 +8,7 @@ GameWorld::GameWorld()
 	worldAirFriction = ParticuleFrictionCinetic(0.1, 0.001);
 	myBlob = NULL;
 
-	//tests visuels
+	// Test ressort
 	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 0.5f);
 	systemeSpheres.push_back(particule);
 	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
@@ -17,8 +17,35 @@ GameWorld::GameWorld()
 	entry->spring = spring;
 	springList.push_back(entry);
 	
-	Sphere* particule2 = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
+	Sphere* particulebis = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
+	systemeSpheres.push_back(particulebis);
+
+	// Test Cable
+	Sphere* particule1 = new Sphere(10.0f, Vector(300, 110, 0), Vector(100, 0, 0), 0.5f);
+	Sphere* particule2 = new Sphere(10.0f, Vector(300, 100, 0), Vector(0, 0, 0), 0.5f);
+
+	systemeSpheres.push_back(particule1);
 	systemeSpheres.push_back(particule2);
+
+	Cable* cable = new Cable();
+	cable->particule1 = particule1;
+	cable->particule2 = particule2;
+	cable->distance = 50;
+	cable->e = 0.5;
+	cableList.push_back(cable);
+
+	// Test Tige
+	Sphere* particule4 = new Sphere(10.0f, Vector(650, 150, 0), Vector(0, 0, 0),5.0f,ofColor::green, 0.5f);
+	Sphere* particule3 = new Sphere(10.0f, Vector(600, 100, 0), Vector(0, 0, 0), 5.0f, ofColor::green, 0.5f);
+
+	systemeSpheres.push_back(particule3);
+	systemeSpheres.push_back(particule4);
+
+	Rod* tige = new Rod();
+	tige->particule1 = particule3;
+	tige->particule2 = particule4;
+	tige->distance = particule1->distanceParticules(particule2);
+	rodList.push_back(tige);
 }
 
 void GameWorld::UpdateLogic(float duration) 
@@ -34,6 +61,8 @@ void GameWorld::UpdateLogic(float duration)
 
 	// Recherche et traitement des collisions
 	dealCollisions(duration);
+	dealCables();
+	dealRods();
 
 	//intégration de chaque particule
 	for (int i = 0; i < systemeSpheres.size(); ++i)
@@ -67,6 +96,33 @@ void GameWorld::addForces()
 		registre.add(input->particule, input->fg);
 	}
 }
+
+
+void GameWorld::dealCables()
+{
+	for (Cable* cable : cableList)
+	{
+		if (cable->particule1->distanceParticules(cable->particule2) > cable->distance)
+		{
+			cable->particule1->AddVelocityOnCable(cable->particule2, cable->e);
+			cable->particule2->AddVelocityOnCable(cable->particule1, cable->e);
+		}
+	}
+}
+
+void GameWorld::dealRods()
+{
+	for (Rod* rod : rodList)
+	{
+		if (abs(rod->particule1->distanceParticules(rod->particule2)- rod->distance) > 0.1)
+		{
+			rod->particule1->AddForceOnRod(rod->particule2);
+			rod->particule2->AddForceOnRod(rod->particule1);
+		}
+	}
+}
+
+
 
 void GameWorld::dealCollisions(float duration)
 {

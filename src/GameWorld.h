@@ -24,6 +24,21 @@ struct Spring {
 	ParticuleSpring* spring;
 };
 
+struct Cable {
+	Particule* particule1;
+	Particule* particule2;
+
+	double e;
+	double distance;
+};
+
+struct Rod {
+	Particule* particule1;
+	Particule* particule2;
+	double distance;
+};
+
+
 class GameWorld
 {
 public:
@@ -32,6 +47,8 @@ public:
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
 	std::vector<Spring*> springList;
+	std::vector<Cable*> cableList;
+	std::vector<Rod*> rodList;
 
 	std::vector<InputRegistre*> inputRegistre;
 
@@ -58,6 +75,9 @@ private:
 	
 	//ajoute les forces au registre
 	void addForces();
+
+	void dealCables();
+	void dealRods();
 	void dealCollisions(float duration);
 };
 

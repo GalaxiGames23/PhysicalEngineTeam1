@@ -74,6 +74,8 @@ public:
 	double distanceParticules(Particule* p);
 
 	void AddVelocityOnColliding(Particule* p);
+	void AddVelocityOnCable(Particule* p, double e);
+	void AddForceOnRod(Particule* p);
 	void AddVelocityOnColliding(double groundY);
 
 	void SetUpHarmonic();
