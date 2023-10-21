@@ -7,16 +7,14 @@ void Blob::clearBlob()
 
 	for (BlobParticule* particle : particlesArray)
 	{
-		int n = refGameWorld->springList.size();
+		int n = refGameWorld->cableList.size();
 		for (int i = 0; i < n; i++)
 		{
-			Spring* p = refGameWorld->springList.back();
-			refGameWorld->springList.pop_back();
+			Cable* p = refGameWorld->cableList.back();
+			refGameWorld->cableList.pop_back();
 			if (p->particule1 == particle->particle)
 			{
-				delete p->spring;
 				delete p;
-
 				int neighboorCount = particle->neighboor.size();
 				for (int i = 0; i < neighboorCount; i++)
 				{
@@ -28,7 +26,7 @@ void Blob::clearBlob()
 			}
 			else
 			{
-				refGameWorld->springList.insert(refGameWorld->springList.begin(), p);
+				refGameWorld->cableList.insert(refGameWorld->cableList.begin(), p);
 			}
 		}
 		
@@ -49,7 +47,6 @@ void Blob::clearBlob()
 		}
 		
 	}
-	printf("%d\n", refGameWorld->springList.size());
 	particlesArray.clear();
 	
 }
@@ -156,12 +153,14 @@ void Blob::spawnAllParticule()
 						f1->particle = p2;
 						SpringExtended* f2 = new SpringExtended();
 						f2->particle = p1;
-						Spring *ressort = new Spring();
+						Cable *ressort = new Cable();
 						ressort->particule1 = p1->particle;
-						ressort->spring = new ParticuleSpring(ressortK, c * begin_radius, p2->particle);
+						ressort->particule2 = p2->particle;
+						ressort->e = 0.8;
+						ressort->distance = c * begin_radius;
 						f1->save_Force = ressort;
 						f2->save_Force = ressort;
-						refGameWorld->springList.push_back(ressort);
+						refGameWorld->cableList.push_back(ressort);
 						p1->neighboor.push_back(f1);
 						p2->neighboor.push_back(f2);
 					}
@@ -294,9 +293,9 @@ void Blob::split()
 						}
 						other->particle->neighboor.insert(other->particle->neighboor.begin(), neighboor2);
 					}
-					auto id = std::find(refGameWorld->springList.begin(), refGameWorld->springList.end(), other->save_Force); //supression du ressort reliant les deux particules
-					if (id != refGameWorld->springList.end()) {
-						refGameWorld->springList.erase(id);
+					auto id = std::find(refGameWorld->cableList.begin(), refGameWorld->cableList.end(), other->save_Force); //supression du ressort reliant les deux particules
+					if (id != refGameWorld->cableList.end()) {
+						refGameWorld->cableList.erase(id);
 						delete other->save_Force; 
 						delete other;
 					}
@@ -383,12 +382,14 @@ void Blob::join()
 								f1->particle = p2;
 								SpringExtended* f2 = new SpringExtended();
 								f2->particle = p1;
-								Spring* ressort = new Spring();
+								Cable* ressort = new Cable();
 								ressort->particule1 = p1->particle;
-								ressort->spring = new ParticuleSpring(ressortK, c * begin_radius, p2->particle);
+								ressort->particule2 = p2->particle;
+								ressort->e = 0.8;
+								ressort->distance = c * begin_radius;
 								f1->save_Force = ressort;
 								f2->save_Force = ressort;
-								refGameWorld->springList.push_back(ressort);
+								refGameWorld->cableList.push_back(ressort);
 								p1->neighboor.push_back(f1);
 								p2->neighboor.push_back(f2);
 							}

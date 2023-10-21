@@ -8,7 +8,7 @@
 #include <cstdio>
 
 class GameWorld;
-struct Spring;
+struct Cable;
 
 
 class Blob
@@ -17,7 +17,7 @@ class Blob
 
 	struct SpringExtended
 	{
-		Spring* save_Force = NULL;
+		Cable* save_Force = NULL;
 		BlobParticule* particle = NULL;
 	};
 	struct BlobParticule
