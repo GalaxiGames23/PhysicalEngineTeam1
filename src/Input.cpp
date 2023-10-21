@@ -2,6 +2,7 @@
 
 #include <ofAppRunner.h>
 
+#include "GameWorld.h"
 
 
 //set un vecteur avec une norme current_norm, un angle current_angle1 et un angle current_angle2 (choisi par l'utilisateur)
@@ -29,7 +30,7 @@ void Input::change_angle1(int positive)
 {
 	double last_frame = ofGetLastFrameTime();
 	double time_frame = last_frame == 0 ? 0.01 : last_frame;
-	current_angle1 += fmod(speed_angle * time_frame * positive, 2 * M_PI);
+	current_angle1 += fmod(speed_angle * time_frame * positive, 2 * PI);
 }
 
 //Changer l'angle phi
@@ -37,8 +38,22 @@ void Input::change_angle2(int positive)
 {
 	double last_frame = ofGetLastFrameTime();
 	double time_frame = last_frame == 0 ? 0.01 : last_frame;
-	current_angle2 += fmod(speed_angle * time_frame * positive, 2 * M_PI);
+	current_angle2 += fmod(speed_angle * time_frame * positive, 2 * PI);
 }
+
+void Input::remove_input(InputRegistre* registre, std::vector<InputRegistre*> &allInput)
+{
+	auto it = std::find(allInput.begin(), allInput.end(), registre);
+
+	// Vérifiez si l'élément a été trouvé avant de le retirer
+	if (it != allInput.end()) {
+		allInput.erase(it); // Retirez l'élément
+		delete registre->fg;
+		delete registre;
+	}
+}
+
+
 
 //Effacer le vecteur
 void Input::reset()

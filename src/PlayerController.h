@@ -6,13 +6,15 @@ class PlayerController
 	private:
 		Particule* particule = NULL;
 		Camera* cam = NULL;
-		float movingSpeed = 1000;
 	public:
 		PlayerController() {};
 		PlayerController(Particule* particule, Camera* cam);
 
+		
 		void changeController(Particule* particule, Camera* cam);
-		void moveParticuleForward(double amount);
-		void moveParticuleRight(double amount);
+		Vector getForwardDirection(double amount);
+		Vector getRightDirection(double amount);
 
+		Particule* getFocusParticule() { return particule; }
+		bool isActive() { return particule != NULL && cam != NULL; }
 };

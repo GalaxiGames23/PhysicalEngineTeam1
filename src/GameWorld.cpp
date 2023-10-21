@@ -20,7 +20,6 @@ GameWorld::GameWorld()
 
 void GameWorld::UpdateLogic(float duration) 
 {
-
 	//ajoute les forces au registre
 	addForces();
 
@@ -58,6 +57,11 @@ void GameWorld::addForces()
 	{
 		registre.add(spring->particule1,spring->spring);
 	}
+	
+	for (InputRegistre * input : inputRegistre)
+	{
+		registre.add(input->particule, input->fg);
+	}
 }
 
 void GameWorld::dealCollisions(float duration)
@@ -71,24 +75,29 @@ void GameWorld::dealCollisions(float duration)
 				s1->AddVelocityOnColliding(s2);
 			}
 		}
-		if (s1->GetPosition().get_y() + s1->GetRadius() >= ground.yCoord) // La sphère touche le sol
+		if (s1->GetPosition().get_y() + s1->GetRadius() > ground.yCoord) // La sphère touche le sol
 		{
-			if (gravity*s1->GetMass() == s1->GetAccumForce()) // Il n'y a que la gravité appliquée à la sphère
-				{
-					s1->clearAccum();
-					std::cout << "v: " << s1->GetVelocity().norm()*duration << endl;
-					std::cout << "g t: " << (gravity * s1->GetMass()).norm() * duration << endl;
-					if (s1->GetVelocity().norm() < (gravity*s1->GetMass()).norm())
-					{
-						s1->NullifyVelocityAlongNormal(Vector(0, 1, 0));
-					}
-					else 
-					{
-						s1->AddVelocityOnColliding(ground.yCoord);
-					}
+			s1->SetPosition(Vector(s1->GetPosition().get_x(), ground.yCoord - s1->GetRadius(), s1->GetPosition().get_z()));
+
+			/*std::cout << "v: " << s1->GetVelocity().norm()*duration << endl;
+			std::cout << "g t: " << (gravity * s1->GetMass()).norm() * duration << endl;*/
+			if (s1->GetVelocity().get_y() < 0)
+			{
+				return;
+			}
+			if (  s1->GetVelocity().get_y() < (12*duration * gravity*s1->GetMass()).get_y())
+			{
+				
+				s1->NullifyVelocityAlongNormal(Vector(0, 1, 0));
+
+			}
+			else 
+			{
+				s1->AddVelocityOnColliding(ground.yCoord);
+			}
 					/*ParticuleGravity* inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
 					registre.add(s1, inversGravity);*/
-				}
+			
 			
 			/*
 			if ((worldGravity.GetGravity().prod_vector(s1->GetDirection())).norm() != 0)

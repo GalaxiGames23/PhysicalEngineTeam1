@@ -10,6 +10,8 @@
 #include "ParticuleFrictionStatic.h"
 #include "Ground.h"
 #include "Sphere.h"
+#include "InputForce.h"
+#include "Input.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -29,6 +31,8 @@ public:
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
 	std::vector<Spring*> springList;
+
+	std::vector<InputRegistre*> inputRegistre;
 
 	Blob *myBlob = NULL;
 	

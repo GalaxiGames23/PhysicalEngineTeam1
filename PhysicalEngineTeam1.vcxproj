@@ -109,6 +109,7 @@
     <ClCompile Include="src\GameWorld.cpp" />
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\InputForce.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Matrix.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\GameWorld.h" />
     <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\InputForce.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Particule.h" />

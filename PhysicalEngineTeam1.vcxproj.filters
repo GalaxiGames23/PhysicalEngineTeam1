@@ -55,6 +55,9 @@
     <ClCompile Include="src\Sphere.cpp">
       <Filter>src\Particules</Filter>
     </ClCompile>
+    <ClCompile Include="src\InputForce.cpp">
+      <Filter>src\Forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="src\Sphere.h">
       <Filter>src\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputForce.h">
+      <Filter>src\Forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

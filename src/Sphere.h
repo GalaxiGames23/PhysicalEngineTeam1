@@ -30,7 +30,7 @@ public :
 
     void SetRadius(double radius) { this->radius = radius; }
     void SetColor(double color) { this->color = color; }
-
+    void SetColor(ofColor color) { this->color = color; }
     bool isColliding(Sphere* sphere);
 
 };

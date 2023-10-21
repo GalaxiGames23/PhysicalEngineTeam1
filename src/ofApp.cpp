@@ -5,7 +5,7 @@ void ofApp::setup()
 {
 	input.set_Input(v);
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
-	myController = new PlayerController(moonParticle, gameworld->myCam);
+	myController = new PlayerController();
 
 }
 
@@ -30,6 +30,9 @@ void ofApp::draw()
 		gameworld->myCam->beginCam();
 
 	}
+	ofSetColor(ofColor::brown);
+	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
+	ofSetColor(ofColor::white);
 	ofSetColor(ofColor::white);
 	if (gameworld->myBlob)
 	{
@@ -43,11 +46,7 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
-
-
-	ofSetColor(ofColor::brown);
-	//ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
-	ofSetColor(ofColor::white);
+	
 	
 
 	if (gameworld->myCam->isActivated)
@@ -57,8 +56,22 @@ void ofApp::draw()
 
 	ofPushStyle();
 	ofSetupScreenOrtho();
+	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
+	ofScale(2, 2);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:", 20, 20);
+	ofDrawBitmapString("Commands:", 10, 10);
+	
+	if (gameworld->myBlob != NULL)
+	{
+		ofScale(0.5, 0.5);
+		ofScale(3, 3);
+		timer += ofGetLastFrameTime();
+		ofDrawBitmapString(std::to_string(gameworld->myBlob->get_current_size()), ofGetWidth()/3 - 30, 15 + cos(3*timer) * 2) ;
+	}
+	else
+	{
+		ofDrawBitmapString("NO BLOB SPAWNED", ofGetWidth() /2 - 130, 20 );
+	}
 	
 	ofPopStyle();
 }
@@ -70,7 +83,7 @@ void ofApp::keyPressed(int key)
 	switch (key) {
 	case ' ': gameworld->systemeSpheres.push_back(new Sphere(5.0f, init_point, v, 1)); // Création d'une particule
 		break;
-	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300, 300, 0), 35, 10, 50, gameworld->myCam, myController, gameworld);
+	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0), 100, 4, 2, gameworld->myCam, myController, gameworld);
 			else
 	{
 		delete gameworld->myBlob;
@@ -79,19 +92,47 @@ void ofApp::keyPressed(int key)
 		break;
 	case 'h': input.ground_key = true;
 		break;
+	case 'l': if (gameworld->myBlob != NULL) { gameworld->myBlob->split(); }
+		break;
+	case 'o': if (gameworld->myBlob != NULL) { gameworld->myBlob->join(); }
+			break;
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
 		break;
 	case 'j': gameworld->myCam->changeNorm(ofGetLastFrameTime());
 		break;
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-	case 'z': myController->moveParticuleForward(ofGetLastFrameTime());
+	case 'z': if (input.forward_key == NULL && myController->isActive())
+	{
+		input.forward_key = new InputRegistre();
+		input.forward_key->particule = myController->getFocusParticule();
+		input.forward_key->fg = new InputForce(myController, true, 1);
+		gameworld->inputRegistre.push_back(input.forward_key);
+	}
 		break;
-	case 's':  myController->moveParticuleForward(-ofGetLastFrameTime());
+	case 's':  if (input.backward_key == NULL && myController->isActive())
+	{
+		input.backward_key = new InputRegistre();
+		input.backward_key->particule = myController->getFocusParticule();
+		input.backward_key->fg = new InputForce(myController, true, -1);
+		gameworld->inputRegistre.push_back(input.backward_key);
+	}
 		break;
-	case 'd': myController->moveParticuleRight(ofGetLastFrameTime());
+	case 'd':if (input.right_key == NULL && myController->isActive())
+	{
+		input.right_key = new InputRegistre();
+		input.right_key->particule = myController->getFocusParticule();
+		input.right_key->fg = new InputForce(myController, false, 1);
+		gameworld->inputRegistre.push_back(input.right_key);
+	}
 		break;
-	case 'q': myController->moveParticuleRight(-ofGetLastFrameTime());
+	case 'q': if (input.left_key== NULL && myController->isActive())
+	{
+		input.left_key = new InputRegistre();
+		input.left_key->particule = myController->getFocusParticule();
+		input.left_key->fg = new InputForce(myController, false, -1);
+		gameworld->inputRegistre.push_back(input.left_key);
+	}
 		break;
 	default: break;
 	}
@@ -104,6 +145,22 @@ void ofApp::keyReleased(int key)
 {
 	switch (key) {
 	case 'h': input.ground_key= false;
+		break;
+	case 'z':
+		input.remove_input(input.forward_key, gameworld->inputRegistre);
+		input.forward_key = NULL;
+		break;
+	case 's': 
+		input.remove_input(input.backward_key, gameworld->inputRegistre);
+		input.backward_key = NULL;
+		break;
+	case 'd':
+		input.remove_input(input.right_key, gameworld->inputRegistre);
+		input.right_key = NULL;
+		break;
+	case 'q': 
+		input.remove_input(input.left_key, gameworld->inputRegistre);
+		input.left_key = NULL;
 		break;
 	default: break;
 	}

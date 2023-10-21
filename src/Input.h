@@ -1,9 +1,17 @@
 #pragma once
 #include "Vector.h"
 #include "Ground.h"
+#include "InputForce.h"
 #define _USE_MATH_DEFINES
 
 #include <cmath>
+
+
+struct InputRegistre {
+	Particule* particule;
+	InputForce* fg;
+};
+
 class Input
 {
 	private:
@@ -20,7 +28,11 @@ class Input
 	
 	public:
 		bool angle_key = false; //<<< Si l'utilisateur est en train de changer l'angle
-		bool ground_key = false;//<<< Si l'utilisateur est en train de changer la hauteur du sol
+		bool ground_key = false;
+		InputRegistre * forward_key = NULL;
+		InputRegistre* backward_key = NULL;
+		InputRegistre* right_key = NULL;
+		InputRegistre* left_key = NULL;//<<< Si l'utilisateur est en train de changer la hauteur du sol
 		int last_pos_x = 0; //<<< dernière position de la souris en x
 		int last_pos_y = 0;//<<< dernière position de la souris en y
 		Vector& max_point = Vector();
@@ -40,6 +52,8 @@ class Input
 		void change_angle1(int positive);
 
 		void change_angle2(int positive);
+
+		void remove_input(InputRegistre* registre, std::vector<InputRegistre*>& allInput);
 
 		void reset();
 	

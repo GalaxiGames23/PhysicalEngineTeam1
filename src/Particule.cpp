@@ -175,7 +175,7 @@ void Particule::AddVelocityOnColliding(double groundY)
 	double K = 1 / denom * num;
 
 	this->velocity = this->velocity - this->InversMass * K * n;
-	this->position = this->position + d * n;
+	//this->position = this->position + d * n;
 }
 
 void Particule::SetUpHarmonic()
