@@ -5,7 +5,10 @@ GameWorld::GameWorld()
 {
 	registre = ParticuleForceRegistry();
 	worldGravity = ParticuleGravity();
+	worldAirFriction = ParticuleFrictionCinetic(0.1, 0.001);
 	myBlob = NULL;
+
+	//tests visuels
 	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 0.5f);
 	systemeSpheres.push_back(particule);
 	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
@@ -52,6 +55,7 @@ void GameWorld::addForces()
 	for (Particule* particule : systemeSpheres)
 	{
 		registre.add(particule, &worldGravity);
+		registre.add(particule, &worldAirFriction);
 	}
 	for (Spring* spring : springList)
 	{

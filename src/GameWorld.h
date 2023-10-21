@@ -8,6 +8,7 @@
 #include "ParticuleSpring.h"
 #include "Blob.h"
 #include "ParticuleFrictionStatic.h"
+#include "ParticuleFrictionCinetic.h"
 #include "Ground.h"
 #include "Sphere.h"
 #include "InputForce.h"
@@ -39,6 +40,8 @@ public:
 	Camera* myCam;
 
 	ParticuleGravity worldGravity;
+
+	ParticuleFrictionCinetic worldAirFriction;
 
 	ParticuleForceRegistry registre; //<<<registre des forces
 
