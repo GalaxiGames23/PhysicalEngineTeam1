@@ -7,27 +7,25 @@ void Blob::clearBlob()
 
 	for (BlobParticule* particle : particlesArray)
 	{
-		int n = refGameWorld->cableList.size();
+		int n = refGameWorld->blobList.size();
 		for (int i = 0; i < n; i++)
 		{
-			Cable* p = refGameWorld->cableList.back();
-			refGameWorld->cableList.pop_back();
-			if (p->particule1 == particle->particle)
-			{
-				delete p;
-				int neighboorCount = particle->neighboor.size();
-				for (int i = 0; i < neighboorCount; i++)
-				{
-					SpringExtended* se = particle->neighboor.back();
-					particle->neighboor.pop_back();
+			BlobSpring* p = refGameWorld->blobList.back();
+			refGameWorld->blobList.pop_back();
+			delete p->cable;
+			delete p->spring->spring;
+			delete p->spring;
+			delete p;
 
-					delete se;
-				}
-			}
-			else
+			int neighboorCount = particle->neighboor.size();
+			for (int i = 0; i < neighboorCount; i++)
 			{
-				refGameWorld->cableList.insert(refGameWorld->cableList.begin(), p);
+				SpringExtended* se = particle->neighboor.back();
+				particle->neighboor.pop_back();
+
+				delete se;
 			}
+			
 		}
 		
 
@@ -153,14 +151,20 @@ void Blob::spawnAllParticule()
 						f1->particle = p2;
 						SpringExtended* f2 = new SpringExtended();
 						f2->particle = p1;
-						Cable *ressort = new Cable();
-						ressort->particule1 = p1->particle;
-						ressort->particule2 = p2->particle;
-						ressort->e = 0.8;
-						ressort->distance = c * begin_radius;
-						f1->save_Force = ressort;
-						f2->save_Force = ressort;
-						refGameWorld->cableList.push_back(ressort);
+						Cable *cable = new Cable();
+						cable->particule1 = p1->particle;
+						cable->particule2 = p2->particle;
+						cable->e = 1;
+						cable->distance =  2*begin_radius;
+						Spring* spring = new Spring();
+						spring->particule1 = p1->particle;
+						spring->spring = new ParticuleSpring(ressortK,  begin_radius / 4, p2->particle);
+						BlobSpring *force = new BlobSpring();
+						force->cable = cable;
+						force->spring = spring;
+						f1->save_Force = force;
+						f2->save_Force = force;
+						refGameWorld->blobList.push_back(force);
 						p1->neighboor.push_back(f1);
 						p2->neighboor.push_back(f2);
 					}
@@ -293,9 +297,9 @@ void Blob::split()
 						}
 						other->particle->neighboor.insert(other->particle->neighboor.begin(), neighboor2);
 					}
-					auto id = std::find(refGameWorld->cableList.begin(), refGameWorld->cableList.end(), other->save_Force); //supression du ressort reliant les deux particules
-					if (id != refGameWorld->cableList.end()) {
-						refGameWorld->cableList.erase(id);
+					auto id = std::find(refGameWorld->blobList.begin(), refGameWorld->blobList.end(), other->save_Force); //supression du ressort reliant les deux particules
+					if (id != refGameWorld->blobList.end()) {
+						refGameWorld->blobList.erase(id);
 						delete other->save_Force; 
 						delete other;
 					}
@@ -382,14 +386,20 @@ void Blob::join()
 								f1->particle = p2;
 								SpringExtended* f2 = new SpringExtended();
 								f2->particle = p1;
-								Cable* ressort = new Cable();
-								ressort->particule1 = p1->particle;
-								ressort->particule2 = p2->particle;
-								ressort->e = 0.8;
-								ressort->distance = c * begin_radius;
-								f1->save_Force = ressort;
-								f2->save_Force = ressort;
-								refGameWorld->cableList.push_back(ressort);
+								Cable* cable = new Cable();
+								cable->particule1 = p1->particle;
+								cable->particule2 = p2->particle;
+								cable->e = 1;
+								cable->distance = c * begin_radius;
+								Spring* spring = new Spring();
+								spring->particule1 = p1->particle;
+								spring->spring = new ParticuleSpring(ressortK, c * begin_radius, p2->particle);
+								BlobSpring* force = new BlobSpring();
+								force->cable = cable;
+								force->spring = spring;
+								f1->save_Force = force;
+								f2->save_Force = force;
+								refGameWorld->blobList.push_back(force);
 								p1->neighboor.push_back(f1);
 								p2->neighboor.push_back(f2);
 							}

@@ -91,6 +91,15 @@ void GameWorld::addForces()
 		registre.add(spring->particule1,spring->spring);
 	}
 	
+	for (BlobSpring* blobspring : blobList)
+	{
+		if (blobspring->cable->particule1->distanceParticules(blobspring->cable->particule2) <= blobspring->cable->distance)
+		{
+			registre.add(blobspring->spring->particule1, blobspring->spring->spring);
+		}
+		
+	}
+
 	for (InputRegistre * input : inputRegistre)
 	{
 		registre.add(input->particule, input->fg);
@@ -107,6 +116,16 @@ void GameWorld::dealCables()
 			cable->particule1->AddVelocityOnCable(cable->particule2, cable->e);
 			cable->particule2->AddVelocityOnCable(cable->particule1, cable->e);
 		}
+	}
+
+	for (BlobSpring* blobspring : blobList)
+	{
+		if (blobspring->cable->particule1->distanceParticules(blobspring->cable->particule2) > blobspring->cable->distance)
+		{
+			blobspring->cable->particule1->AddVelocityOnCable(blobspring->cable->particule2, blobspring->cable->e);
+			blobspring->cable->particule2->AddVelocityOnCable(blobspring->cable->particule1, blobspring->cable->e);
+		}
+
 	}
 }
 

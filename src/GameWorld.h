@@ -38,6 +38,12 @@ struct Rod {
 	double distance;
 };
 
+struct BlobSpring
+{
+	Spring* spring;
+	Cable* cable;
+};
+
 
 class GameWorld
 {
@@ -49,6 +55,8 @@ public:
 	std::vector<Spring*> springList;
 	std::vector<Cable*> cableList;
 	std::vector<Rod*> rodList;
+	std::vector<BlobSpring*> blobList;
+
 
 	std::vector<InputRegistre*> inputRegistre;
 
