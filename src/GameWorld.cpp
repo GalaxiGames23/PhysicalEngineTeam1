@@ -7,45 +7,6 @@ GameWorld::GameWorld()
 	worldGravity = ParticuleGravity();
 	worldAirFriction = ParticuleFrictionCinetic(0.1, 0.001);
 	myBlob = NULL;
-
-	// Test ressort
-	Sphere* particule = new Sphere(5.0f,Vector(100,100,0),Vector(0,0,0), 0.5f);
-	systemeSpheres.push_back(particule);
-	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100,150,0));
-	Spring* entry = new Spring();
-	entry->particule1 = particule;
-	entry->spring = spring;
-	springList.push_back(entry);
-	
-	Sphere* particulebis = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
-	systemeSpheres.push_back(particulebis);
-
-	// Test Cable
-	Sphere* particule1 = new Sphere(10.0f, Vector(300, 110, 0), Vector(100, 0, 0), 0.5f);
-	Sphere* particule2 = new Sphere(10.0f, Vector(300, 100, 0), Vector(0, 0, 0), 0.5f);
-
-	systemeSpheres.push_back(particule1);
-	systemeSpheres.push_back(particule2);
-
-	Cable* cable = new Cable();
-	cable->particule1 = particule1;
-	cable->particule2 = particule2;
-	cable->distance = 50;
-	cable->e = 0.5;
-	cableList.push_back(cable);
-
-	// Test Tige
-	Sphere* particule4 = new Sphere(10.0f, Vector(650, 150, 0), Vector(0, 0, 0),5.0f,ofColor::green, 0.5f);
-	Sphere* particule3 = new Sphere(10.0f, Vector(600, 100, 0), Vector(0, 0, 0), 5.0f, ofColor::green, 0.5f);
-
-	systemeSpheres.push_back(particule3);
-	systemeSpheres.push_back(particule4);
-
-	Rod* tige = new Rod();
-	tige->particule1 = particule3;
-	tige->particule2 = particule4;
-	tige->distance = particule1->distanceParticules(particule2);
-	rodList.push_back(tige);
 }
 
 void GameWorld::UpdateLogic(float duration) 
@@ -60,9 +21,9 @@ void GameWorld::UpdateLogic(float duration)
 	registre.clear();
 
 	// Recherche et traitement des collisions
-	dealCollisions(duration);
 	dealCables();
 	dealRods();
+	dealCollisions(duration);
 
 	//intégration de chaque particule
 	for (int i = 0; i < systemeSpheres.size(); ++i)
@@ -111,10 +72,10 @@ void GameWorld::dealCables()
 {
 	for (Cable* cable : cableList)
 	{
-		if (cable->particule1->distanceParticules(cable->particule2) > cable->distance)
+		if (cable->particule1->distanceParticules(cable->particule2) > cable-> distance)
 		{
-			cable->particule1->AddVelocityOnCable(cable->particule2, cable->e);
-			cable->particule2->AddVelocityOnCable(cable->particule1, cable->e);
+			cable->particule1->AddVelocityOnCable(cable->particule2, 1);
+			cable->particule2->AddVelocityOnCable(cable->particule1, 1);
 		}
 	}
 
@@ -158,8 +119,6 @@ void GameWorld::dealCollisions(float duration)
 		{
 			s1->SetPosition(Vector(s1->GetPosition().get_x(), ground.yCoord - s1->GetRadius(), s1->GetPosition().get_z()));
 
-			/*std::cout << "v: " << s1->GetVelocity().norm()*duration << endl;
-			std::cout << "g t: " << (gravity * s1->GetMass()).norm() * duration << endl;*/
 			if (s1->GetVelocity().get_y() < 0)
 			{
 				return;
@@ -174,29 +133,59 @@ void GameWorld::dealCollisions(float duration)
 			{
 				s1->AddVelocityOnColliding(ground.yCoord);
 			}
-					/*ParticuleGravity* inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
-					registre.add(s1, inversGravity);*/
-			
-			
-			/*
-			if ((worldGravity.GetGravity().prod_vector(s1->GetDirection())).norm() != 0)
-			{
-				ParticuleFrictionStatic* forceStatic = new ParticuleFrictionStatic(this->worldGravity.GetGravity());
-				registre.add(s1, forceStatic);
-			}
-			else
-			{
-				if (gravity == s1->GetAccumForce() && (duration * gravity).norm() > s1->GetVelocity().norm())
-				{
-					ParticuleGravity *inversGravity = new ParticuleGravity(Vector() - s1->GetAccumForce());
-					registre.add(s1, inversGravity);
-				}
-				else
-				{
-					s1->AddVelocityOnColliding(ground.yCoord);
-				}
-			}
-			*/
 		}
 	}
+}
+
+//////////////DEMOS//////////////
+void GameWorld::demoRessort()
+{
+	// Test ressort
+	Sphere* particule = new Sphere(5.0f, Vector(100, 100, 0), Vector(0, 0, 0), 0.5f);
+	systemeSpheres.push_back(particule);
+	ParticuleSpring* spring = new ParticuleSpring(0.5f, 10.0f, Vector(100, 150, 0));
+	Spring* entry = new Spring();
+	entry->particule1 = particule;
+	entry->spring = spring;
+	springList.push_back(entry);
+}
+
+void GameWorld::demoParticule()
+{
+	//Test particule tombant
+	Sphere* particulebis = new Sphere(20.0f, Vector(200, 50, 0), Vector(0, 0, 0), 3, ofColor::white, 0.5f);
+	systemeSpheres.push_back(particulebis);
+}
+
+void GameWorld::demoCable()
+{
+	// Test Cable
+	Sphere* particule1 = new Sphere(10.0f, Vector(300, 110, 0), Vector(100, 0, 0), 0.5f);
+	Sphere* particule2 = new Sphere(10.0f, Vector(300, 100, 0), Vector(0, 0, 0), 0.5f);
+
+	systemeSpheres.push_back(particule1);
+	systemeSpheres.push_back(particule2);
+
+	Cable* cable = new Cable();
+	cable->particule1 = particule1;
+	cable->particule2 = particule2;
+	cable->distance = 50;
+	cable->e = 0.5;
+	cableList.push_back(cable);
+}
+
+void GameWorld::demoTige()
+{
+	// Test Tige
+	Sphere* particule4 = new Sphere(10.0f, Vector(650, 150, 0), Vector(0, 0, 0), 5.0f, ofColor::green, 0.5f);
+	Sphere* particule3 = new Sphere(10.0f, Vector(600, 100, 0), Vector(0, 0, 0), 5.0f, ofColor::green, 0.5f);
+
+	systemeSpheres.push_back(particule3);
+	systemeSpheres.push_back(particule4);
+
+	Rod* tige = new Rod();
+	tige->particule1 = particule3;
+	tige->particule2 = particule4;
+	tige->distance = particule3->distanceParticules(particule4);
+	rodList.push_back(tige);
 }

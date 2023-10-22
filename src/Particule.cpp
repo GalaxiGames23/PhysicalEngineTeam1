@@ -167,7 +167,7 @@ void Particule::AddVelocityOnColliding(Particule* p)
 
 void Particule::AddVelocityOnCable(Particule* p, double e)
 {
-	Vector n = Vector() - (this->position - p->position).normalisation();
+	Vector n = (p->position - this->position);
 	double d = this->distanceParticules(p);
 
 	double num = (this->e + 1) * (this->velocity - p->velocity).prod_scalar(n);
@@ -182,7 +182,6 @@ void Particule::AddForceOnRod(Particule* p)
 {
 	Vector direction = (p->GetPosition() - this->position).normalisation();
 	Vector force = this->AccumForce.projection(direction);
-	std::cout<<force<<std::endl;
 
 	this->addForce(force);
 }

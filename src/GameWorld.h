@@ -87,6 +87,12 @@ private:
 	void dealCables();
 	void dealRods();
 	void dealCollisions(float duration);
+	
+	////////DEMOS//////
+	void demoRessort();
+	void demoParticule();
+	void demoCable();
+	void demoTige();
 };
 
 #endif
