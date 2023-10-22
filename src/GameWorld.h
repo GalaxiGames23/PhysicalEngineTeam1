@@ -80,7 +80,7 @@ public:
 	void UpdateLogic(float duration);
 
 private:
-	
+
 	//ajoute les forces au registre
 	void addForces();
 
@@ -89,6 +89,8 @@ private:
 	void dealCollisions(float duration);
 	
 	////////DEMOS//////
+public:
+
 	void demoRessort();
 	void demoParticule();
 	void demoCable();
