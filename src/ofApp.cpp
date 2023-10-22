@@ -83,7 +83,7 @@ void ofApp::keyPressed(int key)
 	switch (key) {
 	case ' ': gameworld->systemeSpheres.push_back(new Sphere(5.0f, init_point, v, 1)); // Création d'une particule
 		break;
-	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0),100, 4, 2, gameworld->myCam, myController, gameworld);
+	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0),2, 4, 2, gameworld->myCam, myController, gameworld);
 			else
 	{
 		delete gameworld->myBlob;

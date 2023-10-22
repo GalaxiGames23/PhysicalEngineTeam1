@@ -155,7 +155,7 @@ void Blob::spawnAllParticule()
 						cable->particule1 = p1->particle;
 						cable->particule2 = p2->particle;
 						cable->e = 1;
-						cable->distance =  2*begin_radius;
+						cable->distance =  2*begin_radius*c;
 						Spring* spring = new Spring();
 						spring->particule1 = p1->particle;
 						spring->spring = new ParticuleSpring(ressortK,  begin_radius *0.9*c, p2->particle);
