@@ -56,20 +56,20 @@ void ofApp::draw()
 
 	ofPushStyle();
 	ofSetupScreenOrtho();
-	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
-	ofScale(2, 2);
+	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:", 10, 10);
-	
+	ofDrawBitmapString("Commands:\nZQSD : diriger la particule du blob controlee (clavier AZERTY)\nB : spawn/despawn le blob\nH : deplacer le sol\nL : Split le blob\nO : rassembler le blob\nK/J : bouger la caméra\nM: activer la caméra trackant le blob\nESPACE : demo de particule simple\nX : demo de ressort\nC : demo de câble\nV : demo de tige", 10, 10);
+	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	if (gameworld->myBlob != NULL)
 	{
-		ofScale(0.5, 0.5);
 		ofScale(3, 3);
 		timer += ofGetLastFrameTime();
 		ofDrawBitmapString(std::to_string(gameworld->myBlob->get_current_size()), ofGetWidth()/3 - 30, 15 + cos(3*timer) * 2) ;
 	}
 	else
 	{
+		
+		ofScale(2, 2);
 		ofDrawBitmapString("NO BLOB SPAWNED", ofGetWidth() /2 - 130, 20 );
 	}
 	
@@ -81,27 +81,32 @@ void ofApp::draw()
 void ofApp::keyPressed(int key)
 {
 	switch (key) {
-	case ' ': gameworld->systemeSpheres.push_back(new Sphere(5.0f, init_point, v, 1)); // Création d'une particule
-		break;
-	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0),2, 4, 2, gameworld->myCam, myController, gameworld);
+		//blob
+	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0),20, 4, 2, gameworld->myCam, myController, gameworld);
 			else
 	{
 		delete gameworld->myBlob;
 		gameworld->myBlob = NULL;
 	}
 		break;
+		//bouger le sol
 	case 'h': input.ground_key = true;
 		break;
+		//split le blob
 	case 'l': if (gameworld->myBlob != NULL) { gameworld->myBlob->split(); }
 		break;
+		//rassembler le blob
 	case 'o': if (gameworld->myBlob != NULL) { gameworld->myBlob->join(); }
 			break;
+			//bouger la camera
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
 		break;
 	case 'j': gameworld->myCam->changeNorm(ofGetLastFrameTime());
 		break;
+		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
+		//controles ZQSD
 	case 'z': if (input.forward_key == NULL && myController->isActive())
 	{
 		input.forward_key = new InputRegistre();
@@ -133,6 +138,14 @@ void ofApp::keyPressed(int key)
 		input.left_key->fg = new InputForce(myController, false, -1);
 		gameworld->inputRegistre.push_back(input.left_key);
 	}
+		break;
+	case ' ': gameworld->demoParticule();
+		break;
+	case 'x':gameworld->demoRessort();
+		break;
+	case 'c':gameworld->demoCable();
+		break;
+	case 'v': gameworld->demoTige();
 		break;
 	default: break;
 	}

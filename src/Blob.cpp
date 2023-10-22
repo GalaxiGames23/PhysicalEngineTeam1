@@ -390,10 +390,10 @@ void Blob::join()
 								cable->particule1 = p1->particle;
 								cable->particule2 = p2->particle;
 								cable->e = 1;
-								cable->distance = c * begin_radius;
+								cable->distance =  2 * begin_radius;
 								Spring* spring = new Spring();
 								spring->particule1 = p1->particle;
-								spring->spring = new ParticuleSpring(ressortK, c * begin_radius, p2->particle);
+								spring->spring = new ParticuleSpring(ressortK,begin_radius, p2->particle);
 								BlobSpring* force = new BlobSpring();
 								force->cable = cable;
 								force->spring = spring;

@@ -169,13 +169,14 @@ void Particule::AddVelocityOnCable(Particule* p, double e)
 {
 	Vector n = (p->position - this->position);
 	double d = this->distanceParticules(p);
+	printf("%f\n", d);
 	double num = (this->e + 1) * (this->velocity - p->velocity).prod_scalar(n);
 	if (num < 0)
 	{
 		double denom = (this->InversMass + p->InversMass) * n.square_norm();
 		double K = 1 / denom * num;
 
-		this->velocity = this->velocity - this->InversMass * K * n *;
+		this->velocity = this->velocity - this->InversMass * K * n ;
 		
 	}
 	

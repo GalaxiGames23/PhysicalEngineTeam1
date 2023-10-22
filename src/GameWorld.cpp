@@ -47,16 +47,20 @@ void GameWorld::addForces()
 		registre.add(particule, &worldGravity);
 		registre.add(particule, &worldAirFriction);
 	}
+
+	//gestion des ressorts
 	for (Spring* spring : springList)
 	{
 		registre.add(spring->particule1,spring->spring);
 	}
 	
+	//ressorts du blob
 	for (BlobSpring* blobspring : blobList)
 	{
 		registre.add(blobspring->spring->particule1, blobspring->spring->spring);
 	}
 
+	//forces de controle
 	for (InputRegistre * input : inputRegistre)
 	{
 		registre.add(input->particule, input->fg);
@@ -75,6 +79,7 @@ void GameWorld::dealCables()
 		}
 	}
 
+	//cables du blob
 	for (BlobSpring* blobspring : blobList)
 	{
 		if (blobspring->cable->particule1->distanceParticules(blobspring->cable->particule2) > blobspring->cable->distance)
