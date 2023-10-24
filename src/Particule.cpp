@@ -102,7 +102,7 @@ void Particule::HarmonicMovement(double K, float duration) //////// To think abo
 {
 	this->time += duration;
 	double w0 = sqrt(K * this->InversMass);
-	this->position = Vector() - pow(w0, 2) * cos(w0 * this->time) * this->position.normalisation() + this->position;
+	this->position = Vector() - pow(w0, 2) * cos(w0 * this->time) * this->position.normalisation();
 }
 
 void Particule::HarmonicMovementDamping(double K, double c, float duration) //////// To think about (add to prior integrators)
@@ -115,7 +115,7 @@ void Particule::HarmonicMovementDamping(double K, double c, float duration) ////
 	Vector K1 = this->position0; ////////////// Set position0 & velocity0 at first exe
 	Vector K2 = w0 * this->position0 + this->velocity0;
 
-	this->position = (K1 * cos(wd * time) + K2 * sin(wd * time)) * exp(-E * w0 * time) + this->position;
+	this->position = (K1 * cos(wd * time) + K2 * sin(wd * time)) * exp(-E * w0 * time);
 }
 
 double Particule::distanceParticules(Particule* p)

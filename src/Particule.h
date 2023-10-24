@@ -55,6 +55,8 @@ public:
 	Vector GetVelocity() { return this->velocity; }
 	bool particleCanMove() { return !isStatic; }
 	Vector GetAccumForce() { return this->AccumForce; }
+	Vector GetPos0() { return this->position0; }
+	Vector GetVel0() { return this->velocity0; }
 
 	// ToString
 	friend ostream& operator<< (ostream&, const Particule& particle);

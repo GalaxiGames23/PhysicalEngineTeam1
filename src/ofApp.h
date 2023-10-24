@@ -45,5 +45,6 @@ class ofApp : public ofBaseApp{
 		
 		PlayerController *myController;
 		GameWorld* gameworld = new GameWorld();
-		
+		Particule HUDParticule; //<<<particule pour les oscillations de l'HUD
+		float lastBlobCount;//<<< pour savoir quand reset l'harmonique
 };

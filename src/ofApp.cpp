@@ -7,6 +7,10 @@ void ofApp::setup()
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
 	myController = new PlayerController();
 
+	//set up de l'harmonique de l'hud
+	HUDParticule = Particule(0.5f, Vector(-10000,-20, 0), Vector(0, 0, 0), 1.0f);
+	HUDParticule.SetUpHarmonic();
+	lastBlobCount = 0;
 }
 
 //--------------------------------------------------------------
@@ -18,6 +22,7 @@ void ofApp::update()
 
 	gameworld->UpdateLogic(delta);
 
+	if (gameworld->myBlob != NULL) HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 }
 
 //--------------------------------------------------------------
@@ -58,13 +63,26 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nZQSD : diriger la particule du blob controlee (clavier AZERTY)\nB : spawn/despawn le blob\nH : deplacer le sol\nL : Split le blob\nO : rassembler le blob\nK/J : bouger la caméra\nM: activer la caméra trackant le blob\nESPACE : demo de particule simple\nX : demo de ressort\nC : demo de câble\nV : demo de tige", 10, 10);
+	ofDrawBitmapString("Commands:\nZQSD : diriger la particule du blob controlee (clavier AZERTY)\nB : spawn/despawn le blob\nH : deplacer le sol\nL : Split le blob\nO : rassembler le blob\nK/J : bouger la caméra\nM: activer la camera trackant le blob\nESPACE : demo de particule simple\nX : demo de ressort\nC : demo de cable\nV : demo de tige", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	if (gameworld->myBlob != NULL)
 	{
 		ofScale(3, 3);
 		timer += ofGetLastFrameTime();
-		ofDrawBitmapString(std::to_string(gameworld->myBlob->get_current_size()), ofGetWidth()/3 - 30, 15 + cos(3*timer) * 2) ;
+
+		int blobCount = gameworld->myBlob->get_current_size();
+
+		//HUD set up check
+		if (blobCount != lastBlobCount) {
+			//le compte du blob a changé, on reset l'harmonique
+			lastBlobCount = blobCount;
+			HUDParticule.SetPosition(HUDParticule.GetPos0());
+			HUDParticule.SetVelocity(HUDParticule.GetVel0());
+			HUDParticule.SetUpHarmonic();
+		}
+
+		//HUD Harmonic
+		ofDrawBitmapString(std::to_string(blobCount), ofGetWidth() / 3 - 30, 40 + HUDParticule.GetPosition().get_y());
 	}
 	else
 	{
@@ -87,6 +105,7 @@ void ofApp::keyPressed(int key)
 	{
 		delete gameworld->myBlob;
 		gameworld->myBlob = NULL;
+		lastBlobCount = 0;
 	}
 		break;
 		//bouger le sol
@@ -139,6 +158,7 @@ void ofApp::keyPressed(int key)
 		gameworld->inputRegistre.push_back(input.left_key);
 	}
 		break;
+		//demos
 	case ' ': gameworld->demoParticule();
 		break;
 	case 'x':gameworld->demoRessort();
