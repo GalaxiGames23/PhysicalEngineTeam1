@@ -1,6 +1,7 @@
 #include "ParticuleSpring.h"
 
-/////Constructors
+//////// Constructors ////////
+
 ParticuleSpring::ParticuleSpring()
 {
 	this->k = 0;
@@ -12,6 +13,7 @@ ParticuleSpring::ParticuleSpring()
 	this->HarmonicInitialized = false;
 }
 
+// Constructeur ressort Particule / Particule
 ParticuleSpring::ParticuleSpring(double k, double l0, Particule* p2) {
 	this->k = k;
 	this->l0 = l0;
@@ -21,6 +23,7 @@ ParticuleSpring::ParticuleSpring(double k, double l0, Particule* p2) {
 	this->HarmonicInitialized = false;
 }
 
+// Constructeur ressort Particule / Point
 ParticuleSpring::ParticuleSpring(double k, double l0, Vector v) {
 	this->k = k;
 	this->l0 = l0;
@@ -31,7 +34,8 @@ ParticuleSpring::ParticuleSpring(double k, double l0, Vector v) {
 	this->HarmonicInitialized = false;
 }
 
-////////
+
+//////// Methods ////////
 
 void ParticuleSpring::updateForce(Particule* p1, float duration)
 {
@@ -40,20 +44,21 @@ void ParticuleSpring::updateForce(Particule* p1, float duration)
 	Vector force; // Force de ressort résultante
 
 
-	if (this->isP2P)
+	if (this->isP2P) // Ressort Particule / Particule
 	{
 		l = p1->GetPosition().distance(this->p2->GetPosition());
 		direction = Vector() - (this->p2->GetPosition() - p1->GetPosition()).normalisation();
 
-		force = this->k * (this->l0 - l) * direction;
-		this->p2->addForce(Vector() - force);
+		force = this->k * (this->l0 - l) * direction; // F = K * (l - l0)
+		this->p2->addForce(Vector() - force); // Principe d'action / réaction entre 2 objets dynamiques
 	}
-	else
+	else // Ressort Particule / Point
 	{
 		l = p1->GetPosition().distance(this->v);
 		direction = Vector()-(this->v - p1->GetPosition()).normalisation();
 
 		force = this->k * (this->l0 - l) * direction;
+		// Pas d'action / réaction car le point est un objet statique
 	}
 	p1->addForce(force);
 

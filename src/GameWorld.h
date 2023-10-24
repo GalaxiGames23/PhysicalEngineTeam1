@@ -48,53 +48,51 @@ struct BlobSpring
 class GameWorld
 {
 public:
+	////// Objets physiques //////
 	std::vector<Sphere*> systemeSpheres;//<<< Vector de la STL pour stocker les sphères à considérer dans les calculs
+	Ground& ground = Ground::getGround(); //<<< LE SOL
 
-	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
-
-	std::vector<Spring*> springList;
-	std::vector<Cable*> cableList;
-	std::vector<Rod*> rodList;
-	std::vector<BlobSpring*> blobList;
+	////// Liaisons entre objets //////
+	std::vector<Spring*> springList; //<<< Liste des ressorts
+	std::vector<Cable*> cableList; //<<< Liste des câbles
+	std::vector<Rod*> rodList; //<<< Liste des tiges
 
 
-	std::vector<InputRegistre*> inputRegistre;
-
-	Blob *myBlob = NULL;
-	
-	Camera* myCam;
-
+	////// Forces //////
+	ParticuleForceRegistry registre; //<<< Registre des forces (clear à chaque frame)
 	ParticuleGravity worldGravity;
-
 	ParticuleFrictionCinetic worldAirFriction;
 
-	ParticuleForceRegistry registre; //<<<registre des forces
+	////// Blob //////
+	Blob *myBlob = NULL;
+	std::vector<BlobSpring*> blobList; // Liste des ressorts du blob (gérés séparément)
+	
+	////// Inputs //////
+	Camera* myCam;
+	std::vector<InputRegistre*> inputRegistre;
 
-	Ground& ground = Ground::getGround(); // LE SOL
 
-	//Constructors
-
+	
+	////// Constructeur ////////
 	GameWorld();
 
-	//calcule les nouvelles position de chaque 
-	void UpdateLogic(float duration);
+	////// Appplication de la logique du monde ////////
+	void UpdateLogic(float duration); // Résultat = Calcul des nouvelles position de chaque objet
 
-private:
-
-	//ajoute les forces au registre
-	void addForces();
-
-	void dealCables();
-	void dealRods();
-	void dealCollisions(float duration);
-	
-	////////DEMOS//////
-public:
-
+	////// DEMOS ////////
 	void demoRessort();
 	void demoParticule();
 	void demoCable();
 	void demoTige();
+
+
+private:
+	////// Calcul et application de la physique ////////
+
+	void addForces(); // Ajout des forces au registre
+	void dealCables(); // Gestion des forces appliquées par les câbles
+	void dealRods(float duration); // Gestion des forces appliquées par les tiges
+	void dealCollisions(float duration); // Gestion des collisions entre objets
 };
 
 #endif

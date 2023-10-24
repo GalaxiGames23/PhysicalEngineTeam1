@@ -1,6 +1,7 @@
 #include "ParticuleFrictionStatic.h"
 
-/////Constructors
+//////// Constructors ////////
+
 ParticuleFrictionStatic::ParticuleFrictionStatic()
 {
 	this->us = 0.0f;
@@ -18,10 +19,12 @@ ParticuleFrictionStatic::ParticuleFrictionStatic(Vector g, double us) {
 	this->g = g;
 }
 
-////////
-void ParticuleFrictionStatic::updateForce(Particule* p, float duration) // To Update just after gravity !!!
+
+//////// Methods ////////
+
+void ParticuleFrictionStatic::updateForce(Particule* p, float duration)
 {
-	Vector r; // Vecteur normal à la direction et opposé aux forces
+	Vector n; // Vecteur normal à la direction et opposé aux forces
 	Vector direction; // Direction de la force de friction
 	Vector force; // Force de friction résultante
 	Vector gk;
@@ -29,8 +32,8 @@ void ParticuleFrictionStatic::updateForce(Particule* p, float duration) // To Up
 	direction = Vector() - p->GetDirection();
 
 	gk = g.projection(p->GetDirection());
-	r = Vector() - (g + gk);
-	force = us * r.norm() * direction;
+	n = Vector() - (g + gk);
+	force = us * n.norm() * direction; // F = us * n
 
 	if (gk.norm() <= force.norm())
 	{

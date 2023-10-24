@@ -69,38 +69,9 @@ void Particule::IntegrateVerlet(float duration, Vector gravity, float damping)
 }
 
 
-// Manage collisions
-void Particule::onCollisionDetected(vector<Particule*>& allParticles)
-{
-	auto it = std::find(allParticles.begin(), allParticles.end(), this);
-	if (it != allParticles.end()) {
-		allParticles.erase(it);
-		delete(this);
-	}
-	
-}
-
-//Calcul acceleration caused by the gravitation force with particle p
-Vector Particule::calculGravitationAccelerationWith(Particule* p)
-{
-	if (p->GetMass() < 10) // mass to small to consider object
-	{
-		return Vector(0,0,0);
-	}
-	double d = p->GetPosition().distance(position);
-	double G = 1;
-	Vector axe = ((p->GetPosition()) - position).normalisation();
-	if (d < 20) //if distance is to small
-	{
-		axe = -1 * axe; //inverse the force
-	}
-	return G * p->GetMass() / (d * d) * axe;
-}
-
-
 //////// Phase 2 ////////
 
-void Particule::addForce(const Vector& force)
+void Particule::addForce(const Vector force)
 {
 	AccumForce = AccumForce + force;
 }
@@ -169,7 +140,6 @@ void Particule::AddVelocityOnCable(Particule* p, double e)
 {
 	Vector n = (p->position - this->position);
 	double d = this->distanceParticules(p);
-	printf("%f\n", d);
 	double num = (this->e + 1) * (this->velocity - p->velocity).prod_scalar(n);
 	if (num < 0)
 	{
@@ -177,20 +147,22 @@ void Particule::AddVelocityOnCable(Particule* p, double e)
 		double K = 1 / denom * num;
 
 		this->velocity = this->velocity - this->InversMass * K * n ;
-		
 	}
 	
 }
 
 
-void Particule::AddForceOnRod(Particule* p)
+void Particule::AddForceOnRod(Particule* p, float duration)
 {
-	Vector direction = (p->GetPosition() - this->position).normalisation();
-	Vector force = this->AccumForce.projection(direction);
+	Vector n = (p->position - this->position);
+	double d = this->distanceParticules(p);
+	double num = (this->e + 1) * (this->velocity - p->velocity).prod_scalar(n);
+	
+	double denom = (this->InversMass + p->InversMass) * n.square_norm();
+	double K = 1 / denom * num;
 
-	this->addForce(force);
+	this->velocity = this->velocity - this->InversMass * K * n;
 }
-
 
 void Particule::AddVelocityOnColliding(double groundY)
 {
@@ -202,7 +174,6 @@ void Particule::AddVelocityOnColliding(double groundY)
 	double K = 1 / denom * num;
 
 	this->velocity = this->velocity - this->InversMass * K * n;
-	//this->position = this->position + d * n;
 }
 
 void Particule::SetUpHarmonic()

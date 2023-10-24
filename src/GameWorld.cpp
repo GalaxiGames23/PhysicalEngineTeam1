@@ -21,9 +21,9 @@ void GameWorld::UpdateLogic(float duration)
 	registre.clear();
 
 	// Recherche et traitement des collisions
-	dealCables();
-	dealRods();
 	dealCollisions(duration);
+	dealCables();
+	dealRods(duration);
 
 	//intégration de chaque particule
 	for (int i = 0; i < systemeSpheres.size(); ++i)
@@ -74,8 +74,8 @@ void GameWorld::dealCables()
 	{
 		if (cable->particule1->distanceParticules(cable->particule2) > cable-> distance)
 		{
-			cable->particule1->AddVelocityOnCable(cable->particule2, 1);
-			cable->particule2->AddVelocityOnCable(cable->particule1, 1);
+			cable->particule1->AddVelocityOnCable(cable->particule2, cable->e);
+			cable->particule2->AddVelocityOnCable(cable->particule1, cable->e);
 		}
 	}
 
@@ -91,14 +91,14 @@ void GameWorld::dealCables()
 	}
 }
 
-void GameWorld::dealRods()
+void GameWorld::dealRods(float duration)
 {
 	for (Rod* rod : rodList)
 	{
-		if (abs(rod->particule1->distanceParticules(rod->particule2)- rod->distance) > 0.1)
+		if (abs(rod->particule1->distanceParticules(rod->particule2)- rod->distance) > rod->distance/10)
 		{
-			rod->particule1->AddForceOnRod(rod->particule2);
-			rod->particule2->AddForceOnRod(rod->particule1);
+			rod->particule1->AddForceOnRod(rod->particule2, duration);
+			rod->particule2->AddForceOnRod(rod->particule1, duration);
 		}
 	}
 }
@@ -171,7 +171,7 @@ void GameWorld::demoCable()
 	cable->particule1 = particule1;
 	cable->particule2 = particule2;
 	cable->distance = 50;
-	cable->e = 0.5;
+	cable->e = 1;
 	cableList.push_back(cable);
 }
 
