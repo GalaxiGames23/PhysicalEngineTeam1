@@ -5,7 +5,7 @@
 void Blob::clearBlob()
 {
 
-	for (BlobParticule* particle : particlesArray)
+	for (BlobParticule* particle : particlesArray) //suprimer les forces du blob
 	{
 		int n = refGameWorld->blobList.size();
 		for (int i = 0; i < n; i++)
@@ -30,7 +30,7 @@ void Blob::clearBlob()
 		
 
 	}
-	for (BlobParticule* particle : particlesArray)
+	for (BlobParticule* particle : particlesArray)//suprimer les particules du blob
 	{
 		auto it = std::find(refGameWorld->systemeSpheres.begin(), refGameWorld->systemeSpheres.end(), particle->particle);
 		if (it != refGameWorld->systemeSpheres.end()) {
@@ -77,13 +77,13 @@ void Blob::spawnAllParticule()
 	Vector last_position = Vector(0, 0, 0);
 	Vector position = Vector(0, 0, 0);
 	int layer = 1;
-	while (count < nbBlob - 1)
+	while (count < nbBlob - 1) //Création des particules autour de sphère de plus en plus grandes
 	{
 		if ( phi >= PI)
 		{
 			phi = 0;
 			theta += diff_angle;
-			if (theta >= PI) // reset on new circle
+			if (theta >= PI) 
 			{
 				theta = 0;
 				radius += begin_radius;
@@ -93,7 +93,7 @@ void Blob::spawnAllParticule()
 		}
 		position = radius * Vector(cos(phi) * cos(theta), sin(theta), cos(theta) * sin(phi));
 
-		if (last_position.norm() == 0)
+		if (last_position.norm() == 0) // Privilégier la symétrie
 		{
 			last_position = position;
 		}
@@ -110,8 +110,6 @@ void Blob::spawnAllParticule()
 				phi += diff_angle;
 			}
 		}
-		
-		
 		BlobParticule* p = new BlobParticule();
 		p->particle = new Sphere(massBlob, init_position + position, Vector(0, 0, 0), 0.5);
 		p->layerforSplit = layer;
@@ -123,7 +121,7 @@ void Blob::spawnAllParticule()
 	}
 
 	int n = particlesArray.size();
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++) // Création des ressorts/cables entre les particules
 	{
 		BlobParticule* p1 = particlesArray[i];
 		float c = 0.7;
@@ -145,7 +143,7 @@ void Blob::spawnAllParticule()
 						}
 					}
 
-					if (!alreadyin && p1->particle->GetPosition().distance(p2->particle->GetPosition()) < c * begin_radius)
+					if (!alreadyin && p1->particle->GetPosition().distance(p2->particle->GetPosition()) < c * begin_radius) // Si les particules sont assez proches
 					{
 						SpringExtended* f1 = new SpringExtended();
 						f1->particle = p2;
@@ -183,7 +181,7 @@ void Blob::countBlobParticule()
 	myQueue.push(mainParticule);
 	int count = 1;
 	int color = mainParticule->color + 1;
-	while (!myQueue.empty()) // Compter le nombre de particule du nouveau graphe
+	while (!myQueue.empty()) // Compter le nombre de particule du graphe connexe appartenant à la particule que l'utilisateur controle
 	{
 		BlobParticule* p = myQueue.front();
 		 myQueue.pop();
@@ -206,7 +204,7 @@ void Blob::countBlobParticule()
 
 	myQueue.push(mainParticule);
 	color = mainParticule->color + 1;
-	while (!myQueue.empty()) // Changer la couleur
+	while (!myQueue.empty()) // Changer la couleur d'un graphe connexe
 	{
 		BlobParticule* p = myQueue.front();
 		myQueue.pop();
@@ -230,12 +228,7 @@ void Blob::countBlobParticule()
 
 Blob::~Blob()
 {
-
-	
 	clearBlob();
-	
-	
-
 }
 
 void Blob::split()
@@ -246,7 +239,6 @@ void Blob::split()
 	{
 		myQueue.push(extremumParticule);
 		int count = n/2 - 1;
-	
 		int color = myQueue.front()->color + 1;
 		myQueue.front()->color = color;
 		myQueue.front()->particle->SetColor(500);
@@ -272,9 +264,8 @@ void Blob::split()
 					}
 				}
 			}
-			
-			
 		}
+
 		while (!myQueue.empty())// Couper les arêtes qui vont vers l'exterieur du graphe
 		{
 			BlobParticule* p = myQueue.front();
@@ -335,10 +326,8 @@ void Blob::draw()
 	// Déterminez les deux points entre lesquels vous voulez dessiner le cylindre
 	for (BlobParticule *p1 : particlesArray)
 	{
-		
 		for (SpringExtended* p2: p1->neighboor)
 		{
-
 			Vector v1 = p1->particle->GetPosition();
 			Vector v2 = p2->particle->particle->GetPosition();
 			ofSetLineWidth(3.0); // Épaisseur de la ligne
@@ -346,8 +335,6 @@ void Blob::draw()
 			ofDrawLine(v1.get_x(), v1.get_y(), v1.get_z(), v2.get_x(), v2.get_y(), v2.get_z());
 		}
 	}
-	
-
 }
 
 void Blob::join()
@@ -378,7 +365,7 @@ void Blob::join()
 							}
 						}
 
-						if (!alreadyin && p1->color != p2->color && p1->particle->GetPosition().distance(p2->particle->GetPosition()) < c * begin_radius)
+						if (!alreadyin && p1->color != p2->color && p1->particle->GetPosition().distance(p2->particle->GetPosition()) < c * begin_radius) // si deux particules sont de couleur différente, pas connectés et assez proches
 						{
 							if ((p1->neighboor.size() < 3 &&p2->neighboor.size() < 3) || p1->color != p2->color)
 							{

@@ -29,10 +29,12 @@ class Input
 	public:
 		bool angle_key = false; //<<< Si l'utilisateur est en train de changer l'angle
 		bool ground_key = false;
+		//Si l'utilisateurse déplace d'un coté
 		InputRegistre * forward_key = NULL;
 		InputRegistre* backward_key = NULL;
 		InputRegistre* right_key = NULL;
-		InputRegistre* left_key = NULL;//<<< Si l'utilisateur est en train de changer la hauteur du sol
+		InputRegistre* left_key = NULL;
+
 		int last_pos_x = 0; //<<< dernière position de la souris en x
 		int last_pos_y = 0;//<<< dernière position de la souris en y
 		Vector& max_point = Vector();

@@ -8,7 +8,6 @@ void Camera::setPosition()
     cam.setPosition(position.get_x(), position.get_y(), position.get_z());
     Vector direction = particlePosition - position;
     direction = direction.normalisation();
-
     cam.lookAt(particlePosition.toVec3(), glm::vec3(0,-1,0));
 }
 

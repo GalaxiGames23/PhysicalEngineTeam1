@@ -52,13 +52,13 @@ public:
 
 	std::vector<ParticuleForceGenerator*> forces; //<<< forces présentes dans le gameworld
 
+	//Les forces que l'on peut ajouter sur une frame
 	std::vector<Spring*> springList;
 	std::vector<Cable*> cableList;
 	std::vector<Rod*> rodList;
 	std::vector<BlobSpring*> blobList;
-
-
 	std::vector<InputRegistre*> inputRegistre;
+
 
 	Blob *myBlob = NULL;
 	

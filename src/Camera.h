@@ -30,6 +30,7 @@ class Camera
 		void changeRollAngle(double changeValue);
 		void changePitchAngle(double changeValue);
 
+		/*Changer la particule cible, et mettre une nouvelle position a la caméra*/
 		void setParticuleFollow(Vector startPosition, Particule *newParticule);
 
 		Vector getPosition();
