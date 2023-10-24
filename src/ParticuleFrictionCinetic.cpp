@@ -19,8 +19,8 @@ void ParticuleFrictionCinetic::updateForce(Particule* p, float duration)
 	Vector force; // Force de friction résultante
 
 	velocity = p->GetVelocity();
-	direction = Vector() - velocity.normalisation();
-	force = ((this->k1 * velocity.norm()) + (this->k2 * velocity.square_norm())) * direction;
+	direction = Vector() - velocity.normalisation(); // La direction de la force est dans le sens opposé de la direction de l'objet
+	force = ((this->k1 * velocity.norm()) + (this->k2 * velocity.square_norm())) * direction; // F = (k1 * v + k2* v^2) * n
 
 	p->addForce(force);
 }

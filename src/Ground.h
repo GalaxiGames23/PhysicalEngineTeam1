@@ -4,19 +4,25 @@
 class Ground
 {
 	private:
+		////// Constructeur //////
 		Ground() { };
 
 	public:
-		double yCoord = 600.0;
+		////// Attributs //////
+		double yCoord = 600.0; // Hauteur du sol
 		double change_speed = 15;
-		void change_ground_height(int changeValue);
 		Vector& impact_point = Vector();
-		Ground(const Ground&) = delete;
-
+		
+		////// Getter //////
 		static Ground& getGround() //Singleton
 		{
 			static Ground ground;
 			return ground;
 		};
 
+		////// Setter //////
+		void change_ground_height(int changeValue);
+
+		////// Destructeur //////
+		Ground(const Ground&) = delete;
 };

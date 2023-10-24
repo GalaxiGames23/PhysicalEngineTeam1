@@ -13,8 +13,8 @@ ParticuleGravity::ParticuleGravity(Vector gravity) {
 ////////
 void ParticuleGravity::updateForce(Particule* particule, float duration)
 {
-	if (particule->GetMass() != 0)
+	if (particule->GetMass() != 0) // Force appliquée uniquement sur les objets non statiques
 	{
-		particule->addForce(gravity * particule->GetMass());
+		particule->addForce(gravity * particule->GetMass()); // P = m * g
 	}
 }
