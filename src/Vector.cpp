@@ -72,9 +72,21 @@ double Vector::prod_scalar(const Vector& v) const
 	return x * v.x + y * v.y + z * v.z;
 }
 
+Vector Vector::set_x(double x)
+{
+	this->x = x;
+	return *this;
+}
+
 Vector Vector::set_y(double y)
 {
 	this->y = y;
+	return *this;
+}
+
+Vector Vector::set_z(double z)
+{
+	this->z = z;
 	return *this;
 }
 
@@ -142,4 +154,10 @@ bool Vector::operator ==(const Vector& v) const
 bool Vector::operator !=(const Vector& v) const
 {
 	return !(x == v.x && y == v.y && z == v.z);
+}
+
+
+Vector Vector::Negation()
+{
+	return Vector(-this->x, -this->y, -this->z);
 }

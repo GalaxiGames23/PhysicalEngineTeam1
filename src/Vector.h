@@ -24,7 +24,10 @@ class Vector
 
 		void set(double x, double y, double z);
 
+		Vector set_x(double y);
 		Vector set_y(double y);
+		Vector set_z(double y);
+
 		double get_x() const;
 		double get_y() const;
 		double get_z() const;
@@ -50,13 +53,14 @@ class Vector
 
 		friend Vector operator*(const double& a, const Vector& vec);
 		friend ostream& operator<< (ostream&, const Vector& vec);
-		friend ostream& operator== (ostream&, const Vector& vec);
 
 		Vector operator -(const Vector& v) const;
 
 		glm::vec2 toVec2() const;
 
 		glm::vec3 toVec3() const;
+
+		Vector Negation();
 };
 
 #endif
