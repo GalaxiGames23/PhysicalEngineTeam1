@@ -25,9 +25,6 @@
     <ClCompile Include="src\ParticuleGravity.cpp">
       <Filter>src\Forces</Filter>
     </ClCompile>
-    <ClCompile Include="src\Matrix.cpp">
-      <Filter>src\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="src\Vector.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
@@ -57,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="src\InputForce.cpp">
       <Filter>src\Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Matrix3.cpp">
+      <Filter>src\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +101,6 @@
     <ClInclude Include="src\ParticuleGravity.h">
       <Filter>src\Forces</Filter>
     </ClInclude>
-    <ClInclude Include="src\Matrix.h">
-      <Filter>src\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="src\Vector.h">
       <Filter>src\Tools</Filter>
     </ClInclude>
@@ -133,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="src\InputForce.h">
       <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Matrix3.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
