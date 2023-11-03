@@ -22,25 +22,29 @@ public:
 	~Matrix4() {}
 
 	//opérateurs
-	Matrix4& operator*(const Matrix4& m);
-	Matrix4& operator+(const Matrix4& m);
-	Matrix4& operator-(const Matrix4& m);
+	Matrix4 operator*(const Matrix4& m);
+	Matrix4 operator+(const Matrix4& m);
+	Matrix4 operator-(const Matrix4& m);
+	Matrix4& operator=(const Matrix4& m);
 	bool operator==(const Matrix4& m);
 	bool operator!=(const Matrix4& m);
 
 	//setter
 	void SetCoefficients(std::array<float, 16> coefs);
-	void SetCoefficient(int row, int column); //<<<gestion plus "traditionnelle" des matrices
+	void SetCoefficient(int i, float coef);
+	//gestion plus "traditionnelle" des matrices
+	void SetCoefficient(int row, int column, float coef); 
 
 	//getter
 	float GetCoefficient(int i);
+	//gestion plus "traditionnelle" des matrices
 	float GetCoefficient(int row, int column);
 
 	//inverse de la matrice
-	Matrix4& Invers();
+	Matrix4 Invers();
 
 	//transposée de la matrice
-	Matrix4& Transposed();
+	Matrix4 Transposed();
 
 	//déterminant de la matrice
 	float Determinant();

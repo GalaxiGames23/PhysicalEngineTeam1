@@ -22,9 +22,10 @@ public:
 	~Matrix3(){}
 
 	//opérateurs
-	Matrix3& operator*(const Matrix3& m);
-	Matrix3& operator+(const Matrix3& m);
-	Matrix3& operator-(const Matrix3& m);
+	Matrix3 operator*(const Matrix3& m);
+	Matrix3 operator+(const Matrix3& m);
+	Matrix3 operator-(const Matrix3& m);
+	Matrix3& operator=(const Matrix3& m);
 	bool operator==(const Matrix3& m);
 	bool operator!=(const Matrix3& m);
 
@@ -40,10 +41,10 @@ public:
 	float GetCoefficient(int row, int column);
 
 	//inverse de la matrice
-	Matrix3& Invers();
+	Matrix3 Invers();
 
 	//transposée de la matrice
-	Matrix3& Transposed();
+	Matrix3 Transposed();
 
 	//déterminant de la matrice
 	float Determinant();
