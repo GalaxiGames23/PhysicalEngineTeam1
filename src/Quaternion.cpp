@@ -23,35 +23,83 @@ Quaternion::Quaternion(Quaternion& q)
 
 ///// Operations /////
 
-double Quaternion::Norm()
+double Quaternion::Norm() const
 {
 	return sqrt(pow(this->w, 2) + this->v.square_norm());
 }
 
-double Quaternion::ScalarProduct(Quaternion& q)
+double Quaternion::ScalarProduct(Quaternion& q) const
 {
 	return this->w * q.w + this->v.prod_scalar(q.v);
 }
 
-Quaternion Quaternion::Negation()
+Quaternion Quaternion::Negation() const
 {
 	return Quaternion(-this->w, this->v.Negation());
 }
 
-Quaternion Quaternion::Conjugated()
+Quaternion Quaternion::Conjugated() const
 {
-
+	return Quaternion(this->w, this->v.Negation());
 }
 
-Quaternion Quaternion::Invers()
+Quaternion Quaternion::Invers() const
 {
-
+	return this->Conjugated() * (1 / this->Norm());
 }
 
 
+// Operators //
 
-Vector Vector::operator *(const Vector& v) const
+Quaternion Quaternion::operator *(const double& a) const
 {
-	return Vector(x * v.x, y * v.y, z * v.z);
+	return Quaternion(a * this->w, this->v);
 }
 
+Quaternion Quaternion::operator *(const Quaternion& q) const
+{
+	double scalar = this->w * q.w - this->v.prod_scalar(q.v);
+	Vector vector = (this->w * q.v) + (q.w * this->v) + (this->v.prod_vector(q.v));
+
+	return Quaternion(scalar, vector);
+}
+
+Quaternion Quaternion::operator -(const Quaternion& q) const
+{
+	return q * this->Conjugated();
+}
+
+Quaternion Quaternion::operator +(const Quaternion& q) const
+{
+	return Quaternion(this->w + q.w, this->v + q.v);
+}
+
+Quaternion Quaternion::operator ^(const double& t) const
+{
+	double alpha = acos(this->w);
+
+	double scalar = cos(t * alpha);
+	Vector vector = (sin(t * alpha) / sin(alpha)) * this->v;
+
+	return Quaternion(scalar, vector);
+}
+
+
+bool Quaternion::operator ==(const Quaternion& q) const
+{
+	return (this->w == q.w) && (this->v == q.v);
+}
+
+bool Quaternion::operator !=(const Quaternion& q) const
+{
+	return !((this->w == q.w) && (this->v == q.v));
+}
+
+
+///// To String /////
+
+ostream& operator<< (ostream& out, const Quaternion& q)
+{
+	out << "(" << q.w << " " << q.v << ")";
+	return out;
+}

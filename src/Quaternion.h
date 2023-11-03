@@ -2,6 +2,8 @@
 #define QUATERNION_H
 
 #include "Vector.h"
+#include <iostream>
+#include <math.h> 
 
 class Quaternion
 {
@@ -33,26 +35,29 @@ public:
 
 	///// Opérations /////
 
-	double Norm();
-	double ScalarProduct(Quaternion& q);
+	double Norm() const;
+	double ScalarProduct(Quaternion& q) const;
 
-	Quaternion Negation();
-	Quaternion Conjugated();
-	Quaternion Invers();
+	Quaternion Negation() const;
+	Quaternion Conjugated() const;
+	Quaternion Invers() const;
 
 
 	// Operators //
 
-	Quaternion operator *(Quaternion& q) const;
+	Quaternion operator *(const Quaternion& q) const;
 	Quaternion operator *(const double& a) const;
 
-	Quaternion operator +(Quaternion& q) const;
-	Quaternion operator -(Quaternion& q) const;
+	Quaternion operator +(const Quaternion& q) const;
+	Quaternion operator -(const Quaternion& q) const;
 
-	Quaternion operator ^(Quaternion& q) const;
+	Quaternion operator ^(const double& t) const;
 
-	bool operator ==(Quaternion& q) const;
-	bool operator !=(Quaternion& q) const;
+	bool operator ==(const Quaternion& q) const;
+	bool operator !=(const Quaternion& q) const;
+
+
+	///// To String /////
 
 	friend ostream& operator<< (ostream&, const Quaternion& q);
 };

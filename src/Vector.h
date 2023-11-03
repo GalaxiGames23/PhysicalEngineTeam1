@@ -60,7 +60,7 @@ class Vector
 
 		glm::vec3 toVec3() const;
 
-		Vector Negation();
+		Vector Negation() const;
 };
 
 #endif

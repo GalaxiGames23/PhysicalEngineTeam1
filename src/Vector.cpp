@@ -157,7 +157,7 @@ bool Vector::operator !=(const Vector& v) const
 }
 
 
-Vector Vector::Negation()
+Vector Vector::Negation() const
 {
 	return Vector(-this->x, -this->y, -this->z);
 }
