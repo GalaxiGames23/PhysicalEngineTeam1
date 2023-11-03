@@ -42,7 +42,4 @@ config.make
 .vs/*
 /test/.vs/*
 
-PhysicalEngineTeam1.vcxproj
-PhysicalEngineTeam1.sln
-PhysicalEngineTeam1.vcxproj.filters
 .idea/

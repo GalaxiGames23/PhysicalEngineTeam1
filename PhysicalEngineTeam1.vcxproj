@@ -121,6 +121,7 @@
     <ClCompile Include="src\ParticuleGravity.cpp" />
     <ClCompile Include="src\ParticuleSpring.cpp" />
     <ClCompile Include="src\PlayerController.cpp" />
+    <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
@@ -140,6 +141,7 @@
     <ClInclude Include="src\ParticuleGravity.h" />
     <ClInclude Include="src\ParticuleSpring.h" />
     <ClInclude Include="src\PlayerController.h" />
+    <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\Ground.h" />
