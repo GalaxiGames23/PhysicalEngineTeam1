@@ -61,6 +61,9 @@
     <ClCompile Include="src\Quaternion.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\Matrix4.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -138,6 +141,9 @@
       <Filter>src\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\Quaternion.h">
+      <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Matrix4.h">
       <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>

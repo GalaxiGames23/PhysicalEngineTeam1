@@ -112,6 +112,7 @@
     <ClCompile Include="src\InputForce.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Matrix3.cpp" />
+    <ClCompile Include="src\Matrix4.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Particule.cpp" />
     <ClCompile Include="src\ParticuleForceGenerator.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\InputForce.h" />
     <ClInclude Include="src\Matrix3.h" />
+    <ClInclude Include="src\Matrix4.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Particule.h" />
     <ClInclude Include="src\ParticuleForceGenerator.h" />

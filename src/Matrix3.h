@@ -16,10 +16,10 @@ public:
 	//constructeurs
 	Matrix3();
 	Matrix3(const Matrix3& m);
-	Matrix3(int coefs[9]);
+	Matrix3(std::array<float, 9> coefs);
 
 	//destructeur
-	~Matrix3();
+	~Matrix3(){}
 
 	//opérateurs
 	Matrix3& operator*(const Matrix3& m);
@@ -30,10 +30,13 @@ public:
 
 	//setter
 	void SetCoefficients(std::array<float, 9> coefs);
-	void SetCoefficient(int row, int column); //<<<gestion plus "traditionnelle" des matrices
+	void SetCoefficient(int i, float coef);
+	//gestion plus "traditionnelle" des matrices
+	void SetCoefficient(int row, int column, float coef); 
 
 	//getter
 	float GetCoefficient(int i);
+	//gestion plus "traditionnelle" des matrices
 	float GetCoefficient(int row, int column);
 
 	//inverse de la matrice
