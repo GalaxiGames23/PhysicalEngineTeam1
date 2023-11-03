@@ -42,6 +42,18 @@ Matrix3 Matrix3::operator*(const Matrix3& m)
 	return result;
 }
 
+Matrix3 Matrix3::operator*(const float& a)
+{
+	Matrix3 result = Matrix3();
+
+	for (int i = 0; i < 9; ++i)
+	{
+		result.coefficients[i] = this->coefficients[i] * a;
+	}
+
+	return result;
+}
+
 Matrix3 Matrix3::operator+(const Matrix3& m) 
 {
 	Matrix3 result = Matrix3();
@@ -154,7 +166,18 @@ float Matrix3::GetCoefficient(int row, int column)
 
 Matrix3 Matrix3::Invers() 
 {
+	//A-1 = (1 / det(A)) * adj(A)
+	float det = this->Determinant();
 
+	//non inversible, cas limite qui devra être testé 
+	if (det == 0) return Matrix3();
+
+	float invDet = 1 / det;
+	Matrix3 adj = this->Adjacent();
+
+	Matrix3 result = adj * invDet;
+
+	return result;
 }
 
 Matrix3 Matrix3::Transposed() 
@@ -185,4 +208,27 @@ float Matrix3::Determinant()
 	float afh = this->coefficients[0] * this->coefficients[5] * this->coefficients[7];
 
 	return aei + bfg + cdh - ceg - bdi - afh;
+}
+
+Matrix3 Matrix3::Adjacent()
+{
+	Matrix3 result = Matrix3();
+
+	/*
+	adj(A) = |  (ei - fh)  -(bi - ch)  (bf - ce) |
+            | -(di - fg)   (ai - ci) -(af - cd) |
+            |  (dh - eg)  -(ah - bg)  (ae - bd) |
+	*/
+
+	result.coefficients[0] =  (this->coefficients[4] * this->coefficients[8] - this->coefficients[5] * this->coefficients[7]);
+	result.coefficients[1] = -(this->coefficients[1] * this->coefficients[8] - this->coefficients[2] * this->coefficients[7]);
+	result.coefficients[2] =  (this->coefficients[1] * this->coefficients[5] - this->coefficients[2] * this->coefficients[4]);
+	result.coefficients[3] = -(this->coefficients[3] * this->coefficients[8] - this->coefficients[5] * this->coefficients[6]);
+	result.coefficients[4] =  (this->coefficients[0] * this->coefficients[8] - this->coefficients[2] * this->coefficients[8]);
+	result.coefficients[5] = -(this->coefficients[0] * this->coefficients[5] - this->coefficients[2] * this->coefficients[3]);
+	result.coefficients[6] =  (this->coefficients[3] * this->coefficients[7] - this->coefficients[4] * this->coefficients[6]);
+	result.coefficients[7] = -(this->coefficients[0] * this->coefficients[7] - this->coefficients[1] * this->coefficients[6]);
+	result.coefficients[8] =  (this->coefficients[0] * this->coefficients[4] - this->coefficients[1] * this->coefficients[3]);
+
+	return result;
 }

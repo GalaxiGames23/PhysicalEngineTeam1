@@ -23,6 +23,7 @@ public:
 
 	//opérateurs
 	Matrix3 operator*(const Matrix3& m);
+	Matrix3 operator*(const float& a);
 	Matrix3 operator+(const Matrix3& m);
 	Matrix3 operator-(const Matrix3& m);
 	Matrix3& operator=(const Matrix3& m);
@@ -48,5 +49,8 @@ public:
 
 	//déterminant de la matrice
 	float Determinant();
+
+	//matrice adjacente
+	Matrix3 Adjacent();
 };
 

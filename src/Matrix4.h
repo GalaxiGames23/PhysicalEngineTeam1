@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include "Matrix3.h"
 
 class Matrix4
 {
@@ -23,6 +24,7 @@ public:
 
 	//opérateurs
 	Matrix4 operator*(const Matrix4& m);
+	Matrix4 operator*(const float& a);
 	Matrix4 operator+(const Matrix4& m);
 	Matrix4 operator-(const Matrix4& m);
 	Matrix4& operator=(const Matrix4& m);
@@ -48,5 +50,8 @@ public:
 
 	//déterminant de la matrice
 	float Determinant();
+
+	//matrice adjacente
+	Matrix4 Adjacent();
 };
 
