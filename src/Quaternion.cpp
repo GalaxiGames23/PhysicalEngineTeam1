@@ -45,7 +45,7 @@ Quaternion Quaternion::Conjugated() const
 
 Quaternion Quaternion::Invers() const
 {
-	return this->Conjugated() * (1 / this->Norm());
+	return this->Conjugated() * (1 / (this->Norm() * this->Norm()));
 }
 
 
@@ -53,7 +53,7 @@ Quaternion Quaternion::Invers() const
 
 Quaternion Quaternion::operator *(const double& a) const
 {
-	return Quaternion(a * this->w, this->v);
+	return Quaternion(a * this->w,a * this->v);
 }
 
 Quaternion Quaternion::operator *(const Quaternion& q) const
@@ -66,7 +66,7 @@ Quaternion Quaternion::operator *(const Quaternion& q) const
 
 Quaternion Quaternion::operator -(const Quaternion& q) const
 {
-	return q * this->Conjugated();
+	return Quaternion(w - q.w, this->v - q.v);
 }
 
 Quaternion Quaternion::operator +(const Quaternion& q) const

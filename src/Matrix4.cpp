@@ -1,5 +1,5 @@
 #include "Matrix4.h"
-
+#include <cstdio>
 Matrix4::Matrix4()
 {
 	//Matrice identité
@@ -12,7 +12,7 @@ Matrix4::Matrix4()
 
 Matrix4::Matrix4(const Matrix4& m)
 {
-	for (int i = 0; i < 9; ++i)
+	for (int i = 0; i < 16; ++i)
 	{
 		this->coefficients[i] = m.coefficients[i];
 	}
@@ -26,13 +26,22 @@ Matrix4::Matrix4(std::array<float, 16> coefs)
 	}
 }
 
+Matrix4::Matrix4(float coefs[16])
+{
+	for (int i = 0; i < 16; ++i)
+	{
+		this->coefficients[i] = coefs[i];
+
+	}
+}
+
 Matrix4 Matrix4::operator*(const Matrix4& m)
 {
 	Matrix4 result = Matrix4();
 
 	//to modify
 	result.coefficients[0] = this->coefficients[0] * m.coefficients[0] + this->coefficients[1] * m.coefficients[4] + this->coefficients[2] * m.coefficients[8] + this->coefficients[3] * m.coefficients[12];
-	result.coefficients[1] = this->coefficients[0] * m.coefficients[1] + this->coefficients[1] * m.coefficients[5] + this->coefficients[2] * m.coefficients[9] + this->coefficients[2] * m.coefficients[13];
+	result.coefficients[1] = this->coefficients[0] * m.coefficients[1] + this->coefficients[1] * m.coefficients[5] + this->coefficients[2] * m.coefficients[9] + this->coefficients[3] * m.coefficients[13];
 	result.coefficients[2] = this->coefficients[0] * m.coefficients[2] + this->coefficients[1] * m.coefficients[6] + this->coefficients[2] * m.coefficients[10] + this->coefficients[3] * m.coefficients[14];
 	result.coefficients[3] = this->coefficients[0] * m.coefficients[3] + this->coefficients[1] * m.coefficients[7] + this->coefficients[2] * m.coefficients[11] + this->coefficients[3] * m.coefficients[15];
 
@@ -103,11 +112,14 @@ Matrix4& Matrix4::operator=(const Matrix4& m)
 bool Matrix4::operator==(const Matrix4& m)
 {
 	bool toReturn = true;
+	printf("----\n");
 
 	for (int i = 0; i < 16; ++i)
 	{
+		printf(" % f % f \n", this->coefficients[i], m.coefficients[i]);
 		if (this->coefficients[i] != m.coefficients[i])
 		{
+
 			toReturn = false;
 		}
 	}
@@ -202,7 +214,7 @@ Matrix4 Matrix4::Transposed()
 	result.coefficients[3] = this->coefficients[12];
 
 	result.coefficients[4] = this->coefficients[1];
-	result.coefficients[5] = this->coefficients[3];
+	result.coefficients[5] = this->coefficients[5];
 	result.coefficients[6] = this->coefficients[9];
 	result.coefficients[7] = this->coefficients[13];
 

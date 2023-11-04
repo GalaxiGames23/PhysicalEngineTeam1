@@ -105,24 +105,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Input.cpp" />
+    <ClCompile Include="..\src\Matrix3.cpp" />
+    <ClCompile Include="..\src\Matrix4.cpp" />
     <ClCompile Include="..\src\Particule.cpp" />
     <ClCompile Include="..\src\ParticuleForceRegistry.cpp" />
     <ClCompile Include="..\src\ParticuleGravity.cpp" />
+    <ClCompile Include="..\src\Quaternion.cpp" />
     <ClCompile Include="..\src\Vector.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\TestInput.cpp" />
+    <ClCompile Include="src\TestMatrix.cpp" />
+    <ClCompile Include="src\TestQuaternion.cpp" />
     <ClCompile Include="src\TestRegistre.cpp" />
     <ClCompile Include="src\TestVector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Input.h" />
+    <ClInclude Include="..\src\Matrix3.h" />
+    <ClInclude Include="..\src\Matrix4.h" />
     <ClInclude Include="..\src\Particule.h" />
     <ClInclude Include="..\src\ParticuleForceRegistry.h" />
     <ClInclude Include="..\src\ParticuleGravity.h" />
+    <ClInclude Include="..\src\Quaternion.h" />
     <ClInclude Include="..\src\Vector.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\TestInput.h" />
+    <ClInclude Include="src\TestMatrix.h" />
+    <ClInclude Include="src\TestQuaternion.h" />
     <ClInclude Include="src\TestRegistre.h" />
     <ClInclude Include="src\TestVector.h" />
   </ItemGroup>

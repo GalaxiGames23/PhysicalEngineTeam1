@@ -4,6 +4,8 @@
 #include "TestVector.h"
 #include "TestInput.h"
 #include "TestRegistre.h"
+#include "TestQuaternion.h"
+#include "TestMatrix.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cassert>
@@ -56,12 +58,48 @@ int main() {
     runTest("Augmenter l'angle:", testIncreaseAngle);
 
     runTest("Decroitre l'angle:", testDecreaseAngle);
+
+    printColoredText("\nTest sur le Registre :\n\n", "33");
     
     runTest("Addition au registre", testRegistreAdd);
     
     runTest("Retrait du registre", testRegistreRemove);
     
     runTest("Clear du registre", testRegistreClear);
+
+    printColoredText("\nTest sur la classe Matrix:\n\n", "33");
+
+    runTest("Addition de matrices", testMatrixAddition);
+
+    runTest("Soustraction de matrices", testMatrixSub);
+
+    runTest("Multiplication de matrices", testMatrixMult);
+
+    runTest("Transposee de matrices", testMatrixTransposed);
+
+    runTest("Determinant de matrices", testMatrixDeterminant);
+
+    runTest("Adjacent de matrices", testMatrixAdjacent);
+
+    runTest("Inverse de matrices", testMatrixInverse);
+
+    printColoredText("\nTest sur la classe Quaternion:\n\n", "33");
+
+    runTest("Addition de quaternions", testQuaternionAddition);
+
+    runTest("Soustraction de quaternions", testQuaternionSub);
+
+    runTest("Multiplication de quaternions", testQuaternionMult);
+
+    runTest("Norme de quaternions", testQuaternionNorm);
+
+    runTest("Negation de quaternions", testQuaternionNegation);
+
+    runTest("Produit Scalaire de quaternions", testQuaternionScalarProd);
+
+    runTest("Conjugue de quaternions", testQuaternionConjugate);
+
+    runTest("Inverse de quaternions", testQuaternionInvers);
 
 
     return 0;

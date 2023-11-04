@@ -1,5 +1,5 @@
-#include "Matrix3.h"
-
+	#include "Matrix3.h"
+#include <cstdio>
 Matrix3::Matrix3() 
 {
 	//Matrice identité
@@ -22,6 +22,15 @@ Matrix3::Matrix3(std::array<float, 9> coefs)
 	for (int i = 0; i < 9; ++i)
 	{
 		this->coefficients[i] = coefs[i];
+	}
+}
+
+Matrix3::Matrix3(float coefs[9])
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		this->coefficients[i] = coefs[i];
+
 	}
 }
 
@@ -94,6 +103,7 @@ bool Matrix3::operator==(const Matrix3& m)
 
 	for (int i = 0; i < 9; ++i)
 	{
+		printf(" % f % f \n", this->coefficients[i], m.coefficients[i]);
 		if (this->coefficients[i] != m.coefficients[i]) 
 		{
 			toReturn = false;
@@ -223,8 +233,8 @@ Matrix3 Matrix3::Adjacent()
 	result.coefficients[0] =  (this->coefficients[4] * this->coefficients[8] - this->coefficients[5] * this->coefficients[7]);
 	result.coefficients[1] = -(this->coefficients[1] * this->coefficients[8] - this->coefficients[2] * this->coefficients[7]);
 	result.coefficients[2] =  (this->coefficients[1] * this->coefficients[5] - this->coefficients[2] * this->coefficients[4]);
-	result.coefficients[3] = -(this->coefficients[3] * this->coefficients[8] - this->coefficients[5] * this->coefficients[6]);
-	result.coefficients[4] =  (this->coefficients[0] * this->coefficients[8] - this->coefficients[2] * this->coefficients[8]);
+	result.coefficients[3] = -(this->coefficients[2] * this->coefficients[8] - this->coefficients[5] * this->coefficients[6]);
+	result.coefficients[4] =  (this->coefficients[0] * this->coefficients[8] - this->coefficients[2] * this->coefficients[6]);
 	result.coefficients[5] = -(this->coefficients[0] * this->coefficients[5] - this->coefficients[2] * this->coefficients[3]);
 	result.coefficients[6] =  (this->coefficients[3] * this->coefficients[7] - this->coefficients[4] * this->coefficients[6]);
 	result.coefficients[7] = -(this->coefficients[0] * this->coefficients[7] - this->coefficients[1] * this->coefficients[6]);

@@ -17,6 +17,7 @@ public:
 	Matrix3();
 	Matrix3(const Matrix3& m);
 	Matrix3(std::array<float, 9> coefs);
+	Matrix3(float coefs[9]);
 
 	//destructeur
 	~Matrix3(){}

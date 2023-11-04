@@ -7,34 +7,55 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Vector.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Input.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TestVector.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TestInput.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TestRegistre.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ParticuleForceRegistry.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Particule.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ParticuleForceRegistry.cpp">
+      <Filter>src\Class</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ParticuleGravity.cpp">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestInput.cpp">
+      <Filter>src\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestRegistre.cpp">
+      <Filter>src\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestVector.cpp">
+      <Filter>src\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Vector.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestMatrix.cpp">
+      <Filter>src\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Matrix4.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Matrix3.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Quaternion.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestQuaternion.cpp">
+      <Filter>src\Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Class">
+      <UniqueIdentifier>{2c012a71-95b5-48bc-a113-f60f9f558cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Test">
+      <UniqueIdentifier>{8ae590a1-64ae-4ded-bf64-2932f87ce2de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,28 +63,43 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Input.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Vector.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TestVector.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TestInput.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TestRegistre.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ParticuleForceRegistry.h">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Particule.h">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ParticuleForceRegistry.h">
+      <Filter>src\Class</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ParticuleGravity.h">
-      <Filter>src</Filter>
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestInput.h">
+      <Filter>src\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestRegistre.h">
+      <Filter>src\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestVector.h">
+      <Filter>src\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Vector.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestQuaternion.h">
+      <Filter>src\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestMatrix.h">
+      <Filter>src\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Matrix4.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Matrix3.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Quaternion.h">
+      <Filter>src\Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
