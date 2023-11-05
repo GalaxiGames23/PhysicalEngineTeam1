@@ -126,10 +126,10 @@ bool testMatrixAdjacent()
 {
 
 	Matrix3 m1 = Matrix3({ 1,2,3,0,1,4,5,6,0 });
-	Matrix3 mExpected = Matrix3({ -24,18,5,20,-15,-4,-5,4,1 });
+	Matrix3 mExpected = Matrix3({ -24,20,-5,18,-15,4,5,-4,1 });
 
 	Matrix4 m2 = Matrix4({ 1,1,1,0,0,3,1,2,2,3,1,0,1,0,2,1 });
-	Matrix4 mExpected2 = Matrix4({ -54,108,27,0,48,-173,53,33,39,76,-25,-66,-6,34,-19,33 });
+	Matrix4 mExpected2 = Matrix4({ 12,-4,-12,12,2,-1,-1,0,-6,1,5,-4,-4,2,2,-4});
 	return m1.Adjacent() == mExpected && m2.Adjacent() == mExpected2;
 }
 

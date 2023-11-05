@@ -112,11 +112,9 @@ Matrix4& Matrix4::operator=(const Matrix4& m)
 bool Matrix4::operator==(const Matrix4& m)
 {
 	bool toReturn = true;
-	printf("----\n");
 
 	for (int i = 0; i < 16; ++i)
 	{
-		printf(" % f % f \n", this->coefficients[i], m.coefficients[i]);
 		if (this->coefficients[i] != m.coefficients[i])
 		{
 
@@ -190,14 +188,14 @@ float Matrix4::GetCoefficient(int row, int column)
 
 Matrix4 Matrix4::Invers()
 {
-	//A-1 = (1 / det(A)) * adj(A)
+	//A-1 = (1 / det(A)) * adj(A)T
 	float det = this->Determinant();
 
 	//non inversible, cas limite qui devra être testé 
 	if (det == 0) return Matrix4();
 
 	float invDet = 1 / det;
-	Matrix4 adj = this->Adjacent();
+	Matrix4 adj = this->Adjacent().Transposed();
 
 	Matrix4 result = adj * invDet;
 
@@ -285,10 +283,10 @@ float Matrix4::Determinant()
 Matrix4 Matrix4::Adjacent()
 {
 	/*
-	adj(A) = | C11  C12  C13  C14 |
-			 | C21  C22  C23  C24 |
-			 | C31  C32  C33  C34 |
-			 | C41  C42  C43  C44 |
+	adj(A) = | C11  -C12  C13  -C14 |
+			 | -C21  C22  -C23  C24 |
+			 | C31  -C32  -C33  C34 |
+			 | -C41  C42  -C43  C44 |
 	Où chaque élément Cij est le déterminant d'une sous-matrice 3x3 de A obtenue en supprimant la i-ème ligne et la j-ème colonne de la matrice A
 	*/
 
@@ -487,10 +485,10 @@ Matrix4 Matrix4::Adjacent()
 	float C44 = M44.Determinant();
 
 	/*
-	adj(A) = | C11  C12  C13  C14 |
-			 | C21  C22  C23  C24 |
-			 | C31  C32  C33  C34 |
-			 | C41  C42  C43  C44 |
+	adj(A) = | C11  -C12  C13  -C14 |
+			 | -C21  C22 - C23  C24 |
+			 | C31  -C32  C33  -C34 |
+			 | -C41  C42  -C43  C44 |
 	Où chaque élément Cij est le déterminant d'une sous-matrice 3x3 de A obtenue en supprimant la i-ème ligne et la j-ème colonne de la matrice A
 	*/
 
@@ -498,23 +496,23 @@ Matrix4 Matrix4::Adjacent()
 
 	//to modify
 	result.coefficients[0] = C11;
-	result.coefficients[1] = C12;
+	result.coefficients[1] = -C12;
 	result.coefficients[2] = C13;
-	result.coefficients[3] = C14;
+	result.coefficients[3] = -C14;
 
-	result.coefficients[4] = C21;
+	result.coefficients[4] = -C21;
 	result.coefficients[5] = C22;
-	result.coefficients[6] = C23;
+	result.coefficients[6] = -C23;
 	result.coefficients[7] = C24;
 
 	result.coefficients[8] = C31;
-	result.coefficients[9] = C32;
+	result.coefficients[9] = -C32;
 	result.coefficients[10] = C33;
-	result.coefficients[11] = C34;
+	result.coefficients[11] = -C34;
 
-	result.coefficients[12] = C41;
+	result.coefficients[12] = -C41;
 	result.coefficients[13] = C42;
-	result.coefficients[14] = C43;
+	result.coefficients[14] = -C43;
 	result.coefficients[15] = C44;
 
 	return result;
