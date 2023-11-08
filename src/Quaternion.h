@@ -2,8 +2,12 @@
 #define QUATERNION_H
 
 #include "Vector.h"
+
 #include <iostream>
-#include <math.h> 
+#include <math.h>
+
+#include <array>
+#include "Matrix3.h"
 
 class Quaternion
 {
@@ -41,6 +45,8 @@ public:
 	Quaternion Negation() const;
 	Quaternion Conjugated() const;
 	Quaternion Invers() const;
+
+	Matrix3 ToMatrix() const;
 
 
 	// Operators //
