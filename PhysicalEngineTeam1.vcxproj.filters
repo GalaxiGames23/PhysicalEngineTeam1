@@ -64,6 +64,9 @@
     <ClCompile Include="src\Matrix4.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rigid.cpp">
+      <Filter>src\Particules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="src\Matrix4.h">
       <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rigid.h">
+      <Filter>src\Particules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
