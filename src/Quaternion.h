@@ -45,6 +45,7 @@ public:
 	Quaternion Negation() const;
 	Quaternion Conjugated() const;
 	Quaternion Invers() const;
+	Quaternion Difference(Quaternion& q) const;
 
 	Matrix3 ToMatrix() const;
 
