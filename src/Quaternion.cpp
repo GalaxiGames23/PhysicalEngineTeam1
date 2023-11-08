@@ -48,6 +48,11 @@ Quaternion Quaternion::Invers() const
 	return this->Conjugated() * (1 / (this->Norm() * this->Norm()));
 }
 
+Quaternion Quaternion::Difference(Quaternion& q) const
+{
+	return q * this->Conjugated();
+}
+
 Matrix3 Quaternion::ToMatrix() const
 {
 	std::array<float, 9> coefs;
@@ -60,8 +65,8 @@ Matrix3 Quaternion::ToMatrix() const
 	coefs[4] = 1 - 2 * (pow(this->v.get_x(), 2) + pow(this->v.get_z(), 2));
 	coefs[5] = 2 * ((this->v.get_y() * this->v.get_z()) + (this->v.get_x() * this->w));
 
-	coefs[2] = 2 * ((this->v.get_x() * this->v.get_z()) + (this->v.get_y() * this->w));
-	coefs[3] = 2 * ((this->v.get_y() * this->v.get_z()) - (this->v.get_x() * this->w));
+	coefs[6] = 2 * ((this->v.get_x() * this->v.get_z()) + (this->v.get_y() * this->w));
+	coefs[7] = 2 * ((this->v.get_y() * this->v.get_z()) - (this->v.get_x() * this->w));
 	coefs[8] = 1 - 2 * (pow(this->v.get_x(), 2) + pow(this->v.get_y(), 2));
 	
 	return Matrix3(coefs);
