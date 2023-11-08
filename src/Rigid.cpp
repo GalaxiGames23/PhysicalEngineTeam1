@@ -17,3 +17,22 @@ Rigid::Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orienta
 	this->omega = omega;
 	this->alpha = alpha;
 }
+
+
+// Intégrateurs du RigidBody
+
+void Rigid::RigidIntegrator(float duration)
+{
+	this->centerOfMass.IntegrateEulerWithAccum(duration);
+	this->AngularIntegrator(duration);
+}
+
+void Rigid::AngularIntegrator(float duration)
+{
+	this->omega = this->omega + this->alpha * duration; // Set omega
+	
+	Quaternion w = Quaternion(0, this->omega);
+	this->orientationQuat = (w * this->orientationQuat) * this->orientationQuat * 0.5 * duration;  // Set orientationQuat
+
+	this->orientationMat = this->orientationQuat.ToMatrix(); // Set orientationMat
+}

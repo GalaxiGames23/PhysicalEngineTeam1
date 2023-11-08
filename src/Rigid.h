@@ -34,5 +34,10 @@ public:
 	void SetOrientationMat(Matrix3 orientation) { this->orientationMat = orientation; }
 	void SetOmega(Vector omega) { this->omega = omega; }
 	void SetAlpha(Vector alpha) { this->alpha = alpha; }
+
+	// Intégrateurs du RigidBody
+	void RigidIntegrator(float duration); // Call IntegrateEulerWithAccum of centerOfMass & AngularIntegrator
+	void AngularIntegrator(float duration);
+
 };
 
