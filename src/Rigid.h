@@ -12,12 +12,13 @@ private:
 	Matrix3 orientationMat;//<<<matrice d'orientation du corps rigide, mise à jour chaque frame grâce au quaternion et à la formule de conversion
 	Vector omega;//<<<vitesse angulaire, mise à jour par l'intégrateur rotationnel chaque frame
 	Vector alpha;//<<<accélération angulaire, mise à jour par l'intégrateur rotationnel chaque frame
+	Matrix3 axes;//<<<axes du rigid body, permet de dessiner des boites de tailles differentes
 
 public:
 	//constructeurs
 	Rigid(){} //par défaut
 	Rigid(const Rigid& rigid);
-	Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orientationMat, Vector omega, Vector alpha);
+	Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orientationMat, Vector omega, Vector alpha, Matrix3 axes);
 	//destructeur
 	~Rigid(){}
 
@@ -27,6 +28,7 @@ public:
 	Matrix3 GetOrientationMat() { return this->orientationMat; }
 	Vector GetOmega() { return this->omega; }
 	Vector GetAlpha() { return this->alpha; }
+	Matrix3 GetAxes() { return this->axes; }
 
 	//setters, inline
 	void SetCenterOfMass(Particule center) { this->centerOfMass = center; }
@@ -34,6 +36,7 @@ public:
 	void SetOrientationMat(Matrix3 orientation) { this->orientationMat = orientation; }
 	void SetOmega(Vector omega) { this->omega = omega; }
 	void SetAlpha(Vector alpha) { this->alpha = alpha; }
+	void SetAxes(Matrix3 axes) { this->axes = axes; }
 
 	// Intégrateurs du RigidBody
 	void RigidIntegrator(float duration); // Call IntegrateEulerWithAccum of centerOfMass & AngularIntegrator

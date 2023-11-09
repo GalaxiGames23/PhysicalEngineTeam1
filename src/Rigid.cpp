@@ -7,15 +7,17 @@ Rigid::Rigid(const Rigid& rigid)
 	this->orientationMat = rigid.orientationMat;
 	this->omega = rigid.omega;
 	this->alpha = rigid.alpha;
+	this->axes = rigid.axes;
 }
 
-Rigid::Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orientationMat, Vector omega, Vector alpha)
+Rigid::Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orientationMat, Vector omega, Vector alpha,Matrix3 axes)
 {
 	this->centerOfMass = centerOfMass;
 	this->orientationQuat = orientationQuat;
 	this->orientationMat = orientationMat;
 	this->omega = omega;
 	this->alpha = alpha;
+	this->axes = axes;
 }
 
 
