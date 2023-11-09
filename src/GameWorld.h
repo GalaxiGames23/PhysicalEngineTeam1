@@ -75,11 +75,19 @@ public:
 	std::vector<InputRegistre*> inputRegistre;
 
 	////////PHASE 3///////
-	std::vector<Rigid*> rigidBodies;
 
+	std::vector<Rigid*> rigidBodies;//<<<liste des rigid bodies
+	void ClearTrace() { this->tracePositions.clear(); }//<<<inline, vide la trace, évite d'exposer la trace
+	std::vector<Vector> GetTrace() { return this->tracePositions; }//<<<inline, getter, retourne les positions de la trace pour affichage, évite d'exposer la trace
+
+private:
+	double timer;//<<<timer pour la trace
+	std::vector<Vector> tracePositions; //<<< Vector de la STL pour stocker les positions de la trace des particules quand l'option est activée
+	void UpdateTrace(float duration);//<<<update la trace selon l'état du timer
 
 	
 	////// Constructeur ////////
+public:
 	GameWorld();
 
 	////// Appplication de la logique du monde ////////

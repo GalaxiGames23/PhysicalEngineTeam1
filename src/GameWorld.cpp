@@ -6,6 +6,7 @@ GameWorld::GameWorld()
 	registre = ParticuleForceRegistry();
 	worldGravity = ParticuleGravity();
 	worldAirFriction = ParticuleFrictionCinetic(0.1, 0.001);
+	timer = 0;
 	myBlob = NULL;
 }
 
@@ -206,4 +207,22 @@ void GameWorld::demoTige()
 	tige->particule2 = particule4;
 	tige->distance = particule3->distanceParticules(particule4);
 	rodList.push_back(tige);
+}
+
+//////////////////////PHASE 3////////////////////////////
+
+void GameWorld::UpdateTrace(float duration)
+{
+	timer += duration;
+	bool temp = timer > 0.2f;
+	if (temp)
+	{
+		//enregistrer les positions pour la trace pour tous les rigidbodies
+		for (int i = 0; i < rigidBodies.size(); ++i)
+		{
+			tracePositions.push_back(rigidBodies[i]->GetCenterOfMass()->GetPosition());
+		}
+
+		timer = 0;
+	}
 }
