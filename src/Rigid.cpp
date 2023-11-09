@@ -36,3 +36,8 @@ void Rigid::AngularIntegrator(float duration)
 
 	this->orientationMat = this->orientationQuat.ToMatrix(); // Set orientationMat
 }
+
+void Rigid::ClearAccum() 
+{
+	this->centerOfMass.clearAccum();
+}

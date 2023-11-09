@@ -13,6 +13,7 @@
 #include "Sphere.h"
 #include "InputForce.h"
 #include "Input.h"
+#include "Rigid.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>
@@ -72,6 +73,9 @@ public:
 	////// Inputs //////
 	Camera* myCam;
 	std::vector<InputRegistre*> inputRegistre;
+
+	////////PHASE 3///////
+	std::vector<Rigid*> rigidBodies;
 
 
 	

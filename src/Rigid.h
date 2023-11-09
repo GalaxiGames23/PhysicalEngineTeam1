@@ -22,7 +22,7 @@ public:
 	~Rigid(){}
 
 	//getters, inline
-	Particule GetCenterOfMass() { return this->centerOfMass; }
+	Particule* GetCenterOfMass() { return &this->centerOfMass; }
 	Quaternion GetOrientationQuat() { return this->orientationQuat; }
 	Matrix3 GetOrientationMat() { return this->orientationMat; }
 	Vector GetOmega() { return this->omega; }
@@ -38,6 +38,7 @@ public:
 	// Intégrateurs du RigidBody
 	void RigidIntegrator(float duration); // Call IntegrateEulerWithAccum of centerOfMass & AngularIntegrator
 	void AngularIntegrator(float duration);
+	void ClearAccum();//appelle le clear accum du centre de masse
 
 };
 

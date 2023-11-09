@@ -36,6 +36,16 @@ void GameWorld::UpdateLogic(float duration)
 
 		//std::cout << systemeSpheres[i]->GetPosition() << endl;
 	}
+
+	//intégration à chaque RigidBody
+	for (int i = 0; i < rigidBodies.size(); ++i) 
+	{
+		rigidBodies[i]->RigidIntegrator(duration);
+
+		//on vide l'accumulateur
+		rigidBodies[i]->ClearAccum();
+	}
+
 	myCam->setPosition();
 }
 
@@ -46,6 +56,13 @@ void GameWorld::addForces()
 	{
 		registre.add(particule, &worldGravity);
 		registre.add(particule, &worldAirFriction);
+	}
+
+	//version rigid bodies
+	for (int i = 0; i < rigidBodies.size(); ++i)
+	{
+		registre.add(rigidBodies[i]->GetCenterOfMass(), &worldGravity);
+		registre.add(rigidBodies[i]->GetCenterOfMass(), &worldAirFriction);
 	}
 
 	//gestion des ressorts
