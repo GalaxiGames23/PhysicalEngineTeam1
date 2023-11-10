@@ -10,7 +10,9 @@ void ofApp::setup()
 	//set up de l'harmonique de l'hud
 	HUDParticule = Particule(0.5f, Vector(-10000,-20, 0), Vector(0, 0, 0), 1.0f);
 	HUDParticule.SetUpHarmonic();
-	lastBlobCount = 0;
+	lastRigidCount = 0;
+
+	displayTrace = true;
 }
 
 //--------------------------------------------------------------
@@ -22,7 +24,7 @@ void ofApp::update()
 
 	gameworld->UpdateLogic(delta);
 
-	if (gameworld->myBlob != NULL) HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
+	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 }
 
 //--------------------------------------------------------------
@@ -35,15 +37,9 @@ void ofApp::draw()
 		gameworld->myCam->beginCam();
 
 	}
-	ofSetColor(ofColor::brown);
-	ofDrawBox(glm::vec3(0, ground.yCoord + 20, 0), 10000, 10, 1000); //Dessine le sol
 	ofSetColor(ofColor::white);
-	ofSetColor(ofColor::white);
-	if (gameworld->myBlob)
-	{
-		ofSetColor(ofColor::darkCyan);
-		gameworld->myBlob->draw();
-	}
+
+	//draw les sphères
 	for (Sphere* particule : gameworld->systemeSpheres)
 	{
 		ofSetColor(particule->GetColor());
@@ -51,7 +47,17 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
-	
+	/////////////PHASE 3/////////////////
+	//TODO: draw les boites
+
+	//draw la trace
+	if (displayTrace) {
+		ofSetColor(ofColor::orange);
+		for (Vector v : gameworld->GetTrace()) {
+			ofDrawSphere(v.toVec3(), 5.0f);
+		}
+		ofSetColor(ofColor::white);
+	}
 	
 
 	if (gameworld->myCam->isActivated)
@@ -63,33 +69,26 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\nZQSD : diriger la particule du blob controlee (clavier AZERTY)\nB : spawn/despawn le blob\nH : deplacer le sol\nL : Split le blob\nO : rassembler le blob\nK/J : bouger la caméra\nM: activer la camera trackant le blob\nESPACE : demo de particule simple\nX : demo de ressort\nC : demo de cable\nV : demo de tige", 10, 10);
+	ofDrawBitmapString("Commands:\n", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
-	if (gameworld->myBlob != NULL)
-	{
-		ofScale(3, 3);
-		timer += ofGetLastFrameTime();
 
-		int blobCount = gameworld->myBlob->get_current_size();
+	//Affichage du compte de rigid bodies
+	ofScale(3, 3);
+	timer += ofGetLastFrameTime();
 
-		//HUD set up check
-		if (blobCount != lastBlobCount) {
-			//le compte du blob a changé, on reset l'harmonique
-			lastBlobCount = blobCount;
-			HUDParticule.SetPosition(HUDParticule.GetPos0());
-			HUDParticule.SetVelocity(HUDParticule.GetVel0());
-			HUDParticule.SetUpHarmonic();
-		}
+	int count = gameworld->rigidBodies.size();
 
-		//HUD Harmonic
-		ofDrawBitmapString(std::to_string(blobCount), ofGetWidth() / 3 - 30, 40 + HUDParticule.GetPosition().get_y());
+	//HUD set up check
+	if (count != lastRigidCount) {
+		//le compte du blob a changé, on reset l'harmonique
+		lastRigidCount = count;
+		HUDParticule.SetPosition(HUDParticule.GetPos0());
+		HUDParticule.SetVelocity(HUDParticule.GetVel0());
+		HUDParticule.SetUpHarmonic();
 	}
-	else
-	{
-		
-		ofScale(2, 2);
-		ofDrawBitmapString("NO BLOB SPAWNED", ofGetWidth() /2 - 130, 20 );
-	}
+
+	//HUD Harmonic
+	ofDrawBitmapString(std::to_string(count), ofGetWidth() / 3 - 30, 40 + HUDParticule.GetPosition().get_y());
 	
 	ofPopStyle();
 }
@@ -99,24 +98,12 @@ void ofApp::draw()
 void ofApp::keyPressed(int key)
 {
 	switch (key) {
-		//blob
-	case 'b': if (gameworld->myBlob == NULL) gameworld->myBlob = new Blob(Vector(300,500, 0),20, 4, 2, gameworld->myCam, myController, gameworld);
-			else
-	{
-		delete gameworld->myBlob;
-		gameworld->myBlob = NULL;
-		lastBlobCount = 0;
-	}
+		//clear la trace
+	case 'r': gameworld->ClearTrace();
 		break;
-		//bouger le sol
-	case 'h': input.ground_key = true;
+		//toggle on/off la trace
+	case 't': displayTrace = false;
 		break;
-		//split le blob
-	case 'l': if (gameworld->myBlob != NULL) { gameworld->myBlob->split(); }
-		break;
-		//rassembler le blob
-	case 'o': if (gameworld->myBlob != NULL) { gameworld->myBlob->join(); }
-			break;
 			//bouger la camera
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
 		break;
@@ -125,48 +112,7 @@ void ofApp::keyPressed(int key)
 		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-		//controles ZQSD
-	case 'z': if (input.forward_key == NULL && myController->isActive())
-	{
-		input.forward_key = new InputRegistre();
-		input.forward_key->particule = myController->getFocusParticule();
-		input.forward_key->fg = new InputForce(myController, true, 1);
-		gameworld->inputRegistre.push_back(input.forward_key);
-	}
-		break;
-	case 's':  if (input.backward_key == NULL && myController->isActive())
-	{
-		input.backward_key = new InputRegistre();
-		input.backward_key->particule = myController->getFocusParticule();
-		input.backward_key->fg = new InputForce(myController, true, -1);
-		gameworld->inputRegistre.push_back(input.backward_key);
-	}
-		break;
-	case 'd':if (input.right_key == NULL && myController->isActive())
-	{
-		input.right_key = new InputRegistre();
-		input.right_key->particule = myController->getFocusParticule();
-		input.right_key->fg = new InputForce(myController, false, 1);
-		gameworld->inputRegistre.push_back(input.right_key);
-	}
-		break;
-	case 'q': if (input.left_key== NULL && myController->isActive())
-	{
-		input.left_key = new InputRegistre();
-		input.left_key->particule = myController->getFocusParticule();
-		input.left_key->fg = new InputForce(myController, false, -1);
-		gameworld->inputRegistre.push_back(input.left_key);
-	}
-		break;
-		//demos
-	case ' ': gameworld->demoParticule();
-		break;
-	case 'x':gameworld->demoRessort();
-		break;
-	case 'c':gameworld->demoCable();
-		break;
-	case 'v': gameworld->demoTige();
-		break;
+		
 	default: break;
 	}
 
@@ -176,45 +122,13 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
-	switch (key) {
-	case 'h': input.ground_key= false;
-		break;
-	case 'z':
-		input.remove_input(input.forward_key, gameworld->inputRegistre);
-		input.forward_key = NULL;
-		break;
-	case 's': 
-		input.remove_input(input.backward_key, gameworld->inputRegistre);
-		input.backward_key = NULL;
-		break;
-	case 'd':
-		input.remove_input(input.right_key, gameworld->inputRegistre);
-		input.right_key = NULL;
-		break;
-	case 'q': 
-		input.remove_input(input.left_key, gameworld->inputRegistre);
-		input.left_key = NULL;
-		break;
-	default: break;
-	}
 	
-
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if (input.ground_key)
-	{
-		int diffy = y - input.last_pos_y;
-		
-		 if (diffy != 0)
-		{
-			 ground.change_ground_height(diffy);
-		}
-		 input.calculSomePoints(v, init_point, gameworld->worldGravity.GetGravity(), ground);
-	}
-	else if (gameworld->myCam->isActivated)
+	if (gameworld->myCam->isActivated)
 	{
 		int diffx = x - input.last_pos_x;
 		int diffy = y - input.last_pos_y;

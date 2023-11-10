@@ -74,11 +74,13 @@ public:
 	Camera* myCam;
 	std::vector<InputRegistre*> inputRegistre;
 
-	////////PHASE 3///////
+	//////////////////////////////////////////////////PHASE 3/////////////////////////////////////////////
 
 	std::vector<Rigid*> rigidBodies;//<<<liste des rigid bodies
 	void ClearTrace() { this->tracePositions.clear(); }//<<<inline, vide la trace, évite d'exposer la trace
 	std::vector<Vector> GetTrace() { return this->tracePositions; }//<<<inline, getter, retourne les positions de la trace pour affichage, évite d'exposer la trace
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 private:
 	double timer;//<<<timer pour la trace

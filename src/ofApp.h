@@ -47,4 +47,8 @@ class ofApp : public ofBaseApp{
 		GameWorld* gameworld = new GameWorld();
 		Particule HUDParticule; //<<<particule pour les oscillations de l'HUD
 		float lastBlobCount;//<<< pour savoir quand reset l'harmonique
+
+		/////////////////PHASE 3/////////////
+		float lastRigidCount;//<<<remplace lastBlobCount pour le HUD de la phase 3
+		bool displayTrace;
 };
