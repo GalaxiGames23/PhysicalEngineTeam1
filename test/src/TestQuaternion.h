@@ -15,3 +15,5 @@ bool testQuaternionNegation();
 bool testQuaternionConjugate();
 
 bool testQuaternionInvers();
+
+bool testQuaternionDiff();

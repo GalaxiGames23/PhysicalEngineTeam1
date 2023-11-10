@@ -64,3 +64,11 @@ bool testQuaternionInvers()
 	Quaternion qExpected = Quaternion(0.025, Vector(-0.025, -0.025, -0.025));
 	return qExpected == q.Invers();
 }
+
+bool testQuaternionDiff() 
+{
+	Quaternion q1 = Quaternion(3, Vector(2, 4, 1));
+	Quaternion q2 = Quaternion(1, Vector(3, 5, 2));
+	
+	return q1.Difference(q2) == Quaternion(31, Vector(10, 10, 3));
+}

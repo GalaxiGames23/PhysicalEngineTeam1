@@ -100,6 +100,8 @@ int main() {
     runTest("Conjugue de quaternions", testQuaternionConjugate);
 
     runTest("Inverse de quaternions", testQuaternionInvers);
+    
+    runTest("Difference de quaternions", testQuaternionDiff);
 
 
     return 0;
