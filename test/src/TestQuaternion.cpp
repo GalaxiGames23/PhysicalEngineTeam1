@@ -1,5 +1,6 @@
 #include "TestQuaternion.h"
 #include "../../src/Quaternion.h"
+#include "../../src/Matrix3.h"
 #include "../../src/Vector.h"
 bool testQuaternionAddition()
 {
@@ -71,4 +72,12 @@ bool testQuaternionDiff()
 	Quaternion q2 = Quaternion(1, Vector(3, 5, 2));
 	
 	return q1.Difference(q2) == Quaternion(31, Vector(10, 10, 3));
+}
+
+bool testQuaternionConversion()
+{
+	Quaternion q1 = Quaternion(0.8, Vector(0.2, 0.2, 0.6));
+	Matrix3 m = q1.ToMatrix();
+	Matrix3 mExpected = Matrix3({ 0.2,-0.88,0.56,1.04,0.2,-0.08,-0.08,0.56,0.84 });
+	return mExpected == m;
 }

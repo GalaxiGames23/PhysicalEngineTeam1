@@ -7,7 +7,7 @@
 #include <math.h>
 
 #include <array>
-#include "Matrix3.h"
+class Matrix3;
 
 class Quaternion
 {

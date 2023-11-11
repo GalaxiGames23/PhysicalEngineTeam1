@@ -67,6 +67,9 @@
     <ClCompile Include="src\Rigid.cpp">
       <Filter>src\Particules</Filter>
     </ClCompile>
+    <ClCompile Include="src\Box.cpp">
+      <Filter>src\Particules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -150,6 +153,9 @@
       <Filter>src\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\Rigid.h">
+      <Filter>src\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Box.h">
       <Filter>src\Particules</Filter>
     </ClInclude>
   </ItemGroup>

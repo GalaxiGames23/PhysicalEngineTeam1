@@ -1,4 +1,5 @@
-	#include "Matrix3.h"
+#include "Matrix3.h"
+#include "Quaternion.h"
 #include <cstdio>
 Matrix3::Matrix3() 
 {
@@ -152,7 +153,7 @@ void Matrix3::SetCoefficient(int row, int column, float coef)
 	this->coefficients[i] = coef;
 }
 
-float Matrix3::GetCoefficient(int i) 
+float Matrix3::GetCoefficient(int i) const
 {
 	if (i < 9 && i>=0)
 	{
@@ -164,7 +165,7 @@ float Matrix3::GetCoefficient(int i)
 	}
 }
 
-float Matrix3::GetCoefficient(int row, int column) 
+float Matrix3::GetCoefficient(int row, int column) const
 {
 	if (row < 1 || row>3 || column < 1 || column>3) return 0;
 	//position dans l'array
@@ -242,4 +243,24 @@ Matrix3 Matrix3::Adjacent()
 
 	//return adj(A)
 	return result;
+}
+
+ofMatrix4x4 Matrix3::toMatrix4x4() const
+{
+	ofMatrix4x4 m;
+	m.set(coefficients[0], coefficients[1], coefficients[2], 0, 
+		coefficients[3],coefficients[4], coefficients[5], 0, 
+		coefficients[6], coefficients[7],coefficients[8], 0, 
+		0, 0, 0, 1);
+	return m;
+}
+
+Quaternion Matrix3::toQuaternion() const
+{
+	double w = sqrt(1.0 + coefficients[0] + coefficients[4] + coefficients[8]) / 2.0;
+	double w4 = (4.0 * w);
+	double x = (coefficients[7] - coefficients[5]) / w4;
+	double y = (coefficients[2] - coefficients[6]) / w4;
+	double z = (coefficients[3] - coefficients[1]) / w4;
+	return Quaternion(w, Vector(x,y,z));
 }

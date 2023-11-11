@@ -1,4 +1,5 @@
 #include "Matrix4.h"
+#include "Matrix3.h"
 #include <cstdio>
 Matrix4::Matrix4()
 {
@@ -33,6 +34,22 @@ Matrix4::Matrix4(float coefs[16])
 		this->coefficients[i] = coefs[i];
 
 	}
+}
+
+Matrix4::Matrix4(const Matrix3& m)
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		this->coefficients[i] = m.GetCoefficient(i);
+	}
+	this->coefficients[9] = 0;
+	this->coefficients[10] = 0;
+	this->coefficients[11] = 0;
+	this->coefficients[12] = 0;
+	this->coefficients[13] = 0;
+	this->coefficients[14] = 0;
+	this->coefficients[15] = 1;
+
 }
 
 Matrix4 Matrix4::operator*(const Matrix4& m)
@@ -165,7 +182,7 @@ void Matrix4::SetCoefficient(int row, int column, float coef)
 	this->coefficients[i] = coef;
 }
 
-float Matrix4::GetCoefficient(int i)
+float Matrix4::GetCoefficient(int i)  const
 {
 	if (i < 16 && i >= 0)
 	{
@@ -177,7 +194,7 @@ float Matrix4::GetCoefficient(int i)
 	}
 }
 
-float Matrix4::GetCoefficient(int row, int column)
+float Matrix4::GetCoefficient(int row, int column)  const
 {
 	if (row < 1 || row>4 || column < 1 || column>4) return 0;
 	//position dans l'array
@@ -516,4 +533,13 @@ Matrix4 Matrix4::Adjacent()
 	result.coefficients[15] = C44;
 
 	return result;
+}
+
+ofMatrix4x4 Matrix4::toMatrix4x4() const
+{
+	ofMatrix4x4 m;
+	m.set(coefficients[0], coefficients[1], coefficients[2], coefficients[3], coefficients[4],
+		coefficients[5], coefficients[6], coefficients[7], coefficients[8], coefficients[9], 
+		coefficients[ 10], coefficients[11], coefficients[12], coefficients[13], coefficients[14], coefficients[15]);
+	return m;
 }

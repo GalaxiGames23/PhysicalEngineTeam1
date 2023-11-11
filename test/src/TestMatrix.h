@@ -14,3 +14,5 @@ bool testMatrixInverse();
 bool testMatrixDeterminant();
 
 bool testMatrixAdjacent();
+
+bool testMatrixConversion();

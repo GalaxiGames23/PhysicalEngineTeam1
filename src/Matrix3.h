@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
-
+#include "ofMatrix4x4.h"
+class Quaternion;
 class Matrix3
 {
 
@@ -38,9 +39,9 @@ public:
 	void SetCoefficient(int row, int column, float coef); 
 
 	//getter
-	float GetCoefficient(int i);
+	float GetCoefficient(int i) const;
 	//gestion plus "traditionnelle" des matrices
-	float GetCoefficient(int row, int column);
+	float GetCoefficient(int row, int column) const;
 
 	//inverse de la matrice
 	Matrix3 Invers();
@@ -53,5 +54,11 @@ public:
 
 	//matrice adjacente
 	Matrix3 Adjacent();
+
+	ofMatrix4x4 toMatrix4x4() const;
+
+	Quaternion toQuaternion() const;
+
+
 };
 

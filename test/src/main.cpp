@@ -83,6 +83,8 @@ int main() {
 
     runTest("Inverse de matrices", testMatrixInverse);
 
+    runTest("Conversion de matrices en quaternion", testMatrixConversion);
+
     printColoredText("\nTest sur la classe Quaternion:\n\n", "33");
 
     runTest("Addition de quaternions", testQuaternionAddition);
@@ -102,6 +104,8 @@ int main() {
     runTest("Inverse de quaternions", testQuaternionInvers);
     
     runTest("Difference de quaternions", testQuaternionDiff);
+
+    runTest("Conversion de quaternions en matrice", testQuaternionConversion);
 
 
     return 0;

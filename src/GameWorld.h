@@ -13,7 +13,7 @@
 #include "Sphere.h"
 #include "InputForce.h"
 #include "Input.h"
-#include "Rigid.h"
+#include "Box.h"
 #include <iostream>
 #include <cstdlib>
 #include <vector>

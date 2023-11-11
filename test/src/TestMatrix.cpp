@@ -1,6 +1,7 @@
 #include "TestMatrix.h"
 #include "../../src/Matrix3.h"
 #include "../../src/Matrix4.h"
+#include "../../src/Quaternion.h"
 #include <cstdio>
 bool testMatrixAddition()
 {
@@ -131,5 +132,13 @@ bool testMatrixAdjacent()
 	Matrix4 m2 = Matrix4({ 1,1,1,0,0,3,1,2,2,3,1,0,1,0,2,1 });
 	Matrix4 mExpected2 = Matrix4({ 12,-4,-12,12,2,-1,-1,0,-6,1,5,-4,-4,2,2,-4});
 	return m1.Adjacent() == mExpected && m2.Adjacent() == mExpected2;
+}
+
+bool testMatrixConversion()
+{
+	Matrix3 m1 = Matrix3({ 0.28,-0.96,0,0.96,0.28,0,0,0,1 });
+	Quaternion q = m1.toQuaternion();
+	Vector v = q.GetV();
+	return q.GetW() < 0.80001 && q.GetW() >0.79999 && v.get_x() == 0 && v.get_y() == 0 && v.get_z() > 0.599999 && v.get_z() < 0.600001;
 }
 

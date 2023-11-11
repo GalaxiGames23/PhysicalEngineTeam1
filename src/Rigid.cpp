@@ -7,17 +7,17 @@ Rigid::Rigid(const Rigid& rigid)
 	this->orientationMat = rigid.orientationMat;
 	this->omega = rigid.omega;
 	this->alpha = rigid.alpha;
-	this->axes = rigid.axes;
+	this->scale = rigid.scale;
 }
 
-Rigid::Rigid(Particule centerOfMass, Quaternion orientationQuat, Matrix3 orientationMat, Vector omega, Vector alpha,Matrix3 axes)
+Rigid::Rigid(Particule centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
 {
 	this->centerOfMass = centerOfMass;
-	this->orientationQuat = orientationQuat;
+	this->orientationQuat = orientationMat.toQuaternion();
 	this->orientationMat = orientationMat;
 	this->omega = omega;
 	this->alpha = alpha;
-	this->axes = axes;
+	this->scale = scale;
 }
 
 
@@ -32,10 +32,10 @@ void Rigid::RigidIntegrator(float duration)
 void Rigid::AngularIntegrator(float duration)
 {
 	this->omega = this->omega + this->alpha * duration; // Set omega
-	
+	std::cout << "omega Vector " << omega << "\n";
 	Quaternion w = Quaternion(0, this->omega);
 	this->orientationQuat = (w * this->orientationQuat) * this->orientationQuat * 0.5 * duration;  // Set orientationQuat
-
+	std::cout << "Quaternion " << orientationQuat << "\n";
 	this->orientationMat = this->orientationQuat.ToMatrix(); // Set orientationMat
 }
 

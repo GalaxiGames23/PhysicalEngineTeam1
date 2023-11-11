@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include "Matrix3.h"
+#include <ofMatrix4x4.h>
 
 class Matrix4
 {
@@ -19,6 +20,7 @@ public:
 	Matrix4(const Matrix4& m);
 	Matrix4(std::array<float, 16> coefs);
 	Matrix4(float coefs[16]);
+	Matrix4(const Matrix3& m );
 	//destructeur
 	~Matrix4() {}
 
@@ -38,9 +40,9 @@ public:
 	void SetCoefficient(int row, int column, float coef); 
 
 	//getter
-	float GetCoefficient(int i);
+	float GetCoefficient(int i) const;
 	//gestion plus "traditionnelle" des matrices
-	float GetCoefficient(int row, int column);
+	float GetCoefficient(int row, int column) const;
 
 	//inverse de la matrice
 	Matrix4 Invers();
@@ -53,5 +55,7 @@ public:
 
 	//matrice adjacente
 	Matrix4 Adjacent();
+
+	ofMatrix4x4 toMatrix4x4() const;
 };
 

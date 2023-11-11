@@ -13,6 +13,7 @@ void ofApp::setup()
 	lastRigidCount = 0;
 
 	displayTrace = true;
+	gameworld->myCam->isActivated = false;
 }
 
 //--------------------------------------------------------------
@@ -27,16 +28,21 @@ void ofApp::update()
 	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 }
 
+ofVbo vbo;
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	//////PHASE 2/////
-	
+
 	if (gameworld->myCam->isActivated)
 	{
 		gameworld->myCam->beginCam();
 
 	}
+	ofEnableDepthTest();
+
+
+	// Configurez la boîte avec la taille souhaitée
+	
 	ofSetColor(ofColor::white);
 
 	//draw les sphères
@@ -47,6 +53,10 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
+	for (Rigid* rigidBody : gameworld->rigidBodies)
+	{
+		rigidBody->draw();
+	}
 	/////////////PHASE 3/////////////////
 	//TODO: draw les boites
 
@@ -97,6 +107,7 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+	Box* box;
 	switch (key) {
 		//clear la trace
 	case 'r': gameworld->ClearTrace();
@@ -112,7 +123,11 @@ void ofApp::keyPressed(int key)
 		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-		
+	case ' ':
+		box = new Box(Particule(1.0, Vector(500, 500, 0), Vector(100, 0, 0), 15), Matrix3({ 1,-1,0,1,1,0,0,0,1 }), Vector(0, 0, 0), Vector(1, -1, 1), Vector(1, 1, 1), Vector(200, 200, 200));
+		gameworld->myCam->setParticuleFollow(Vector(0, 0, 0), box->GetCenterOfMass());
+		gameworld->rigidBodies.push_back(box);
+		break;
 	default: break;
 	}
 

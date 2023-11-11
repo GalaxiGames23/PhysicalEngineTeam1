@@ -17,3 +17,5 @@ bool testQuaternionConjugate();
 bool testQuaternionInvers();
 
 bool testQuaternionDiff();
+
+bool testQuaternionConversion();
