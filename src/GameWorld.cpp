@@ -47,6 +47,9 @@ void GameWorld::UpdateLogic(float duration)
 		rigidBodies[i]->ClearAccum();
 	}
 
+	//gestion de la trace 
+	UpdateTrace(duration);
+
 	myCam->setPosition();
 }
 

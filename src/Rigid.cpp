@@ -32,10 +32,13 @@ void Rigid::RigidIntegrator(float duration)
 void Rigid::AngularIntegrator(float duration)
 {
 	this->omega = this->omega + this->alpha * duration; // Set omega
-	std::cout << "omega Vector " << omega << "\n";
+
 	Quaternion w = Quaternion(0, this->omega);
-	this->orientationQuat = (w * this->orientationQuat) * this->orientationQuat * 0.5 * duration;  // Set orientationQuat
-	std::cout << "Quaternion " << orientationQuat << "\n";
+	this->orientationQuat = this->orientationQuat + (w * this->orientationQuat) * 0.5 * duration;  // Set orientationQuat
+
+	//normalisation
+	this->orientationQuat = this->orientationQuat * (1 / this->orientationQuat.Norm());
+
 	this->orientationMat = this->orientationQuat.ToMatrix(); // Set orientationMat
 }
 

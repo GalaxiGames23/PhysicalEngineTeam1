@@ -53,12 +53,11 @@ void ofApp::draw()
 	}
 	ofSetColor(ofColor::white);
 
+	/////////////PHASE 3/////////////////
 	for (Rigid* rigidBody : gameworld->rigidBodies)
 	{
 		rigidBody->draw();
 	}
-	/////////////PHASE 3/////////////////
-	//TODO: draw les boites
 
 	//draw la trace
 	if (displayTrace) {
@@ -75,6 +74,7 @@ void ofApp::draw()
 		gameworld->myCam->endCam();
 	}
 
+	/////////////////////////HUD//////////////////
 	ofPushStyle();
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
@@ -113,7 +113,7 @@ void ofApp::keyPressed(int key)
 	case 'r': gameworld->ClearTrace();
 		break;
 		//toggle on/off la trace
-	case 't': displayTrace = false;
+	case 't': displayTrace = !displayTrace;
 		break;
 			//bouger la camera
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
