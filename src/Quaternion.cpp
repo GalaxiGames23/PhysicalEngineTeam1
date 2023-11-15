@@ -1,5 +1,4 @@
 #include "Quaternion.h"
-#include "Matrix3.h"
 
 ///// Constructeurs /////
 

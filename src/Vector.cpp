@@ -112,6 +112,7 @@ Vector Vector::operator *(const double& a) const
 	return Vector(a * x, a * y, a * z);
 }
 
+
 Vector Vector::operator +(const Vector& v) const
 {
 	return Vector(x + v.x, y + v.y, z + v.z);

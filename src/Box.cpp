@@ -1,12 +1,22 @@
 #include "Box.h"
-#include "of3dPrimitives.h"
-#include <ofGraphics.h>
-#include <of3dGraphics.h>
+
 
 Box::Box(Particule centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size)
 	: Rigid(centerOfMass,orientationMat,omega,alpha, scale)
 {
 	this->size = size;
+
+	double Jx = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_y(), 2) + pow(this->size.get_z(), 2));
+	double Jy = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_z(), 2));
+	double Jz = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
+
+	std::array<float, 9> coefs;
+	coefs.fill(0);
+	coefs[0] = Jx;
+	coefs[4] = Jy;
+	coefs[8] = Jz;
+
+	this->J = Matrix3(coefs); // Création du tenseur d'inertie par défaut des parrallèlépipèdes
 }
 
 void Box::draw()

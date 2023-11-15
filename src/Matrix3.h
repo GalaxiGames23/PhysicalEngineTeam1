@@ -1,6 +1,8 @@
 #pragma once
 #include <array>
 #include "ofMatrix4x4.h"
+#include "Vector.h"
+
 class Quaternion;
 class Matrix3
 {
@@ -26,6 +28,8 @@ public:
 	//opérateurs
 	Matrix3 operator*(const Matrix3& m);
 	Matrix3 operator*(const float& a);
+	Vector operator*(const Vector& v);
+
 	Matrix3 operator+(const Matrix3& m);
 	Matrix3 operator-(const Matrix3& m);
 	Matrix3& operator=(const Matrix3& m);
@@ -58,7 +62,5 @@ public:
 	ofMatrix4x4 toMatrix4x4() const;
 
 	Quaternion toQuaternion() const;
-
-
 };
 

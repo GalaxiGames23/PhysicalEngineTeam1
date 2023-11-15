@@ -14,6 +14,9 @@ protected:
 	Vector alpha = Vector();//<<<accélération angulaire, mise à jour par l'intégrateur rotationnel chaque frame
 	Vector scale = Vector();//<<<scale du rigid body, permet de dessiner des boites de tailles differentes
 
+	Matrix3 J = Matrix3(); //<<< Tenseur d'inertie pour le calcul de l'accélération angulaire
+	Vector accumTorque = Vector(); //<<< Torque du rigidbody, obtenu à partir 
+
 public:
 	//constructeurs
 	Rigid(){} //par défaut
@@ -41,9 +44,10 @@ public:
 	// Intégrateurs du RigidBody
 	void RigidIntegrator(float duration); // Call IntegrateEulerWithAccum of centerOfMass & AngularIntegrator
 	void AngularIntegrator(float duration);
-	void ClearAccum();//appelle le clear accum du centre de masse
 
-	virtual void draw() = 0;
+	void ClearAccums();//appelle le clear accum du centre de masse + clear Accum torque
 
+	void addTorque(const Vector force, const Vector pointAppli); // Fonction d'ajout d'un torque à l'accumTorque à partir d'une force
+	void addToAccums(const Vector force, const Vector pointAppli);
 };
 

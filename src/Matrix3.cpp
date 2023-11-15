@@ -64,6 +64,16 @@ Matrix3 Matrix3::operator*(const float& a)
 	return result;
 }
 
+Vector Matrix3::operator*(const Vector& v)
+{
+	double x = v.get_x() * this->coefficients[0] + v.get_y() * this->coefficients[1] + v.get_z() * this->coefficients[2];
+	double y = v.get_x() * this->coefficients[3] + v.get_y() * this->coefficients[4] + v.get_z() * this->coefficients[5];
+	double z = v.get_x() * this->coefficients[6] + v.get_y() * this->coefficients[7] + v.get_z() * this->coefficients[8];
+
+	return Vector(x, y, z);
+}
+
+
 Matrix3 Matrix3::operator+(const Matrix3& m) 
 {
 	Matrix3 result = Matrix3();
