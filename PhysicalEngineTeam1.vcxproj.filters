@@ -10,26 +10,8 @@
     <ClCompile Include="src\Particule.cpp">
       <Filter>src\Particules</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticuleForceGenerator.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleForceRegistry.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleFrictionCinetic.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleFrictionStatic.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleGravity.cpp">
-      <Filter>src\Forces</Filter>
-    </ClCompile>
     <ClCompile Include="src\Vector.cpp">
       <Filter>src\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ParticuleSpring.cpp">
-      <Filter>src\Forces</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerController.cpp">
       <Filter>src\Input</Filter>
@@ -39,9 +21,6 @@
     </ClCompile>
     <ClCompile Include="src\Input.cpp">
       <Filter>src\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Blob.cpp">
-      <Filter>src\Blob</Filter>
     </ClCompile>
     <ClCompile Include="src\GameWorld.cpp">
       <Filter>src\Tools</Filter>
@@ -70,13 +49,37 @@
     <ClCompile Include="src\Box.cpp">
       <Filter>src\Particules</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParticuleForceGenerator.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleForceRegistry.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleFrictionCinetic.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleFrictionStatic.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleGravity.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticuleSpring.cpp">
+      <Filter>src\Forces\Particules</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RigidBodyForce.cpp">
+      <Filter>src\Forces\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RigidBodyForceGenerator.cpp">
+      <Filter>src\Forces\RigidBodies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RigidBodyForceRegistry.cpp">
+      <Filter>src\Forces\RigidBodies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Blob">
-      <UniqueIdentifier>{ee62be94-8e54-4ef2-aa33-34919149ddef}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Forces">
       <UniqueIdentifier>{9d6f3c83-009b-47fc-8334-cd9f3e5c2941}</UniqueIdentifier>
@@ -90,6 +93,12 @@
     <Filter Include="src\Tools">
       <UniqueIdentifier>{e6db230b-308d-463b-b7f2-163df12def96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Forces\Particules">
+      <UniqueIdentifier>{1284b086-36cf-46e4-9baa-e2f735a58edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Forces\RigidBodies">
+      <UniqueIdentifier>{b5123ef4-1771-4ebb-a0e0-8373ecef93f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -98,26 +107,8 @@
     <ClInclude Include="src\Particule.h">
       <Filter>src\Particules</Filter>
     </ClInclude>
-    <ClInclude Include="src\ParticuleForceGenerator.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleForceRegistry.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleFrictionCinetic.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleFrictionStatic.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleGravity.h">
-      <Filter>src\Forces</Filter>
-    </ClInclude>
     <ClInclude Include="src\Vector.h">
       <Filter>src\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ParticuleSpring.h">
-      <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerController.h">
       <Filter>src\Input</Filter>
@@ -133,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="src\GameWorld.h">
       <Filter>src\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Blob.h">
-      <Filter>src\Blob</Filter>
     </ClInclude>
     <ClInclude Include="src\Sphere.h">
       <Filter>src\Particules</Filter>
@@ -157,6 +145,33 @@
     </ClInclude>
     <ClInclude Include="src\Box.h">
       <Filter>src\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleForceGenerator.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleForceRegistry.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleFrictionCinetic.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleFrictionStatic.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleGravity.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticuleSpring.h">
+      <Filter>src\Forces\Particules</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RigidBodyForce.h">
+      <Filter>src\Forces\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RigidBodyForceGenerator.h">
+      <Filter>src\Forces\RigidBodies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RigidBodyForceRegistry.h">
+      <Filter>src\Forces\RigidBodies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

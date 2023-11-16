@@ -124,8 +124,13 @@ void ofApp::keyPressed(int key)
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
 	case ' ':
-		box = new Box(Particule(1.0, Vector(500, 500, 0), Vector(100, 0, 0), 15), Matrix3({ 1,-1,0,1,1,0,0,0,1 }), Vector(0, 0, 0), Vector(1, -1, 1), Vector(1, 1, 1), Vector(200, 200, 200));
-		gameworld->myCam->setParticuleFollow(Vector(0, 0, 0), box->GetCenterOfMass());
+		//créer la boite
+		box = new Box(Particule(1.0, Vector(500, 500, 0), Vector(100, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,-1,0,1,1,0,0,0,1 }), Vector(0, 0, 0), Vector(1, -1, 1), Vector(1, 1, 1), Vector(200, 200, 200));
+
+		//ajouter un input initial
+		this->gameworld->registreRigids.add(box, new RigidBodyForce(Vector(450, 550, 0), Vector(5, 0, 0)));
+
+		gameworld->myCam->setParticuleFollow(Vector(0, 0, 0), box->GetCenter());
 		gameworld->rigidBodies.push_back(box);
 		break;
 	default: break;

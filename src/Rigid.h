@@ -1,3 +1,4 @@
+#pragma once
 #include "Particule.h"
 #include "Quaternion.h"
 #include "Matrix3.h"
@@ -7,7 +8,8 @@
 class Rigid
 {
 protected:
-	Particule centerOfMass = Particule();//<<<centre de masse, particule sur laquelle est appliquée l'intégration linéaire
+	Particule center = Particule();//<<<centre de rotation sur lequel est appliquée l'intégration linéaire
+	Vector centerOfMass = Vector();//<<<centre de masse virtuel, décallage avec le centre de l'object
 	Quaternion orientationQuat = Quaternion();//<<<quaternion d'orientation du corps rigide, mis à jour avec l'intégration rotationnelle
 	Matrix3 orientationMat = Matrix3();//<<<matrice d'orientation du corps rigide, mise à jour chaque frame grâce au quaternion et à la formule de conversion
 	Vector omega = Vector();//<<<vitesse angulaire, mise à jour par l'intégrateur rotationnel chaque frame
@@ -21,20 +23,21 @@ public:
 	//constructeurs
 	Rigid(){} //par défaut
 	Rigid(const Rigid& rigid);
-	Rigid(Particule centerOfMass,Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale);
+	Rigid(Particule center, Vector centerOfMass,Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale);
 	//destructeur
 	~Rigid(){}
 
 	//getters, inline
-	Particule* GetCenterOfMass() { return &this->centerOfMass; }
+	Particule* GetCenter() { return &this->center; }
 	Quaternion GetOrientationQuat() { return this->orientationQuat; }
 	Matrix3 GetOrientationMat() { return this->orientationMat; }
 	Vector GetOmega() { return this->omega; }
 	Vector GetAlpha() { return this->alpha; }
 	Vector GetScale() { return this->scale; }
+	Vector GetCenterofMass() { return this->centerOfMass; }
 
 	//setters, inline
-	void SetCenterOfMass(Particule center) { this->centerOfMass = center; }
+	void SetCenter(Particule center) { this->center = center; }
 	void SetOrientationQuat(Quaternion quat) { this->orientationQuat = quat; }
 	void SetOrientationMat(Matrix3 orientation) { this->orientationMat = orientation; }
 	void SetOmega(Vector omega) { this->omega = omega; }
@@ -47,7 +50,9 @@ public:
 
 	void ClearAccums();//appelle le clear accum du centre de masse + clear Accum torque
 
-	void addTorque(const Vector force, const Vector pointAppli); // Fonction d'ajout d'un torque à l'accumTorque à partir d'une force
-	void addToAccums(const Vector force, const Vector pointAppli);
+	void AddTorque(const Vector force); // Fonction d'ajout d'un torque à l'accumTorque à partir d'une force
+	void AddToAccumCenter(const Vector force);
+
+	virtual void draw() = 0;
 };
 

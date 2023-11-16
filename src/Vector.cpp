@@ -63,7 +63,6 @@ Vector Vector::normalisation() const
 Vector Vector::projection(const Vector& v) const
 {
 	return this->prod_scalar(v) * v.normalisation();
-	return this->prod_scalar(v) * v.normalisation();
 }
 
 
@@ -107,6 +106,7 @@ Vector Vector::operator *(const Vector& v) const
 {
 	return Vector(x * v.x, y * v.y, z * v.z);
 }
+
 Vector Vector::operator *(const double& a) const
 {
 	return Vector(a * x, a * y, a * z);

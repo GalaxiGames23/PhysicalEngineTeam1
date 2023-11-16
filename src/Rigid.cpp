@@ -2,7 +2,9 @@
 
 Rigid::Rigid(const Rigid& rigid) 
 {
+	this->center = rigid.center;
 	this->centerOfMass = rigid.centerOfMass;
+
 	this->orientationQuat = rigid.orientationQuat;
 	this->orientationMat = rigid.orientationMat;
 	this->omega = rigid.omega;
@@ -13,8 +15,9 @@ Rigid::Rigid(const Rigid& rigid)
 	this->accumTorque = rigid.accumTorque;
 }
 
-Rigid::Rigid(Particule centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
+Rigid::Rigid(Particule  center, Vector centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
 {
+	this->center = center;
 	this->centerOfMass = centerOfMass;
 	this->orientationQuat = orientationMat.toQuaternion();
 	this->orientationMat = orientationMat;
@@ -31,7 +34,7 @@ Rigid::Rigid(Particule centerOfMass, Matrix3 orientationMat, Vector omega, Vecto
 
 void Rigid::RigidIntegrator(float duration)
 {
-	this->centerOfMass.IntegrateEulerWithAccum(duration);
+	this->center.IntegrateEulerWithAccum(duration);
 	this->AngularIntegrator(duration);
 }
 
@@ -51,14 +54,17 @@ void Rigid::AngularIntegrator(float duration)
 
 void Rigid::ClearAccums() 
 {
-	this->centerOfMass.clearAccum();
+	this->center.clearAccum();
 	this->accumTorque = Vector(0, 0, 0);
 }
 
 
 
-void Rigid::addTorque(const Vector force, const Vector pointAppli)
+void Rigid::AddTorque(const Vector torque)
 {
-	Vector l = force - pointAppli; // Calcul du bras de levier
-	this->accumTorque = this->accumTorque + force * l;
+	this->accumTorque = this->accumTorque + torque;
+}
+
+void Rigid::AddToAccumCenter(const Vector force) {
+	this->center.addForce(force);
 }

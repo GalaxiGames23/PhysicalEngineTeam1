@@ -104,7 +104,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Blob.cpp" />
     <ClCompile Include="src\Box.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\GameWorld.cpp" />
@@ -125,11 +124,13 @@
     <ClCompile Include="src\PlayerController.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\Rigid.cpp" />
+    <ClCompile Include="src\RigidBodyForce.cpp" />
+    <ClCompile Include="src\RigidBodyForceGenerator.cpp" />
+    <ClCompile Include="src\RigidBodyForceRegistry.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Blob.h" />
     <ClInclude Include="src\Box.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\GameWorld.h" />
@@ -148,6 +149,9 @@
     <ClInclude Include="src\PlayerController.h" />
     <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\Rigid.h" />
+    <ClInclude Include="src\RigidBodyForce.h" />
+    <ClInclude Include="src\RigidBodyForceGenerator.h" />
+    <ClInclude Include="src\RigidBodyForceRegistry.h" />
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\Ground.h" />

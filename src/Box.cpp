@@ -1,23 +1,48 @@
 #include "Box.h"
 
 
-Box::Box(Particule centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size)
-	: Rigid(centerOfMass,orientationMat,omega,alpha, scale)
+Box::Box(Particule center, Vector centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size)
+	: Rigid(center, centerOfMass,orientationMat,omega,alpha, scale)
 {
 	this->size = size;
-
-	double Jx = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_y(), 2) + pow(this->size.get_z(), 2));
-	double Jy = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_z(), 2));
-	double Jz = 1 / 12 * this->centerOfMass.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
-
-	std::array<float, 9> coefs;
-	coefs.fill(0);
-	coefs[0] = Jx;
-	coefs[4] = Jy;
-	coefs[8] = Jz;
-
-	this->J = Matrix3(coefs); // Création du tenseur d'inertie par défaut des parrallèlépipèdes
+	this->J = CreateJ(center, centerOfMass); // Création du tenseur d'inertie par défaut des parrallèlépipèdes avec th de l'axe parallèle
 }
+
+Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
+{
+	// Création de Jcm
+	std::array<float, 9> coefsJcm;
+	coefsJcm.fill(0);
+
+	coefsJcm[0] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_y(), 2) + pow(this->size.get_z(), 2));
+	coefsJcm[4] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_z(), 2));
+	coefsJcm[8] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
+
+	Matrix3 Jcm = Matrix3(coefsJcm);
+
+	// Création de Jp
+	std::array<float, 9> coefsJp;
+
+	coefsJp[0] = pow(this->centerOfMass.get_y(), 2) + pow(this->centerOfMass.get_z(), 2);
+	coefsJp[1] = - this->centerOfMass.get_x() * this->centerOfMass.get_y();
+	coefsJp[2] = -this->centerOfMass.get_x() * this->centerOfMass.get_z();
+
+	coefsJp[3] = -this->centerOfMass.get_x() * this->centerOfMass.get_y();
+	coefsJp[4] = pow(this->centerOfMass.get_x(), 2) + pow(this->centerOfMass.get_z(), 2);
+	coefsJp[5] = -this->centerOfMass.get_y() * this->centerOfMass.get_z();
+
+	coefsJp[6] = -this->centerOfMass.get_x() * this->centerOfMass.get_z();
+	coefsJp[7] = -this->centerOfMass.get_y() * this->centerOfMass.get_z();
+	coefsJp[8] = pow(this->centerOfMass.get_x(), 2) + pow(this->centerOfMass.get_y(), 2);
+
+	Matrix3 Jp = Matrix3(coefsJp);
+
+	// Création de J
+	Matrix3 J = Jcm + Jp * this->center.GetMass();
+	return J;
+}
+
+
 
 void Box::draw()
 {
@@ -35,15 +60,14 @@ void Box::draw()
 	ofPushMatrix();
 
 	// Définition la position et taille de la boîte
-	ofTranslate(this->centerOfMass.GetPosition().toVec3());
+	ofTranslate(this->center.GetPosition().toVec3());
 	ofScale(this->scale.toVec3());
-
-	//draw du centre de masse
-	ofSetColor(ofColor::blue);
-	ofDrawSphere(this->centerOfMass.GetPosition().toVec3(), 10.0f);
-	ofSetColor(ofColor::white);
-
 	ofMultMatrix(orientationMat.toMatrix4x4());
 	myBox.draw();
 	ofPopMatrix();
+
+	//draw du centre de masse
+	ofSetColor(ofColor::blue);
+	ofDrawSphere(this->center.GetPosition().toVec3(), 10.0f);
+	ofSetColor(ofColor::white);
 }
