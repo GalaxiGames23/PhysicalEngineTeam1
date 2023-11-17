@@ -106,7 +106,7 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n m: Enable/Disable Follow Cam\n e + rightclick: rotate around\n", 10, 10);
+	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n space: launch rigidBody\n m: Enable/Disable Follow Cam\n k/j : change cam zoom\n e + mouse: rotate around\n t: toggle previosu positions on/off\n r: reset previous positions", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 
 	//Affichage du compte de rigid bodies

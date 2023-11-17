@@ -6,17 +6,14 @@ A noter que le dossier du projet doit être placé dans le dossier of_v0.12.0_vs
 
 COMMANDES DE BASE:
 
-	- ZQSD : diriger la particule du blob contrôlée (clavier AZERTY)
-	- B : spawn/despawn le blob
-	- H : déplacer le sol
-	- L : Split le blob
-	- O : rassembler le blob
-	- K/J : bouger la caméra
-	- M: activer la caméra trackant le blob
-	- ESPACE : démo de particule simple
-	- X : démo de ressort
-	- C : démo de câble
-	- V : démo de tige
+	- t : montrer ou cacher la trace
+	- r : reset la trace
+	- m : activer ou désactiver le suivi de la caméra 
+	- k/j : modifier le zoom de la caméra
+	- c : spawner une boite
+	- v : ajouter un vecteur force (le vecteur gris devient noir et est ainsi validé)
+	- espace : confirmer le set up et lancer la boite
+	- e + souris : faire tourner la caméra autour de la boite
 
 Lancer les tests:
 
