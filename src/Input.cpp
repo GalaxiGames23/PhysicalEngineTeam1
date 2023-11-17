@@ -116,7 +116,7 @@ void Input::preSpawnRigid(Camera *myCam, Particule* moonParticle)
 {
 	if (inputRigid.rb == nullptr)
 	{
-		inputRigid.rb = new Box(Particule(1.0, Vector(500, 500, 0), Vector(0, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(20, 20, 20));
+		inputRigid.rb = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(20, 20, 20));
 		inputRigid.forces.clear();
 		myCam->isActivated = true;
 		myCam->setParticuleFollow(inputRigid.rb->GetCenter()->GetPosition() + Vector(0,0,-100), inputRigid.rb->GetCenter());

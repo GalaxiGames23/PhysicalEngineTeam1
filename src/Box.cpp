@@ -69,6 +69,9 @@ void Box::draw()
 	//draw du centre de masse
 	ofSetColor(ofColor::brown);
 	ofDrawSphere(GetCenterofMass().toVec3(), 2.0f);
+	//draw du centre de rotation
+	ofSetColor(ofColor::blue);
+	ofDrawSphere(GetCenter()->GetPosition().toVec3(), 1.0f);
 	ofSetColor(ofColor::white);
 	ofEnableDepthTest();
 }

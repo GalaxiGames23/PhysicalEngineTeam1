@@ -17,7 +17,7 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 {
 	// Apply Torque
 	Vector l = pointAppli - rigidBody->GetCenter()->GetPosition();
-	Vector appliedTorque =Vector() - l.prod_vector(this->force);
+	Vector appliedTorque = l.prod_vector(this->force);
 	rigidBody->AddTorque(appliedTorque);
 
 	// Apply Linear Force

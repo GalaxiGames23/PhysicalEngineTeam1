@@ -34,7 +34,7 @@ public:
 	Vector GetOmega() { return this->omega; }
 	Vector GetAlpha() { return this->alpha; }
 	Vector GetScale() { return this->scale; }
-	Vector GetCenterofMass() { return this->centerOfMassOffset + this->center.GetPosition(); }
+	Vector GetCenterofMass() { return this->orientationMat * this->centerOfMassOffset + this->center.GetPosition(); }
 
 	//setters, inline
 	void SetCenter(Particule center) { this->center = center; }
