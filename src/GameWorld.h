@@ -38,6 +38,9 @@ public:
 	
 	////// Inputs //////
 	Camera* myCam;
+
+	////// Inputs //////
+	Camera* basicCam;
 	std::vector<InputRegistre*> inputRegistre;
 
 	//////////////////////////////////////////////////PHASE 3/////////////////////////////////////////////
@@ -48,7 +51,6 @@ public:
 	/////////Forces////////
 	RigidBodyForceRegistry registreRigids; //<<< Registre des forces pour les rigid bodies (clear à chaque frame)
 
-	RigidBodyForceRegistry inputForceRegistre;
 	/////////gestion de la trace///////
 	void ClearTrace() { this->tracePositions.clear(); }//<<<inline, vide la trace, évite d'exposer la trace
 	std::vector<Vector> GetTrace() { return this->tracePositions; }//<<<inline, getter, retourne les positions de la trace pour affichage, évite d'exposer la trace

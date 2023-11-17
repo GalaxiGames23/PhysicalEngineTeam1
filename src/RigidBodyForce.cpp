@@ -7,21 +7,14 @@ RigidBodyForce::RigidBodyForce()
 	this->force = Vector();
 }
 
-RigidBodyForce::RigidBodyForce(Vector pointAppli, Vector force, double effectiveTime)
+RigidBodyForce::RigidBodyForce(Vector pointAppli, Vector force)
 {
 	this->pointAppli = pointAppli;
 	this->force = force;
-	this->effectiveTime = effectiveTime;
 }
 
 void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 {
-	if (effectiveTime > -0.5 && effectiveTime <= 0)
-	{
-		return;
-	}
-
-	effectiveTime -= duration;
 	// Apply Torque
 	Vector l = pointAppli - rigidBody->GetCenter()->GetPosition();
 	Vector appliedTorque = l.prod_vector(this->force);
@@ -45,5 +38,5 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 
 void RigidBodyForce::draw()
 {
-	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force).toVec3(), 10);
+	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force * 0.05).toVec3(), 10);
 }

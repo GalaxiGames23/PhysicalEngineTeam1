@@ -135,7 +135,7 @@ void Input::addForceToSpawningRegistry()
 	{
 		Vector force;
 		setInput(force);
-		inputRigid.forces.push_back(new RigidBodyForce(inputRigid.rb->GetCenter()->GetPosition() + printForcePosition, force, 0.2));
+		inputRigid.forces.push_back(new RigidBodyForce(inputRigid.rb->GetCenter()->GetPosition() + printForcePosition, force * 20));
 	}
 	
 }

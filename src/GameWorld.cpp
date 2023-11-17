@@ -72,8 +72,6 @@ void GameWorld::addForces()
 		registre.add(input->particule, input->fg);
 	}
 
-	for (int i = 0; i < inputForceRegistre.registre.size(); i++)
-		registreRigids.add(inputForceRegistre.registre[i].rigidBody, inputForceRegistre.registre[i].fg);
 }
 
 //////////////////////PHASE 3////////////////////////////

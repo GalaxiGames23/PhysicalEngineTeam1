@@ -5,13 +5,14 @@ void ofApp::setup()
 {
 	input.setInput(v);
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
+	gameworld->basicCam = new Camera(moonParticle->GetPosition() + Vector(0, 0, -3000), moonParticle);
 	myController = new PlayerController();
 
 	//set up de l'harmonique de l'hud
 	HUDParticule = Particule(0.5f, Vector(-10000,-20, 0), Vector(0, 0, 0), 1.0f);
 	HUDParticule.SetUpHarmonic();
 	lastRigidCount = 0;
-
+	gameworld->basicCam->isActivated = true;
 	displayTrace = true;
 	direction.setName("InputForce");
 	
@@ -55,7 +56,10 @@ void ofApp::draw()
 		gameworld->myCam->beginCam();
 
 	}
-	
+	else
+	{
+		gameworld->basicCam->beginCam();
+	}
 
 	// Configurez la boîte avec la taille souhaitée
 	
@@ -91,6 +95,10 @@ void ofApp::draw()
 	if (gameworld->myCam->isActivated)
 	{
 		gameworld->myCam->endCam();
+	}
+	else
+	{
+		gameworld->basicCam->endCam();
 	}
 
 	/////////////////////////HUD//////////////////
@@ -144,7 +152,7 @@ void ofApp::keyPressed(int key)
 		break;
 	case ' ':
 		//lancer une boite
-		input.spawnRigid(gameworld->rigidBodies, gameworld->inputForceRegistre);
+		input.spawnRigid(gameworld->rigidBodies, gameworld->registreRigids);
 		break;
 	case 'c':
 		//commencer la création d'une boite
