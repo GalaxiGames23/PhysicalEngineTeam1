@@ -21,19 +21,7 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 	rigidBody->AddTorque(appliedTorque);
 
 	// Apply Linear Force
-	Vector appliedLinearForce = Vector();
-	if (rigidBody->GetCenterofMass() == Vector())
-	{
-		Vector axeProj = rigidBody->GetCenter()->GetPosition() - pointAppli;
-		appliedLinearForce = this->force.projection(axeProj);
-	}
-	else
-	{
-		Vector newCenterOfMass = rigidBody->GetOrientationMat() * rigidBody->GetCenterofMass();
-		appliedLinearForce = this->force.projection(newCenterOfMass);
-		// newCenterOfMass = Axe de projection puisque coordonnées de translation du centre de rotation
-	}
-	rigidBody->AddToAccumCenter(appliedLinearForce);
+	rigidBody->AddToAccumCenter(this->force);
 }
 
 void RigidBodyForce::draw()
