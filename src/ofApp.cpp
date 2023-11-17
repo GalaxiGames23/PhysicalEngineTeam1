@@ -5,7 +5,7 @@ void ofApp::setup()
 {
 	input.setInput(v);
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
-	gameworld->basicCam = new Camera(moonParticle->GetPosition() + Vector(0, 0, -3000), moonParticle);
+	gameworld->basicCam = new Camera(moonParticle->GetPosition() + Vector(0, 0, -500), moonParticle);
 	myController = new PlayerController();
 
 	//set up de l'harmonique de l'hud
@@ -14,18 +14,26 @@ void ofApp::setup()
 	lastRigidCount = 0;
 	gameworld->basicCam->isActivated = true;
 	displayTrace = true;
-	direction.setName("InputForce");
+	centerMass.setName("Mass Center");
+
+	centerMass.add(xm.set("x", 0, -10, 10));
+	centerMass.add(ym.set("y", 0, -10, 10));
+	centerMass.add(zm.set("z", 0, -10, 10));
+
+	direction.setName("Direction Force");
 	
-	direction.add(radius.set("radius", 100, 0, 1000));
+	direction.add(radius.set("radius", 30, 0, 100));
 	direction.add(theta.set("theta", 0, -180, 180));
 	direction.add(phi.set("phi", 0, -180,180));
 
-	position.add(x.set("x", 0, -100, 100));
-	position.add(y.set("y", 0, -100, 100));
-	position.add(z.set("z", 0, -100, 100));
+	direction.setName("Position Force");
+	position.add(x.set("x", 0, -10, 10));
+	position.add(y.set("y", 0, -10, 10));
+	position.add(z.set("z", 0, -10, 10));
 	gui.setup(direction);
 	gui.add(position);
-	gui.setPosition(10, ofGetHeight() - 200);
+	gui.add(centerMass);
+	gui.setPosition(10, ofGetHeight() - 250);
 
 
 }
@@ -42,7 +50,7 @@ void ofApp::update()
 	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 
 	//////PHASE 3/////
-	input.updateFromGui(x, y, z, radius, theta, phi);
+	input.updateFromGui(x, y, z, radius, theta, phi, xm, ym, zm);
 	
 }
 
@@ -86,7 +94,7 @@ void ofApp::draw()
 	if (displayTrace) {
 		ofSetColor(ofColor::orange);
 		for (Vector v : gameworld->GetTrace()) {
-			ofDrawSphere(v.toVec3(), 5.0f);
+			ofDrawSphere(v.toVec3(), 2.0f);
 		}
 		ofSetColor(ofColor::white);
 	}
@@ -236,7 +244,7 @@ void ofApp::mouseExited(int x, int y)
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h)
 {
-	gui.setPosition(10, ofGetHeight() - 200);
+	gui.setPosition(10, ofGetHeight() - 250);
 }
 
 //--------------------------------------------------------------
