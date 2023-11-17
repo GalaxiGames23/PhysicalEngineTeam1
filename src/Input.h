@@ -34,7 +34,7 @@ class Input
 		double current_norm = 100;//<<< norme
 		bool DessinerTrace = false; //<<< détermine si l'on affiche la trace
 		bool AfficherPositions = false; //<<< détermine si l'on affiche les positions
-		Vector printForcePosition = Vector();//<<< Vecteur représentant la position de la force en entrée
+		Vector printForcePosition = Vector();
 		InputRigidRegistre inputRigid;//<<< Créer et Stocker les forces d'un rigidBody avant de le spawn
 		Input() { };
 
@@ -84,7 +84,7 @@ class Input
 
 		void calculSomePoints(Vector& velocity, Vector& position, Vector & gravity, Ground & groundHeight);
 
-		void updateFromGui(double x, double y, double z, double radius, double theta, double phi, double xm, double ym, double zm);
+		void updateFromGui(double x, double y, double z, double radius, double theta, double phi);
 
 		void preSpawnRigid(Camera* myCam, Particule* moonParticle);
 

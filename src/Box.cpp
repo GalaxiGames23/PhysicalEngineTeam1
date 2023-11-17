@@ -23,17 +23,17 @@ Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
 	// Création de Jp
 	std::array<float, 9> coefsJp;
 
-	coefsJp[0] = pow(this->centerOfMassOffset.get_y(), 2) + pow(this->centerOfMassOffset.get_z(), 2);
-	coefsJp[1] = - this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_y();
-	coefsJp[2] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_z();
+	coefsJp[0] = pow(this->centerOfMass.get_y(), 2) + pow(this->centerOfMass.get_z(), 2);
+	coefsJp[1] = - this->centerOfMass.get_x() * this->centerOfMass.get_y();
+	coefsJp[2] = -this->centerOfMass.get_x() * this->centerOfMass.get_z();
 
-	coefsJp[3] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_y();
-	coefsJp[4] = pow(this->centerOfMassOffset.get_x(), 2) + pow(this->centerOfMassOffset.get_z(), 2);
-	coefsJp[5] = -this->centerOfMassOffset.get_y() * this->centerOfMassOffset.get_z();
+	coefsJp[3] = -this->centerOfMass.get_x() * this->centerOfMass.get_y();
+	coefsJp[4] = pow(this->centerOfMass.get_x(), 2) + pow(this->centerOfMass.get_z(), 2);
+	coefsJp[5] = -this->centerOfMass.get_y() * this->centerOfMass.get_z();
 
-	coefsJp[6] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_z();
-	coefsJp[7] = -this->centerOfMassOffset.get_y() * this->centerOfMassOffset.get_z();
-	coefsJp[8] = pow(this->centerOfMassOffset.get_x(), 2) + pow(this->centerOfMassOffset.get_y(), 2);
+	coefsJp[6] = -this->centerOfMass.get_x() * this->centerOfMass.get_z();
+	coefsJp[7] = -this->centerOfMass.get_y() * this->centerOfMass.get_z();
+	coefsJp[8] = pow(this->centerOfMass.get_x(), 2) + pow(this->centerOfMass.get_y(), 2);
 
 	Matrix3 Jp = Matrix3(coefsJp);
 
@@ -68,7 +68,6 @@ void Box::draw()
 	ofDisableDepthTest();
 	//draw du centre de masse
 	ofSetColor(ofColor::brown);
-	ofDrawSphere(GetCenterofMass().toVec3(), 2.0f);
+	ofDrawSphere(this->center.GetPosition().toVec3(), 10.0f);
 	ofSetColor(ofColor::white);
-	ofEnableDepthTest();
 }

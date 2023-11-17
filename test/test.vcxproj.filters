@@ -46,24 +46,6 @@
     <ClCompile Include="src\TestQuaternion.cpp">
       <Filter>src\Test</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Camera.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Box.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Rigid.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\RigidBodyForce.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\RigidBodyForceGenerator.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\RigidBodyForceRegistry.cpp">
-      <Filter>src\Class</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -117,24 +99,6 @@
       <Filter>src\Class</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Quaternion.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Camera.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Box.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Rigid.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\RigidBodyForce.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\RigidBodyForceGenerator.h">
-      <Filter>src\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\RigidBodyForceRegistry.h">
       <Filter>src\Class</Filter>
     </ClInclude>
   </ItemGroup>

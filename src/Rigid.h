@@ -9,7 +9,7 @@ class Rigid
 {
 protected:
 	Particule center = Particule();//<<<centre de rotation sur lequel est appliquée l'intégration linéaire
-	Vector centerOfMassOffset = Vector();//<<<centre de masse virtuel, décallage avec le centre de l'object
+	Vector centerOfMass = Vector();//<<<centre de masse virtuel, décallage avec le centre de l'object
 	Quaternion orientationQuat = Quaternion();//<<<quaternion d'orientation du corps rigide, mis à jour avec l'intégration rotationnelle
 	Matrix3 orientationMat = Matrix3();//<<<matrice d'orientation du corps rigide, mise à jour chaque frame grâce au quaternion et à la formule de conversion
 	Vector omega = Vector();//<<<vitesse angulaire, mise à jour par l'intégrateur rotationnel chaque frame
@@ -34,7 +34,7 @@ public:
 	Vector GetOmega() { return this->omega; }
 	Vector GetAlpha() { return this->alpha; }
 	Vector GetScale() { return this->scale; }
-	Vector GetCenterofMass() { return this->centerOfMassOffset + this->center.GetPosition(); }
+	Vector GetCenterofMass() { return this->centerOfMass; }
 
 	//setters, inline
 	void SetCenter(Particule center) { this->center = center; }
@@ -43,7 +43,6 @@ public:
 	void SetOmega(Vector omega) { this->omega = omega; }
 	void SetAlpha(Vector alpha) { this->alpha = alpha; }
 	void SetAxes(Vector scale) { this->scale = scale; }
-	void SetCenterofMass(double x, double y, double z) { this->centerOfMassOffset.set(x, y, z); }
 
 	// Intégrateurs du RigidBody
 	void RigidIntegrator(float duration); // Call IntegrateEulerWithAccum of centerOfMass & AngularIntegrator

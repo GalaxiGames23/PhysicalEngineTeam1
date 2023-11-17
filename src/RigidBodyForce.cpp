@@ -17,14 +17,14 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 {
 	// Apply Torque
 	Vector l = pointAppli - rigidBody->GetCenter()->GetPosition();
-	Vector appliedTorque =Vector() - l.prod_vector(this->force);
+	Vector appliedTorque = l.prod_vector(this->force);
 	rigidBody->AddTorque(appliedTorque);
 
 	// Apply Linear Force
-	rigidBody->AddToAccumCenter(20*this->force);
+	rigidBody->AddToAccumCenter(this->force);
 }
 
 void RigidBodyForce::draw()
 {
-	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force).toVec3(), 2);
+	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force * 0.05).toVec3(), 10);
 }

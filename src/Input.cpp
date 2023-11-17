@@ -1,10 +1,10 @@
 #include "Input.h"
 
 #include <ofAppRunner.h>
-#include "Box.h"
+
+#include "GameWorld.h"
 #include "of3dUtils.h"
-#include "RigidBodyForceRegistry.h"
-#include "RigidBodyForce.h"
+
 
 //set un vecteur avec une norme current_norm, un angle current_angle1 et un angle current_angle2 (choisi par l'utilisateur)
 void Input::setInput(Vector& v) const
@@ -100,26 +100,22 @@ void Input::calculSomePoints(Vector& velocity, Vector& position, Vector & gravit
 	}
 }
 
-void Input::updateFromGui(double x, double y, double z, double radius, double theta, double phi, double xm, double ym, double zm)
+void Input::updateFromGui(double x, double y, double z, double radius, double theta, double phi)
 {
 	printForcePosition.set(x, y, z);
 	this->current_norm = radius;
 	this->current_angle1 = theta * 2 * PI / 360;
 	this->current_angle2 = phi * 2 * PI / 360;
-
-	if (inputRigid.rb != nullptr)
-		inputRigid.rb->SetCenterofMass(xm, ym, zm);
-	
 }
 
 void Input::preSpawnRigid(Camera *myCam, Particule* moonParticle)
 {
 	if (inputRigid.rb == nullptr)
 	{
-		inputRigid.rb = new Box(Particule(1.0, Vector(500, 500, 0), Vector(0, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(20, 20, 20));
+		inputRigid.rb = new Box(Particule(1.0, Vector(500, 500, 0), Vector(0, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(200, 200, 200));
 		inputRigid.forces.clear();
 		myCam->isActivated = true;
-		myCam->setParticuleFollow(inputRigid.rb->GetCenter()->GetPosition() + Vector(0,0,-100), inputRigid.rb->GetCenter());
+		myCam->setParticuleFollow(inputRigid.rb->GetCenter()->GetPosition() + Vector(0,0,-1000), inputRigid.rb->GetCenter());
 	}
 	else
 	{
@@ -139,7 +135,7 @@ void Input::addForceToSpawningRegistry()
 	{
 		Vector force;
 		setInput(force);
-		inputRigid.forces.push_back(new RigidBodyForce(inputRigid.rb->GetCenter()->GetPosition() + printForcePosition, force));
+		inputRigid.forces.push_back(new RigidBodyForce(inputRigid.rb->GetCenter()->GetPosition() + printForcePosition, force * 20));
 	}
 	
 }
@@ -167,7 +163,8 @@ void Input::draw()
 		ofSetColor(ofColor::white);
 		Vector force;
 		setInput(force);
-		ofDrawArrow((inputRigid.rb->GetCenter()->GetPosition() + printForcePosition).toVec3(), (inputRigid.rb->GetCenter()->GetPosition() + printForcePosition + force).toVec3(), 2);
+		ofDrawArrow((inputRigid.rb->GetCenter()->GetPosition() + printForcePosition).toVec3(), (inputRigid.rb->GetCenter()->GetPosition() + printForcePosition + force).toVec3(), 10);
+		
 		ofSetColor(ofColor::black);
 		for (RigidBodyForce* force : inputRigid.forces) force->draw();
 		

@@ -3,7 +3,7 @@
 Rigid::Rigid(const Rigid& rigid) 
 {
 	this->center = rigid.center;
-	this->centerOfMassOffset = rigid.centerOfMassOffset;
+	this->centerOfMass = rigid.centerOfMass;
 
 	this->orientationQuat = rigid.orientationQuat;
 	this->orientationMat = rigid.orientationMat;
@@ -18,7 +18,7 @@ Rigid::Rigid(const Rigid& rigid)
 Rigid::Rigid(Particule  center, Vector centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
 {
 	this->center = center;
-	this->centerOfMassOffset = centerOfMass;
+	this->centerOfMass = centerOfMass;
 	this->orientationQuat = orientationMat.toQuaternion();
 	this->orientationMat = orientationMat;
 	this->omega = omega;
