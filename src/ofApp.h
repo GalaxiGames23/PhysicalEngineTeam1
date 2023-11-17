@@ -8,6 +8,7 @@
 #include "GameWorld.h"
 #include "PlayerController.h"
 #include "ParticuleGravity.h"
+#include "ofxGui/src/ofxGui.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -51,4 +52,19 @@ class ofApp : public ofBaseApp{
 		/////////////////PHASE 3/////////////
 		float lastRigidCount;//<<<remplace lastBlobCount pour le HUD de la phase 3
 		bool displayTrace;
+
+		ofxPanel gui;
+
+
+		ofParameterGroup position;
+
+		ofParameter<double> x;
+		ofParameter<double> y;
+		ofParameter<double> z;
+
+		ofParameterGroup direction;
+
+		ofParameter<double> radius;
+		ofParameter<double> theta;
+		ofParameter<double> phi;
 };

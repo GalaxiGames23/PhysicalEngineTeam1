@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	input.set_Input(v);
+	input.setInput(v);
 	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
 	myController = new PlayerController();
 
@@ -14,6 +14,20 @@ void ofApp::setup()
 
 	displayTrace = true;
 	gameworld->myCam->isActivated = false;
+	direction.setName("InputForce");
+	
+	direction.add(radius.set("radius", 100, 0, 1000));
+	direction.add(theta.set("theta", 0, -180, 180));
+	direction.add(phi.set("phi", 0, -180,180));
+
+	position.add(x.set("x", 0, -100, 100));
+	position.add(y.set("y", 0, -100, 100));
+	position.add(z.set("z", 0, -100, 100));
+	gui.setup(direction);
+	gui.add(position);
+	gui.setPosition(10, ofGetHeight() - 200);
+
+
 }
 
 //--------------------------------------------------------------
@@ -26,20 +40,23 @@ void ofApp::update()
 	gameworld->UpdateLogic(delta);
 
 	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
+
+	//////PHASE 3/////
+	input.updateFromGui(x, y, z, radius, theta, phi);
+	
 }
 
 ofVbo vbo;
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-
+	gui.draw();
 	if (gameworld->myCam->isActivated)
 	{
 		gameworld->myCam->beginCam();
 
 	}
-	ofEnableDepthTest();
-
+	
 
 	// Configurez la boîte avec la taille souhaitée
 	
@@ -52,12 +69,15 @@ void ofApp::draw()
 		ofDrawSphere(particule->GetPosition().toVec3(), particule->GetRadius());
 	}
 	ofSetColor(ofColor::white);
-
+	ofEnableDepthTest();
 	/////////////PHASE 3/////////////////
 	for (Rigid* rigidBody : gameworld->rigidBodies)
 	{
 		rigidBody->draw();
 	}
+	ofDisableDepthTest();
+	input.draw();
+
 
 	//draw la trace
 	if (displayTrace) {
@@ -124,19 +144,21 @@ void ofApp::keyPressed(int key)
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
 	case ' ':
-		//créer la boite
-		box = new Box(Particule(1.0, Vector(500, 500, 0), Vector(100, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,-1,0,1,1,0,0,0,1 }), Vector(0, 0, 0), Vector(1, -1, 1), Vector(1, 1, 1), Vector(200, 200, 200));
-
-		//ajouter un input initial
-		this->gameworld->registreRigids.add(box, new RigidBodyForce(Vector(450, 550, 0), Vector(5, 0, 0)));
-
-		gameworld->myCam->setParticuleFollow(Vector(0, 0, 0), box->GetCenter());
-		gameworld->rigidBodies.push_back(box);
+		//lancer une boite
+		input.spawnRigid(gameworld->rigidBodies, gameworld->inputForceRegistre);
+		break;
+	case 'c':
+		//commencer la création d'une boite
+		input.preSpawnRigid(gameworld->myCam, moonParticle);
+		break;
+	case 'v':
+		//valider un vecteur
+		input.addForceToSpawningRegistry();
 		break;
 	default: break;
 	}
 
-	input.set_Input(v);
+	input.setInput(v);
 }
 
 //--------------------------------------------------------------
@@ -148,7 +170,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if (gameworld->myCam->isActivated)
+	if (gameworld->myCam->isActivated && input.move_cam)
 	{
 		int diffx = x - input.last_pos_x;
 		int diffy = y - input.last_pos_y;
@@ -176,13 +198,17 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-	
+	switch (button) {
+	case 2: input.move_cam = !input.move_cam;
+		break;
+	default: break;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
 {
-
+	
 }
 
 //--------------------------------------------------------------
@@ -200,7 +226,7 @@ void ofApp::mouseExited(int x, int y)
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h)
 {
-
+	gui.setPosition(10, ofGetHeight() - 200);
 }
 
 //--------------------------------------------------------------
@@ -212,5 +238,5 @@ void ofApp::gotMessage(ofMessage msg)
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo)
 { 
-
+	
 }

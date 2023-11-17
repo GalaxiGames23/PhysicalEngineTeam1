@@ -8,13 +8,15 @@ class RigidBodyForce :
 private:
     Vector pointAppli;
     Vector force;
+    double effectiveTime = -1;
 
 public:
     //constructeurs
     RigidBodyForce();
-    RigidBodyForce(Vector pointAppli, Vector force);
+    RigidBodyForce(Vector pointAppli, Vector force, double effectiveTime);
     
     //update de la force sur un rigidBody
-    virtual void updateForce(Rigid* rigidBody, float duration);
+    virtual void updateForce(Rigid* rigidBody, float duration) override;
+    virtual void draw() override;
 };
 

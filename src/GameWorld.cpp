@@ -12,13 +12,13 @@ GameWorld::GameWorld()
 
 void GameWorld::UpdateLogic(float duration) 
 {
+	
 	//ajoute les forces au registre
 	addForces();
 
 	//update des forces
 	registre.updateForces(duration);
 	registreRigids.updateForces(duration);
-
 	//clear du registre
 	registre.clear();
 	registreRigids.clear();
@@ -71,6 +71,8 @@ void GameWorld::addForces()
 	{
 		registre.add(input->particule, input->fg);
 	}
+	for (int i = 0; i < inputForceRegistre.registre.size(); i++)
+		registreRigids.add(inputForceRegistre.registre[i].rigidBody, inputForceRegistre.registre[i].fg);
 }
 
 //////////////////////PHASE 3////////////////////////////
