@@ -65,9 +65,9 @@ void Box::draw()
 	ofMultMatrix(orientationMat.toMatrix4x4());
 	myBox.draw();
 	ofPopMatrix();
-
+	ofDisableDepthTest();
 	//draw du centre de masse
-	ofSetColor(ofColor::blue);
+	ofSetColor(ofColor::brown);
 	ofDrawSphere(this->center.GetPosition().toVec3(), 10.0f);
 	ofSetColor(ofColor::white);
 }
