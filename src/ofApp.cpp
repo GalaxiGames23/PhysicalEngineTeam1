@@ -13,7 +13,6 @@ void ofApp::setup()
 	lastRigidCount = 0;
 
 	displayTrace = true;
-	gameworld->myCam->isActivated = false;
 	direction.setName("InputForce");
 	
 	direction.add(radius.set("radius", 100, 0, 1000));
@@ -99,7 +98,7 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\n", 10, 10);
+	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n m: Enable/Disable Follow Cam\n e + rightclick: rotate around\n", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 
 	//Affichage du compte de rigid bodies
@@ -155,6 +154,9 @@ void ofApp::keyPressed(int key)
 		//valider un vecteur
 		input.addForceToSpawningRegistry();
 		break;
+	case 'e':
+		input.move_cam = true;
+		break;
 	default: break;
 	}
 
@@ -164,7 +166,11 @@ void ofApp::keyPressed(int key)
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
 {
-	
+	switch (key) {
+	case 'e': input.move_cam = false;
+		break;
+	default: break;
+	}
 }
 
 //--------------------------------------------------------------
@@ -198,11 +204,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-	switch (button) {
-	case 2: input.move_cam = !input.move_cam;
-		break;
-	default: break;
-	}
+	
 }
 
 //--------------------------------------------------------------
