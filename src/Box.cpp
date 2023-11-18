@@ -62,7 +62,17 @@ void Box::draw()
 	// Définition la position et taille de la boîte
 	ofTranslate(this->center.GetPosition().toVec3());
 	ofScale(this->scale.toVec3());
-	ofMultMatrix(orientationMat.toMatrix4x4());
+
+	//orientation: probleme entre la librairie et nos calculs
+
+	//approche initiale, roation dans le mauvais sens:
+	//ofMatrix4x4 orientation = orientationMat.toMatrix4x4();
+
+	//approche fonctionnant:
+	ofMatrix4x4 orientation = orientationQuat.Conjugated().ToMatrix().toMatrix4x4();
+	ofMultMatrix(orientation);
+
+
 	myBox.draw();
 	ofPopMatrix();
 	ofDisableDepthTest();
