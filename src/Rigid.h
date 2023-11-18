@@ -55,5 +55,7 @@ public:
 	void AddToAccumCenter(const Vector force);
 
 	virtual void draw() = 0;
+
+	virtual void UpdateJ() = 0;//<<<permet de recalculer J quand le centre de mnasse se deplace
 };
 

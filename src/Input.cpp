@@ -107,8 +107,11 @@ void Input::updateFromGui(double x, double y, double z, double radius, double th
 	this->current_angle1 = theta * 2 * PI / 360;
 	this->current_angle2 = phi * 2 * PI / 360;
 
-	if (inputRigid.rb != nullptr)
+	if (inputRigid.rb != nullptr) {
+
 		inputRigid.rb->SetCenterofMass(xm, ym, zm);
+		inputRigid.rb->UpdateJ();
+	}
 	
 }
 

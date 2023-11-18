@@ -8,6 +8,11 @@ Box::Box(Particule center, Vector centerOfMass, Matrix3 orientationMat, Vector o
 	this->J = CreateJ(center, centerOfMass); // Création du tenseur d'inertie par défaut des parrallèlépipèdes avec th de l'axe parallèle
 }
 
+void Box::UpdateJ() 
+{
+	this->J = CreateJ(center, this->centerOfMassOffset);
+}
+
 Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
 {
 	// Création de Jcm
@@ -23,17 +28,17 @@ Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
 	// Création de Jp
 	std::array<float, 9> coefsJp;
 
-	coefsJp[0] = pow(this->centerOfMassOffset.get_y(), 2) + pow(this->centerOfMassOffset.get_z(), 2);
-	coefsJp[1] = - this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_y();
-	coefsJp[2] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_z();
+	coefsJp[0] = pow(centerOfMass.get_y(), 2) + pow(centerOfMass.get_z(), 2);
+	coefsJp[1] = - centerOfMass.get_x() * centerOfMass.get_y();
+	coefsJp[2] = -centerOfMass.get_x() * centerOfMass.get_z();
 
-	coefsJp[3] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_y();
-	coefsJp[4] = pow(this->centerOfMassOffset.get_x(), 2) + pow(this->centerOfMassOffset.get_z(), 2);
-	coefsJp[5] = -this->centerOfMassOffset.get_y() * this->centerOfMassOffset.get_z();
+	coefsJp[3] = -centerOfMass.get_x() * centerOfMass.get_y();
+	coefsJp[4] = pow(centerOfMass.get_x(), 2) + pow(centerOfMass.get_z(), 2);
+	coefsJp[5] = -centerOfMass.get_y() * centerOfMass.get_z();
 
-	coefsJp[6] = -this->centerOfMassOffset.get_x() * this->centerOfMassOffset.get_z();
-	coefsJp[7] = -this->centerOfMassOffset.get_y() * this->centerOfMassOffset.get_z();
-	coefsJp[8] = pow(this->centerOfMassOffset.get_x(), 2) + pow(this->centerOfMassOffset.get_y(), 2);
+	coefsJp[6] = -centerOfMass.get_x() * centerOfMass.get_z();
+	coefsJp[7] = -centerOfMass.get_y() * centerOfMass.get_z();
+	coefsJp[8] = pow(centerOfMass.get_x(), 2) + pow(centerOfMass.get_y(), 2);
 
 	Matrix3 Jp = Matrix3(coefsJp);
 
