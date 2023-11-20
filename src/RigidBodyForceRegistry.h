@@ -30,7 +30,7 @@ public:
 	//Supprime le registre, pas les forces ni les générateurs
 	void clear();
 
-	//Pour chauqe élément du registre, appelle l'updateForce du force generator avec la particule associée
+	//Pour chauqe élément du registre, appelle l'updateForce du force generator avec le corps rigide associé
 	void updateForces(float duration);
 };
 

@@ -7,11 +7,11 @@ RigidBodyForceRegistry::RigidBodyForceRegistry()
 
 void RigidBodyForceRegistry::add(Rigid* rigidBody, RigidBodyForceGenerator* fg)
 {
-	// Création de la struct particule / ParticuleForceGenerator avec les entrées
+	// Création de la struct Rigid / RigidBodyForceGenerator avec les entrées
 	RigidBodyForceRegistration entry;
 	entry.rigidBody = rigidBody;
 	entry.fg = fg;
-	// Ajout de la struct ParticuleForceRegistration
+	// Ajout de la struct RigidBodyForceRegistration
 	registre.push_back(entry);
 }
 
