@@ -11,6 +11,7 @@ COMMANDES DE BASE:
 	- m : activer ou désactiver le suivi de la caméra 
 	- k/j : modifier le zoom de la caméra
 	- c : spawner une boite
+	- sliders : ajuster les paramètres de la boite et de la force à appliquer
 	- v : ajouter un vecteur force (le vecteur gris devient noir et est ainsi validé)
 	- espace : confirmer le set up et lancer la boite
 	- e + souris : faire tourner la caméra autour de la boite

@@ -38,10 +38,20 @@ void GameWorld::UpdateLogic(float duration)
 	//intégration à chaque RigidBody
 	for (int i = 0; i < rigidBodies.size(); ++i) 
 	{
+		//destruction des rigid bodies sous un certain seuil
+		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 2000)
+		{
+			rigidBodies.erase(rigidBodies.begin() + i);
+		}
+		else
+		{
 		rigidBodies[i]->RigidIntegrator(duration);
 
 		//on vide l'accumulateur
 		rigidBodies[i]->ClearAccums();
+
+		}
+
 	}
 
 	//gestion de la trace 
