@@ -69,6 +69,7 @@ class Input
 
 		void changeAngle2(int positive);
 
+		/*Enlever le registre d'input contenu dans allInput */
 		void removeInput(InputRegistre* registre, std::vector<InputRegistre*>& allInput);
 
 		void changePosition(const Vector &deltaPosition);
@@ -82,15 +83,21 @@ class Input
 		void SetAfficherPositions(bool b) { this->AfficherPositions = b; }
 		bool GetAfficherPositions() { return this->AfficherPositions; }
 
+		/*Fonction de la phase 1, permettant de connaitre le point d'impact d'une particule avec le sol, en partant avec une velocité initiale et une position initiale donnée */
 		void calculSomePoints(Vector& velocity, Vector& position, Vector & gravity, Ground & groundHeight);
 
+		/*Lien entre l'interface graphique des sliders et les inputs en entrée */
 		void updateFromGui(double x, double y, double z, double radius, double theta, double phi, double xm, double ym, double zm);
 
+		/*Lien entre l'interface graphique des sliders et les inputs en entrée */
 		void preSpawnRigid(Camera* myCam, Particule* moonParticle);
 
+		/*Fonction permettant d'ajouter une force sur un solide, en fonction de l'entrée contenu dans la classe*/
 		void addForceToSpawningRegistry();
 
+		/*Créer un solide, et le mettre dans la liste des solides du monde, avec les forces qui lui sont associées*/
 		void spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry &registreRigids);
 
+		/*Dessiner les inputs en entrée a l'aide d'une flèche, ainsi que visualiser le solide qui va être créer*/
 		void draw();
 };

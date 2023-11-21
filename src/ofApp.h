@@ -40,7 +40,7 @@ class ofApp : public ofBaseApp{
 		double timer = 0;
 		const float verticalGravity = 9.81f * 5; //<<< Norme de la gravité (fixe à la gravité terrestre)
 		float damping = 1.0f; //<<< Coefficient de frottement (fixe pour l'absence de frottements)
-		Sphere* moonParticle = new Sphere(900000, Vector(500, 400, 0), Vector(0, 0, 0), 1);
+		Sphere* moonParticle = new Sphere(900000, Vector(400, 0, 0), Vector(0, 0, 0), 1);
 
 		/////////PHASE 2//////
 		
