@@ -54,7 +54,7 @@ public:
 	void AddTorque(const Vector force); // Fonction d'ajout d'un torque à l'accumTorque à partir d'une force
 	void AddToAccumCenter(const Vector force);
 
-	virtual void draw() = 0;
+	virtual void draw() = 0;//<<<dessine la forme du solide
 
 	virtual void UpdateJ() = 0;//<<<permet de recalculer J quand le centre de mnasse se deplace
 };
