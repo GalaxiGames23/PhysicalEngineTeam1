@@ -22,11 +22,11 @@ void ofApp::setup()
 
 	direction.setName("Direction Force");
 	
-	direction.add(radius.set("radius", 30, 0, 100));
+	direction.add(radius.set("radius", 200, 0, 500));
 	direction.add(theta.set("theta", 0, -180, 180));
 	direction.add(phi.set("phi", 0, -180,180));
 
-	direction.setName("Position Force");
+	position.setName("Position Force");
 	position.add(x.set("x", 0, -10, 10));
 	position.add(y.set("y", 0, -10, 10));
 	position.add(z.set("z", 0, -10, 10));

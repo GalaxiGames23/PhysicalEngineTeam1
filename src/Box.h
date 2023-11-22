@@ -16,6 +16,7 @@ private:
 	Matrix3 CreateJ(Particule center, Vector centerOfMass);
 
 public:
+
 	Box() : Rigid() 
 	{ 
 		size = Vector();
@@ -25,5 +26,5 @@ public:
 
 	virtual void UpdateJ() override;//<<<permet de recalculer J quand le centre de mnasse se deplace
 
-	virtual void draw() override;
+	virtual void draw() override; //<<<dessine le cube
 };

@@ -26,5 +26,5 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 
 void RigidBodyForce::draw()
 {
-	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force).toVec3(), 2);
+	ofDrawArrow(pointAppli.toVec3(), (pointAppli + force * 0.1).toVec3(), 2);
 }
