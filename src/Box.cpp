@@ -10,7 +10,7 @@ Box::Box(Particule center, Vector centerOfMass, Matrix3 orientationMat, Vector o
 
 void Box::UpdateJ() 
 {
-	this->J = CreateJ(center, this->centerOfMassOffset);
+	this->J = CreateJ(this->center, this->centerOfMassOffset);
 }
 
 Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
@@ -19,9 +19,9 @@ Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
 	std::array<float, 9> coefsJcm;
 	coefsJcm.fill(0);
 
-	coefsJcm[0] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_y(), 2) + pow(this->size.get_z(), 2));
-	coefsJcm[4] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_z(), 2));
-	coefsJcm[8] = 1 / 12 * this->center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
+	coefsJcm[0] = (1.0f / 12.0f) * center.GetMass() * (pow(this->size.get_y(), 2) + pow(this->size.get_z(), 2));
+	coefsJcm[4] = (1.0f / 12.0f) * center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_z(), 2));
+	coefsJcm[8] = (1.0f / 12.0f) * center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
 
 	Matrix3 Jcm = Matrix3(coefsJcm);
 
