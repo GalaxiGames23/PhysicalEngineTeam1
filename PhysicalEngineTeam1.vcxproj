@@ -132,6 +132,7 @@
     <ClCompile Include="src\ParticuleFrictionStatic.cpp" />
     <ClCompile Include="src\ParticuleGravity.cpp" />
     <ClCompile Include="src\ParticuleSpring.cpp" />
+    <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\PlayerController.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\Rigid.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="src\ParticuleFrictionStatic.h" />
     <ClInclude Include="src\ParticuleGravity.h" />
     <ClInclude Include="src\ParticuleSpring.h" />
+    <ClInclude Include="src\Plane.h" />
     <ClInclude Include="src\PlayerController.h" />
     <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\Rigid.h" />

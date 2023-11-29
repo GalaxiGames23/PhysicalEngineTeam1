@@ -109,6 +109,9 @@
     <ClCompile Include="src\CoverSphere.cpp">
       <Filter>src\Rigids</Filter>
     </ClCompile>
+    <ClCompile Include="src\Plane.cpp">
+      <Filter>src\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="src\CoverSphere.h">
       <Filter>src\Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Plane.h">
+      <Filter>src\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
