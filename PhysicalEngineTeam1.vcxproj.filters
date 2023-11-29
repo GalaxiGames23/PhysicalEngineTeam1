@@ -43,12 +43,6 @@
     <ClCompile Include="src\Matrix4.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rigid.cpp">
-      <Filter>src\Particules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Box.cpp">
-      <Filter>src\Particules</Filter>
-    </ClCompile>
     <ClCompile Include="src\ParticuleForceGenerator.cpp">
       <Filter>src\Forces\Particules</Filter>
     </ClCompile>
@@ -106,6 +100,15 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>src\ofGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rigid.cpp">
+      <Filter>src\Rigids</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Box.cpp">
+      <Filter>src\Rigids</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoverSphere.cpp">
+      <Filter>src\Rigids</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -131,6 +134,9 @@
     </Filter>
     <Filter Include="src\ofGui">
       <UniqueIdentifier>{61a19696-6c8b-481b-9158-822fac8e51c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Rigids">
+      <UniqueIdentifier>{6e0a811d-0809-427b-9e2f-902c5e677729}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,12 +178,6 @@
     </ClInclude>
     <ClInclude Include="src\Matrix4.h">
       <Filter>src\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Rigid.h">
-      <Filter>src\Particules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Box.h">
-      <Filter>src\Particules</Filter>
     </ClInclude>
     <ClInclude Include="src\ParticuleForceGenerator.h">
       <Filter>src\Forces\Particules</Filter>
@@ -241,6 +241,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>src\ofGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rigid.h">
+      <Filter>src\Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Box.h">
+      <Filter>src\Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CoverSphere.h">
+      <Filter>src\Rigids</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

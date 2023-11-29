@@ -116,6 +116,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
     <ClCompile Include="src\Box.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\CoverSphere.cpp" />
     <ClCompile Include="src\GameWorld.cpp" />
     <ClCompile Include="src\Ground.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
     <ClInclude Include="src\Box.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\CoverSphere.h" />
     <ClInclude Include="src\GameWorld.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\InputForce.h" />
