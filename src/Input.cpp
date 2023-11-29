@@ -100,26 +100,19 @@ void Input::calculSomePoints(Vector& velocity, Vector& position, Vector & gravit
 	}
 }
 
-void Input::updateFromGui(double x, double y, double z, double radius, double theta, double phi, double xm, double ym, double zm)
+void Input::updateFromGui(double x, double y, double z, double radius, double theta, double phi)
 {
 	printForcePosition.set(x, y, z);
 	this->current_norm = radius;
 	this->current_angle1 = theta * 2 * PI / 360;
-	this->current_angle2 = phi * 2 * PI / 360;
-
-	if (inputRigid.rb != nullptr) {
-
-		inputRigid.rb->SetCenterofMass(xm, ym, zm);
-		inputRigid.rb->UpdateJ();
-	}
-	
+	this->current_angle2 = phi * 2 * PI / 360;	
 }
 
 void Input::preSpawnRigid(Camera *myCam, Particule* moonParticle)
 {
 	if (inputRigid.rb == nullptr)
 	{
-		inputRigid.rb = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Vector(0, 0, 0), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(20, 20, 20));
+		inputRigid.rb = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0,0,0), Vector(1, 1, 1), Vector(20, 20, 20));
 		inputRigid.forces.clear();
 		myCam->isActivated = true;
 		myCam->setParticuleFollow(inputRigid.rb->GetCenter()->GetPosition() + Vector(0,0,-100), inputRigid.rb->GetCenter());

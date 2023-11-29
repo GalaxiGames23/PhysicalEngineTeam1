@@ -67,10 +67,4 @@ class ofApp : public ofBaseApp{
 		ofParameter<double> radius;
 		ofParameter<double> theta;
 		ofParameter<double> phi;
-
-		ofParameterGroup centerMass;
-
-		ofParameter<double> xm;
-		ofParameter<double> ym;
-		ofParameter<double> zm;
 };

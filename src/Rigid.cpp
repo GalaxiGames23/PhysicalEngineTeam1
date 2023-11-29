@@ -2,8 +2,7 @@
 
 Rigid::Rigid(const Rigid& rigid) 
 {
-	this->center = rigid.center;
-	this->centerOfMassOffset = rigid.centerOfMassOffset;
+	this->centerOfMass = rigid.centerOfMass;
 
 	this->orientationQuat = rigid.orientationQuat;
 	this->orientationMat = rigid.orientationMat;
@@ -15,10 +14,9 @@ Rigid::Rigid(const Rigid& rigid)
 	this->accumTorque = rigid.accumTorque;
 }
 
-Rigid::Rigid(Particule  center, Vector centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
+Rigid::Rigid(Particule  center, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale)
 {
-	this->center = center;
-	this->centerOfMassOffset = centerOfMass;
+	this->centerOfMass = center;
 	this->orientationQuat = orientationMat.toQuaternion();
 	this->orientationMat = orientationMat;
 	this->omega = omega;
@@ -34,7 +32,7 @@ Rigid::Rigid(Particule  center, Vector centerOfMass, Matrix3 orientationMat, Vec
 
 void Rigid::RigidIntegrator(float duration)
 {
-	this->center.IntegrateEulerWithAccum(duration);
+	this->centerOfMass.IntegrateEulerWithAccum(duration);
 	this->AngularIntegrator(duration);
 }
 
@@ -54,7 +52,7 @@ void Rigid::AngularIntegrator(float duration)
 
 void Rigid::ClearAccums() 
 {
-	this->center.clearAccum();
+	this->centerOfMass.clearAccum();
 	this->accumTorque = Vector(0, 0, 0);
 }
 
@@ -66,5 +64,5 @@ void Rigid::AddTorque(const Vector torque)
 }
 
 void Rigid::AddToAccumCenter(const Vector force) {
-	this->center.addForce(force);
+	this->centerOfMass.addForce(force);
 }

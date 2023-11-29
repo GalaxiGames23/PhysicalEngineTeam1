@@ -14,11 +14,6 @@ void ofApp::setup()
 	lastRigidCount = 0;
 	gameworld->basicCam->isActivated = true;
 	displayTrace = true;
-	centerMass.setName("Mass Center");
-
-	centerMass.add(xm.set("x", 0, -10, 10));
-	centerMass.add(ym.set("y", 0, -10, 10));
-	centerMass.add(zm.set("z", 0, -10, 10));
 
 	direction.setName("Direction Force");
 	
@@ -32,7 +27,6 @@ void ofApp::setup()
 	position.add(z.set("z", 0, -10, 10));
 	gui.setup(direction);
 	gui.add(position);
-	gui.add(centerMass);
 	gui.setPosition(10, ofGetHeight() - 250);
 
 
@@ -50,7 +44,7 @@ void ofApp::update()
 	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 
 	//////PHASE 3/////
-	input.updateFromGui(x, y, z, radius, theta, phi, xm, ym, zm);
+	input.updateFromGui(x, y, z, radius, theta, phi);
 	
 }
 

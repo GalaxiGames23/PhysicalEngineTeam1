@@ -1,19 +1,14 @@
 #include "Box.h"
 
 
-Box::Box(Particule center, Vector centerOfMass, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size)
-	: Rigid(center, centerOfMass,orientationMat,omega,alpha, scale)
+Box::Box(Particule center, Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size)
+	: Rigid(center,orientationMat,omega,alpha, scale)
 {
 	this->size = size;
-	this->J = CreateJ(center, centerOfMass); // Création du tenseur d'inertie par défaut des parrallèlépipèdes avec th de l'axe parallèle
+	this->J = CreateJ(center); // Création du tenseur d'inertie par défaut des parrallèlépipèdes avec th de l'axe parallèle
 }
 
-void Box::UpdateJ() 
-{
-	this->J = CreateJ(this->center, this->centerOfMassOffset);
-}
-
-Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
+Matrix3 Box::CreateJ(Particule center)
 {
 	// Création de Jcm
 	std::array<float, 9> coefsJcm;
@@ -24,27 +19,7 @@ Matrix3 Box::CreateJ(Particule center, Vector centerOfMass)
 	coefsJcm[8] = (1.0f / 12.0f) * center.GetMass() * (pow(this->size.get_x(), 2) + pow(this->size.get_y(), 2));
 
 	Matrix3 Jcm = Matrix3(coefsJcm);
-
-	// Création de Jp
-	std::array<float, 9> coefsJp;
-
-	coefsJp[0] = pow(centerOfMass.get_y(), 2) + pow(centerOfMass.get_z(), 2);
-	coefsJp[1] = - centerOfMass.get_x() * centerOfMass.get_y();
-	coefsJp[2] = -centerOfMass.get_x() * centerOfMass.get_z();
-
-	coefsJp[3] = -centerOfMass.get_x() * centerOfMass.get_y();
-	coefsJp[4] = pow(centerOfMass.get_x(), 2) + pow(centerOfMass.get_z(), 2);
-	coefsJp[5] = -centerOfMass.get_y() * centerOfMass.get_z();
-
-	coefsJp[6] = -centerOfMass.get_x() * centerOfMass.get_z();
-	coefsJp[7] = -centerOfMass.get_y() * centerOfMass.get_z();
-	coefsJp[8] = pow(centerOfMass.get_x(), 2) + pow(centerOfMass.get_y(), 2);
-
-	Matrix3 Jp = Matrix3(coefsJp);
-
-	// Création de J
-	Matrix3 J = Jcm + Jp * this->center.GetMass();
-	return J;
+	return Jcm;
 }
 
 
@@ -65,7 +40,7 @@ void Box::draw()
 	ofPushMatrix();
 
 	// Définition la position et taille de la boîte
-	ofTranslate(this->center.GetPosition().toVec3());
+	ofTranslate(this->centerOfMass.GetPosition().toVec3());
 	ofScale(this->scale.toVec3());
 
 	//orientation: probleme entre la librairie et nos calculs
@@ -81,9 +56,6 @@ void Box::draw()
 	myBox.draw();
 	ofPopMatrix();
 	ofDisableDepthTest();
-	//draw du centre de masse
-	ofSetColor(ofColor::brown);
-	ofDrawSphere(GetCenterofMass().toVec3(), 2.0f);
 	//draw du centre de rotation
 	ofSetColor(ofColor::blue);
 	ofDrawSphere(GetCenter()->GetPosition().toVec3(), 1.0f);

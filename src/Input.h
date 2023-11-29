@@ -87,7 +87,7 @@ class Input
 		void calculSomePoints(Vector& velocity, Vector& position, Vector & gravity, Ground & groundHeight);
 
 		/*Lien entre l'interface graphique des sliders et les inputs en entrée */
-		void updateFromGui(double x, double y, double z, double radius, double theta, double phi, double xm, double ym, double zm);
+		void updateFromGui(double x, double y, double z, double radius, double theta, double phi);
 
 		/*Lien entre l'interface graphique des sliders et les inputs en entrée */
 		void preSpawnRigid(Camera* myCam, Particule* moonParticle);
