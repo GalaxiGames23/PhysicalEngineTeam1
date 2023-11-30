@@ -106,10 +106,12 @@ void GameWorld::UpdateTrace(float duration)
 
 void GameWorld::HandleCollisions()
 {
+	bool isColliding;
+
 	for (int i = 0; i < boxPairs.size(); ++i) // Pour chaque paire de boites à tester
 	{
-		this->DetectCollisions(boxPairs[i]->box1, boxPairs[i]->box2);
-		this->DetectCollisions(boxPairs[i]->box2, boxPairs[i]->box1);
+		isColliding = this->DetectCollisions(boxPairs[i]->box1, boxPairs[i]->box2);
+		if(!isColliding) this->DetectCollisions(boxPairs[i]->box2, boxPairs[i]->box1);
 	}
 }
 
@@ -118,15 +120,53 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 	std::vector<Vector*> box1Vertices = box1->GetVertices();
 	std::vector<Plane*> box2Planes = box2->GetPlanes();
 
-	for (int i = 0; i < box1Vertices.size(); ++i) // Pour chaque sommet de la boite 1
+	std::vector<bool> box1VxInBox2 = std::vector<bool>(box1Vertices.size(), false);
+	std::vector<Vector*> collidingVertices;
+
+
+	for (int i = 0; i < box1Vertices.size(); ++i) // Pour chaque plan de la boite 2
 	{
-		for (int j = 0; j < box2Planes.size(); ++j) // Pour chaque plan de la boite 2
+		int countInto = 0;
+		for (int j = 0; j < box2Planes.size(); ++j) // Pour chaque sommet de la boite 1
 		{
 			double t = box2Planes[j]->ComputeT(*box1Vertices[i]);
-
-
+			if (t <= 0) ++countInto;
 		}
+
+		if (countInto == box2Planes.size())box1VxInBox2[i] = true;
 	}
 
+
+	for (int i = 0; i < box1VxInBox2.size(); ++i)
+	{
+		if (box1VxInBox2[i]) collidingVertices.push_back(box1Vertices[i]);
+	}
+
+	Vector pointBox1 = Vector(); // Point de collision box1
+	Vector pointBox2 = Vector(); // Point de collision box2
+	
+	switch (collidingVertices.size())
+	{
+	case 1:
+		pointBox1 = *collidingVertices[0];
+		////// TO DO : Calcul pointBox2
+		break;
+	case 2:
+		pointBox1 = 0.5f * (*collidingVertices[0] + *collidingVertices[1]);
+		////// TO DO : Calcul pointBox2
+		break;
+	case 4:
+		////// TO DO : Calcul pointBox1
+		////// TO DO : Calcul pointBox2
+		break;
+
+	default:
+		return false;
+		break;
+	}
+	
+	////// TO DO : Traiter les collisions
+
 	return true;
+
 }
