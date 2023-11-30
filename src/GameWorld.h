@@ -89,7 +89,7 @@ private:
 	////// Recherche des collisions //////
 	std::vector<BoxPair*> boxPairs;//<<<liste des rigid bodies
 	void HandleCollisions();
-	void DetectCollisions(Box* box1, Box* box2);
+	bool DetectCollisions(Box* box1, Box* box2);
 };
 
 #endif

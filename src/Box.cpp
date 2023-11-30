@@ -72,8 +72,8 @@ std::vector<Plane*> Box::GetPlanes()
 	for (int j = 0; j < 3; ++j) // Création de tous les plan de la boîte 1
 	{
 		Vector normal = this->GetOrientationMat().GetColumn(j).normalisation();
-		Vector pointFront = this->GetSize().GetCoordByIndex(j) * normal + this->GetCenter()->GetPosition();
-		Vector pointBack = this->GetSize().GetCoordByIndex(j) * (-1 * normal) + this->GetCenter()->GetPosition();
+		Vector pointFront = this->GetSize().GetCoordByIndex(j) / 2.0f * normal + this->GetCenter()->GetPosition();
+		Vector pointBack = this->GetSize().GetCoordByIndex(j) / 2.0f * (-1 * normal) + this->GetCenter()->GetPosition();
 
 		boxPlanes.push_back(new Plane(normal, pointFront));
 		boxPlanes.push_back(new Plane(-1 * normal, pointBack));
@@ -136,8 +136,8 @@ std::vector<Vector*> Box::GetVertices()
 
 	for (int j = 0; j < 2; ++j)
 	{
-		Vector normal1 = this->GetSize().GetCoordByIndex(j) * this->GetOrientationMat().GetColumn(j).normalisation();
-		Vector normal2 = this->GetSize().GetCoordByIndex((j + 1) % 3) * this->GetOrientationMat().GetColumn((j + 1) % 3).normalisation();
+		Vector normal1 = this->GetSize().GetCoordByIndex(j) / 2.0f * this->GetOrientationMat().GetColumn(j).normalisation();
+		Vector normal2 = this->GetSize().GetCoordByIndex((j + 1) % 3) / 2.0f * this->GetOrientationMat().GetColumn((j + 1) % 3).normalisation();
 
 		boxVertices.push_back(new Vector(normal1 + normal2 + this->GetCenter()->GetPosition()));
 		boxVertices.push_back(new Vector(-1 * normal1 + normal2 + this->GetCenter()->GetPosition()));

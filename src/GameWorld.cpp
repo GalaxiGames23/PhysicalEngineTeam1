@@ -113,7 +113,7 @@ void GameWorld::HandleCollisions()
 	}
 }
 
-void GameWorld::DetectCollisions(Box* box1, Box* box2)
+bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 {
 	std::vector<Vector*> box1Vertices = box1->GetVertices();
 	std::vector<Plane*> box2Planes = box2->GetPlanes();
@@ -127,4 +127,6 @@ void GameWorld::DetectCollisions(Box* box1, Box* box2)
 
 		}
 	}
+
+	return true;
 }
