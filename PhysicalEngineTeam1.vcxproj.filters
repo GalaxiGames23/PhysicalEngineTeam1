@@ -141,6 +141,9 @@
     <Filter Include="src\Rigids">
       <UniqueIdentifier>{6e0a811d-0809-427b-9e2f-902c5e677729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Collisions">
+      <UniqueIdentifier>{978be3fe-51dc-422a-838f-f327b08a9292}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ofApp.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="src\Plane.h">
       <Filter>src\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoxPair.h">
+      <Filter>src\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

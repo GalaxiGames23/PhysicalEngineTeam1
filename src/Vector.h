@@ -33,6 +33,8 @@ class Vector
 		double get_y() const;
 		double get_z() const;
 
+		double GetCoordByIndex(int index);
+
 		double norm() const;
 		double square_norm() const;
 		Vector normalisation() const;

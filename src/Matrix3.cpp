@@ -274,3 +274,12 @@ Quaternion Matrix3::toQuaternion() const
 	double z = (coefficients[3] - coefficients[1]) / w4;
 	return Quaternion(w, Vector(x,y,z));
 }
+
+
+Vector Matrix3::GetColumn(int columnIndex)
+{
+	if (columnIndex == 0) return Vector(coefficients[0], coefficients[3], coefficients[6]);
+	else if (columnIndex == 1) return Vector(coefficients[1], coefficients[4], coefficients[7]);
+	else if (columnIndex == 2) return Vector(coefficients[2], coefficients[5], coefficients[8]);
+	else return Vector();
+}

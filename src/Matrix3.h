@@ -36,16 +36,20 @@ public:
 	bool operator==(const Matrix3& m);
 	bool operator!=(const Matrix3& m);
 
-	//setter
+	///// Setters /////
 	void SetCoefficients(std::array<float, 9> coefs);
 	void SetCoefficient(int i, float coef);
 	//gestion plus "traditionnelle" des matrices
 	void SetCoefficient(int row, int column, float coef); 
 
-	//getter
+	///// Getters /////
 	float GetCoefficient(int i) const;
 	//gestion plus "traditionnelle" des matrices
 	float GetCoefficient(int row, int column) const;
+
+	Vector GetColumn(int columnIndex);
+
+
 
 	//inverse de la matrice
 	Matrix3 Invers();

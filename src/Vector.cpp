@@ -37,6 +37,21 @@ double Vector::get_z() const
 	return z;
 }
 
+double Vector::GetCoordByIndex(int index)
+{
+	switch (index)
+	{
+	case 0: return this->x;
+		break;
+	case 1: return this->y;
+		break;
+	case 2: return this->z;
+		break;
+	default: return 0;
+		break;
+	}
+}
+
 double Vector::norm() const
 {
 	return sqrt(this->square_norm());

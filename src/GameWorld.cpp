@@ -101,3 +101,30 @@ void GameWorld::UpdateTrace(float duration)
 		timer = 0;
 	}
 }
+
+
+
+void GameWorld::HandleCollisions()
+{
+	for (int i = 0; i < boxPairs.size(); ++i) // Pour chaque paire de boites à tester
+	{
+		this->DetectCollisions(boxPairs[i]->box1, boxPairs[i]->box2);
+		this->DetectCollisions(boxPairs[i]->box2, boxPairs[i]->box1);
+	}
+}
+
+void GameWorld::DetectCollisions(Box* box1, Box* box2)
+{
+	std::vector<Vector*> box1Vertices = box1->GetVertices();
+	std::vector<Plane*> box2Planes = box2->GetPlanes();
+
+	for (int i = 0; i < box1Vertices.size(); ++i) // Pour chaque sommet de la boite 1
+	{
+		for (int j = 0; j < box2Planes.size(); ++j) // Pour chaque plan de la boite 2
+		{
+			double t = box2Planes[j]->ComputeT(*box1Vertices[i]);
+
+
+		}
+	}
+}

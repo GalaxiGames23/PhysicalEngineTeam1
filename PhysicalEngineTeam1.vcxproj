@@ -178,6 +178,7 @@
     <ClInclude Include="src\RigidBodyForce.h" />
     <ClInclude Include="src\RigidBodyForceGenerator.h" />
     <ClInclude Include="src\RigidBodyForceRegistry.h" />
+    <ClInclude Include="src\BoxPair.h" />
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\Ground.h" />

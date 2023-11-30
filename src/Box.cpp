@@ -62,3 +62,88 @@ void Box::draw()
 	ofSetColor(ofColor::white);
 	ofEnableDepthTest();
 }
+
+
+
+std::vector<Plane*> Box::GetPlanes()
+{
+	std::vector<Plane*> boxPlanes; // <<< liste des 6 plans d'une boîte
+
+	for (int j = 0; j < 3; ++j) // Création de tous les plan de la boîte 1
+	{
+		Vector normal = this->GetOrientationMat().GetColumn(j).normalisation();
+		Vector pointFront = this->GetSize().GetCoordByIndex(j) * normal + this->GetCenter()->GetPosition();
+		Vector pointBack = this->GetSize().GetCoordByIndex(j) * (-1 * normal) + this->GetCenter()->GetPosition();
+
+		boxPlanes.push_back(new Plane(normal, pointFront));
+		boxPlanes.push_back(new Plane(-1 * normal, pointBack));
+	}
+	return boxPlanes;
+}
+
+
+/*
+std::vector<Vector*> Box::GetVertices()
+{
+	std::vector<Vector*> boxVertices; // <<< liste des 6 sommets d'une boîte
+
+	
+	//on récupère les axes
+	Vector normalX = this->GetOrientationMat().GetColumn(0).normalisation();
+	Vector normalY = this->GetOrientationMat().GetColumn(1).normalisation();
+	Vector normalZ = this->GetOrientationMat().GetColumn(2).normalisation();
+
+	//X et Y
+	Vector vertex1 = this->GetCenter()->GetPosition() + this->GetSize().get_x() * normalX + this->GetSize().get_y() * normalY;
+	boxVertices.push_back(&vertex1);
+
+	//X et -Y
+	Vector vertex2 = this->GetCenter()->GetPosition() + this->GetSize().get_x() * normalX - this->GetSize().get_y() * normalY;
+	boxVertices.push_back(&vertex2);
+
+	//-X et Y
+	Vector vertex3 = this->GetCenter()->GetPosition() - this->GetSize().get_x() * normalX + this->GetSize().get_y() * normalY;
+	boxVertices.push_back(&vertex3);
+
+	//-X et -Y
+	Vector vertex4 = this->GetCenter()->GetPosition() - this->GetSize().get_x() * normalX - this->GetSize().get_y() * normalY;
+	boxVertices.push_back(&vertex4);
+
+	//X et Z
+	Vector vertex5 = this->GetCenter()->GetPosition() + this->GetSize().get_x() * normalX + this->GetSize().get_z() * normalZ;
+	boxVertices.push_back(&vertex5);
+
+	//X et -Z
+	Vector vertex6 = this->GetCenter()->GetPosition() + this->GetSize().get_x() * normalX - this->GetSize().get_z() * normalZ;
+	boxVertices.push_back(&vertex6);
+
+	//-X et Z
+	Vector vertex7 = this->GetCenter()->GetPosition() - this->GetSize().get_x() * normalX + this->GetSize().get_z() * normalZ;
+	boxVertices.push_back(&vertex7);
+
+	//-X et -Z
+	Vector vertex8 = this->GetCenter()->GetPosition() - this->GetSize().get_x() * normalX - this->GetSize().get_z() * normalZ;
+	boxVertices.push_back(&vertex8);
+
+
+	return boxVertices;
+}
+*/
+
+std::vector<Vector*> Box::GetVertices()
+{
+	std::vector<Vector*> boxVertices; // <<< liste des 6 sommets d'une boîte
+
+	for (int j = 0; j < 2; ++j)
+	{
+		Vector normal1 = this->GetSize().GetCoordByIndex(j) * this->GetOrientationMat().GetColumn(j).normalisation();
+		Vector normal2 = this->GetSize().GetCoordByIndex((j + 1) % 3) * this->GetOrientationMat().GetColumn((j + 1) % 3).normalisation();
+
+		boxVertices.push_back(new Vector(normal1 + normal2 + this->GetCenter()->GetPosition()));
+		boxVertices.push_back(new Vector(-1 * normal1 + normal2 + this->GetCenter()->GetPosition()));
+		boxVertices.push_back(new Vector(normal1 + -1 * normal2 + this->GetCenter()->GetPosition()));
+		boxVertices.push_back(new Vector(-1 * normal1 + -1 * normal2 + this->GetCenter()->GetPosition()));
+	}
+
+	return boxVertices;
+}
