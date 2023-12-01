@@ -25,7 +25,6 @@ public:
 
 	std::vector<Plane*> GetPlanes();
 	std::vector<Vector*> GetVertices();
-	Vector GetPlaneCenter(std::vector<Vector*> vertices);
 
 
 	///// Functions /////

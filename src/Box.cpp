@@ -147,8 +147,3 @@ std::vector<Vector*> Box::GetVertices()
 
 	return boxVertices;
 }
-
-Vector Box::GetPlaneCenter(std::vector<Vector*> vertices)
-{
-
-}

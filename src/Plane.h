@@ -12,6 +12,7 @@ private :
 public :
 	///// Contructor / Destructor /////
 
+	Plane() {};
 	Plane(Vector normal, Vector point);
 	~Plane() {};
 

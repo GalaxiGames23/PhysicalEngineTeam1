@@ -142,30 +142,30 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 		if (box1VxInBox2[i]) collidingVertices.push_back(box1Vertices[i]);
 	}
 
-	Vector pointBox1 = Vector(); // Point de collision box1
-	Vector pointBox2 = Vector(); // Point de collision box2
+	Vector pointCollision = Vector(); // Point de collision des boxes
+	Plane plan = Plane();
 	
 	switch (collidingVertices.size())
 	{
 	case 1:
-		pointBox1 = *collidingVertices[0];
-		////// TO DO : Calcul pointBox2
+		pointCollision = *collidingVertices[0];
 		break;
 	case 2:
-		pointBox1 = 0.5f * (*collidingVertices[0] + *collidingVertices[1]);
-		////// TO DO : Calcul pointBox2
+		pointCollision = 0.5f * (*collidingVertices[0] + *collidingVertices[1]);
 		break;
 	case 4:
-		////// TO DO : Calcul pointBox1
-		////// TO DO : Calcul pointBox2
+		// Calcul de la normale du plan à partir de deux vecteurs du plan
+		Vector normal = (*collidingVertices[0] - *collidingVertices[1]).prod_vector(*collidingVertices[0] - *collidingVertices[2]);
+		plan = Plane(normal, *collidingVertices[3]);
+		pointCollision = plan.ComputeR(box1->GetCenter()->GetPosition());
 		break;
-
 	default:
 		return false;
 		break;
 	}
 	
-	////// TO DO : Traiter les collisions
+	////// TO DO : Traiter les collisions (avec Point collision pour les deux boites en point d'application)
+	////// A noter : Pour la direction de la force : Utiliser la direction du vecteur vitesse de la boite concernée (Pas hesiter à redemander)
 
 	return true;
 
