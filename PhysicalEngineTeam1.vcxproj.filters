@@ -112,6 +112,9 @@
     <ClCompile Include="src\Plane.cpp">
       <Filter>src\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="src\Octree.cpp">
+      <Filter>src\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -261,6 +264,9 @@
       <Filter>src\Tools</Filter>
     </ClInclude>
     <ClInclude Include="src\BoxPair.h">
+      <Filter>src\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Octree.h">
       <Filter>src\Collisions</Filter>
     </ClInclude>
   </ItemGroup>

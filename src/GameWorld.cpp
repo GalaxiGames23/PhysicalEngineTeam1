@@ -144,7 +144,7 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 
 	Vector pointCollision = Vector(); // Point de collision des boxes
 	Plane plan = Plane();
-	
+	Vector normal;
 	switch (collidingVertices.size())
 	{
 	case 1:
@@ -155,7 +155,7 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 		break;
 	case 4:
 		// Calcul de la normale du plan à partir de deux vecteurs du plan
-		Vector normal = (*collidingVertices[0] - *collidingVertices[1]).prod_vector(*collidingVertices[0] - *collidingVertices[2]);
+		 normal = (*collidingVertices[0] - *collidingVertices[1]).prod_vector(*collidingVertices[0] - *collidingVertices[2]);
 		plan = Plane(normal, *collidingVertices[3]);
 		pointCollision = plan.ComputeR(box1->GetCenter()->GetPosition());
 		break;

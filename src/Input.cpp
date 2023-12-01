@@ -166,8 +166,6 @@ void Input::draw()
 		ofDrawArrow((inputRigid.rb->GetCenter()->GetPosition() + printForcePosition).toVec3(), (inputRigid.rb->GetCenter()->GetPosition() + printForcePosition + force * 0.1).toVec3(), 2);
 		ofSetColor(ofColor::black);
 		for (RigidBodyForce* force : inputRigid.forces) force->draw();
-		
-		
 	}
 }
 

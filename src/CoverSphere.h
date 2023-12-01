@@ -19,7 +19,7 @@ public :
 
 	///// Getters /////
 
-	Rigid& GetRb() { return *this->rb;  };
+	Rigid* GetRb() { return this->rb;  };
 	Vector GetCenter() { return this->center; };
 	double GetRadius() { return this->radius; };
 
