@@ -17,6 +17,8 @@ protected:
 
 	Matrix3 J = Matrix3(); //<<< Tenseur d'inertie pour le calcul de l'accélération angulaire
 	Vector accumTorque = Vector(); //<<< Torque du rigidbody, obtenu à partir 
+	Vector size;// <<< Vecteur représentant la longueur, largeur et hauteur du cube
+
 
 public:
 	//constructeurs
@@ -33,6 +35,7 @@ public:
 	Vector GetOmega() { return this->omega; }
 	Vector GetAlpha() { return this->alpha; }
 	Vector GetScale() { return this->scale; }
+	Vector GetSize() { return this->size; };
 
 	//setters, inline
 	void SetCenter(Particule center) { this->centerOfMass = center; }

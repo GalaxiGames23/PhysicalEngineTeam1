@@ -14,14 +14,12 @@
 class Box : public Rigid
 {
 private:
-	Vector size;// <<< Vecteur représentant la longueur, largeur et hauteur du cube
 
 	Matrix3 CreateJ(Particule center);
 
 public:
 
-	///// Getters /////
-	Vector GetSize() { return this->size; };
+
 
 	std::vector<Plane*> GetPlanes();
 	std::vector<Vector*> GetVertices();
@@ -31,7 +29,6 @@ public:
 
 	Box() : Rigid() 
 	{ 
-		size = Vector();
 	};
 
 	Box(Particule center,Matrix3 orientationMat, Vector omega, Vector alpha, Vector scale, Vector size);

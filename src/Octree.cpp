@@ -1,26 +1,30 @@
 #include "Octree.h"
+#include "of3dPrimitives.h"
+#include <ofGraphics.h>
+#include <of3dGraphics.h>
 
 int Octree::countRigidInZone(Node* node)
 {
-	if (node->nextNodes[0] = nullptr)
+	if (node->nextNodes[0] == nullptr)
 	{
 		return node->coverSpheres.size();
 	}
-
 	std::vector<CoverSphereIntern*> saveSphere;
-
+	
 	for (int i = 0; i < 8; i++)
 	{
 		for (CoverSphereIntern* sphere : node->nextNodes[i]->coverSpheres)
 		{
-			if (std::find(saveSphere.begin(), saveSphere.end(), sphere) != saveSphere.end())
+			if (std::find(saveSphere.begin(), saveSphere.end(), sphere) == saveSphere.end())
 			{
 				saveSphere.push_back(sphere);
 			}
 		}
 	}
+	
 	return saveSphere.size();
 }
+
 
 void Octree::cutNodeTree(Node* cutNode)
 {
@@ -60,15 +64,14 @@ void Octree::cutNodeTree(Node* cutNode)
 			CoverSphere* analyseSphere = cutNode->coverSpheres[j]->nodeRigids;
 			if (isOnZone(newNode,analyseSphere) > 0) //Si la sphere est dans la nouvelle zone
 			{
+				newNode->result[analyseSphere] = compareLastPosValue(newNode, analyseSphere);
 				newNode->coverSpheres.push_back(cutNode->coverSpheres[j]);
+				
 			}
 		}
 		cutNode->nextNodes[i] = newNode;
 		activeNode.push_back(newNode);
 	}
-
-	cutNode->coverSpheres.clear(); //clear le parent
-
 }
 
 void Octree::joinNodeTree(Node* parentJoinedNode)
@@ -78,27 +81,27 @@ void Octree::joinNodeTree(Node* parentJoinedNode)
 		printf("Error, use function on not active node\n");
 		return;
 	}
-	else if (parentJoinedNode->nextNodes[0]->nextNodes[0] != nullptr)
-	{
-		printf("Too high in the tree\n");
-		return;
-	}
-
-	parentJoinedNode->coverSpheres.clear();
-
+	
+	
 	for (int i = 0; i < 8; i++)
 	{
-		for (CoverSphereIntern* sphere : parentJoinedNode->nextNodes[i]->coverSpheres)
-		{
-			if (std::find(parentJoinedNode->coverSpheres.begin(), parentJoinedNode->coverSpheres.end(), sphere) != parentJoinedNode->coverSpheres.end())
-			{
-				parentJoinedNode->coverSpheres.push_back(sphere);
-			}
-		}
-		parentJoinedNode->nextNodes[i]->coverSpheres.clear();
+		joinRec(parentJoinedNode->nextNodes[i]);
+		parentJoinedNode->nextNodes[i] = nullptr;
+	}
+	activeNode.push_back(parentJoinedNode);
+	for (CoverSphereIntern* s : parentJoinedNode->coverSpheres)
+	{
+		parentJoinedNode->result[s->nodeRigids] = compareLastPosValue(parentJoinedNode, s->nodeRigids);
+	}
 
+}
+
+void Octree::joinRec(Node* joinedNode)
+{
+	if (joinedNode->nextNodes[0] == nullptr)
+	{
 		auto it = find(activeNode.begin(), activeNode.end(),
-			parentJoinedNode->nextNodes[i]);
+			joinedNode);
 
 		if (it != activeNode.end()) {
 			activeNode.erase(it);
@@ -108,17 +111,34 @@ void Octree::joinNodeTree(Node* parentJoinedNode)
 			printf("Error, node not found on activeNode for join\n");
 			return;
 		}
-		delete parentJoinedNode->nextNodes[i];
-		parentJoinedNode->nextNodes[i] = nullptr;
+		delete joinedNode;
+		return;
 	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		joinRec(joinedNode->nextNodes[i]);
+	}
+	delete joinedNode;
 }
 
-void Octree::changeZone(CoverSphere* s)
+void Octree::changeZone(CoverSphereIntern* s)
 {
-	removeRigid(s);
-	addRigid(s);
+	internRemove(s);
+	internAdd(s);
 }
+int Octree::compareLastPosValue(Node* node, CoverSphere* sphere)
+{
+	Vector direction = sphere->GetRb()->GetCenter()->GetPosition() - node->center;
+	double directionx = direction.projection(Vector(1, 0, 0)).get_x();
+	double directiony = direction.projection(Vector(0, 1, 0)).get_y();
+	double directionz = direction.projection(Vector(0, 0, 1)).get_z();
 
+	double testx = abs(directionx) < node->size + sphere->GetRadius();
+	double testy = abs(directiony) < node->size + sphere->GetRadius();
+	double testz = abs(directionz) < node->size + sphere->GetRadius();
+	return testx * convertSign(directionx) + 4 * testy * convertSign(directiony) + 16 * convertSign(directionz);
+}
 
 int Octree::isOnZone(Node* node, CoverSphere* sphere)
 {
@@ -130,7 +150,7 @@ int Octree::isOnZone(Node* node, CoverSphere* sphere)
 	{
 		return 1; // la sphere est entierement a l'intérieur du 
 	}
-	else if (projx < node->size + sphere->GetRadius() || projy < node->size + sphere->GetRadius() || projz < node->size + sphere->GetRadius())
+	else if (projx < node->size + sphere->GetRadius() && projy < node->size + sphere->GetRadius() && projz < node->size + sphere->GetRadius())
 	{
 		return 2;  // sphere between two or more zone
 	}
@@ -182,76 +202,158 @@ Octree::~Octree()
 {
 	eraseAll(root);
 }
+void Octree::internAdd(CoverSphereIntern* newSphere)
+{
+	for (Node* n : activeNode)
+	{
+		if (isOnZone(n, newSphere->nodeRigids) > 0)
+		{
+			n->coverSpheres.push_back(newSphere);
+			Node* temp = n->parent;
+			while (temp != nullptr) //mettre a jour les noeuds supérieurs
+			{
+				if (std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), newSphere) == temp->coverSpheres.end())
+				{
+					temp->coverSpheres.push_back(newSphere);
+				}
+				else
+				{
+					break;
+				}
+				temp = temp->parent;
+			}
+		}
+	}
+	bool change = false;
+	int max_change = 5;
+	do
+	{
+		change = false;
+		int i = 0;
+		std::unordered_map<Node*, int> parentNodes;
+		for (Node* n : activeNode)
+		{
+			if (n->size > minSizeBlock && n->coverSpheres.size() >= nbRigidPerZone) // Si trop de rigid dans la même zone
+			{
+				cutNodeTree(n);
+				change = true;
+				max_change--;
+				break;
+			}
+		}
+	} while (change && max_change > 0);
+}
 
-void Octree::addRigid(CoverSphere* addSphere)
+void Octree::addRigid(Rigid* addSphere)
 {
 	CoverSphereIntern* newSphere = new CoverSphereIntern();
+	CoverSphere* sphere = new CoverSphere(addSphere);
+	newSphere->nodeRigids = sphere;
 	allSphere.push_back(newSphere);
 	for (Node* n : activeNode)
 	{
-		if (isOnZone(n, addSphere) > 0)
+		if (isOnZone(n, sphere) > 0)
 		{
-			newSphere->nodeRigids = addSphere;
 			n->coverSpheres.push_back(newSphere);
+			Node* temp = n->parent;
+			while (temp != nullptr) //mettre a jour les noeuds supérieurs
+			{
+				if (std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), newSphere) == temp->coverSpheres.end())
+				{
+					temp->coverSpheres.push_back(newSphere);
+				}
+				else
+				{
+					break;
+				}
+				temp = temp->parent;
+			}
 		}
 	}
-
-	std::vector<Node*> copy(activeNode);
-	for (Node* n : copy)
+	bool change = false;
+	int max_change = 5;
+	do
 	{
-		if (n->coverSpheres.size() > nbRigidPerZone) // Si trop de rigid dans la même zone
+		change = false;
+		int i = 0;
+		std::unordered_map<Node*, int> parentNodes;
+		for (Node* n : activeNode)
 		{
-			cutNodeTree(n);
+			if ( n->size > minSizeBlock && n->coverSpheres.size() > nbRigidPerZone) // Si trop de rigid dans la même zone
+			{
+				cutNodeTree(n);
+				change = true;
+				max_change--;
+				break;
+			}
 		}
-		else if (countRigidInZone(n->parent) <= nbRigidPerZone)  // Si trop peu de rigid dans le parent
-		{
-			joinNodeTree(n);
-		}
-	}
+	} while (change && max_change > 0);
 }
 
-void Octree::eraseRigid(CoverSphere* removeSphere)
+void Octree::eraseRigid(Rigid* removeSphere)
 {
-	removeRigid(removeSphere);
-	std::vector<Node*> copy(activeNode);
-	for (Node* n : copy)
+	for (std::vector<CoverSphereIntern*>::iterator it = allSphere.begin(); it < allSphere.end(); it++)
 	{
-		if (countRigidInZone(n->parent) <= 4)
+		CoverSphereIntern* sphereToRemove = (*it);
+		if (sphereToRemove->nodeRigids->GetRb() == removeSphere)
 		{
-			joinNodeTree(n);
+			internRemove(sphereToRemove);
+			allSphere.erase(it);
+			delete sphereToRemove->nodeRigids;
+			delete sphereToRemove;
+			return;
 		}
 	}
+	
 }
 
-void Octree::removeRigid(CoverSphere* removeSphere){
+void Octree::internRemove(CoverSphereIntern* removeSphere){
 	
 	for (Node* n : activeNode)
 	{
-		for (std::vector<CoverSphereIntern*>::iterator it = n->coverSpheres.begin(); it < n->coverSpheres.begin();)
+		for (std::vector<CoverSphereIntern*>::iterator it = n->coverSpheres.begin(); it != n->coverSpheres.end(); it++)
 		{
-			if ((*it)->nodeRigids == removeSphere)
+			CoverSphereIntern* s = (*it);
+			if (s == removeSphere)
 			{
+				Node* temp = n->parent;
+				while (temp != nullptr) //mettre a jour les noeuds supérieurs
+				{
+					auto tempIt = std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), s);
+					if (tempIt != temp->coverSpheres.end())
+					{
+						temp->coverSpheres.erase(tempIt);
+					}
+					else
+					{
+						break;
+					}
+					temp = temp->parent;
+				}
 				n->coverSpheres.erase(it);
+				break;
 			}
-			else
-			{
-				it++;
-			}
-		}
-		
-	}
 
-	for (std::vector<CoverSphereIntern*>::iterator it = allSphere.begin(); it < allSphere.begin();)
+			
+		}
+	}
+	bool change = false;
+	int max_change = 5;
+	do
 	{
-		if ((*it)->nodeRigids == removeSphere)
+		change = false;
+		for (Node* n : activeNode)
 		{
-			allSphere.erase(it);
-			delete* it;
-			return;
+			if (n != nullptr && n->parent != nullptr && countRigidInZone(n->parent) <= nbRigidPerZone)
+			{
+				joinNodeTree(n->parent);
+				change = true;
+				max_change--;
+				break;
+			}
 		}
-
-	}
-	printf("There is a problem sphere don't find in allSphere");
+	} while (change && max_change > 0);
+	
 }
 
 
@@ -263,45 +365,113 @@ std::vector<RigidPair*> Octree::allPossibleCollision()
 	std::vector<RigidPair*> boxBetweenTwoSameZone;
 
 	std::unordered_map<CoverSphereIntern*, int> countZone;
-
-	for (Node* currentNode : activeNode) // si un rigidBody est sortie de la zone, mettre a jour l'arbre
-	{
-		for (int i = 0; i < currentNode->coverSpheres.size(); i++)
+	bool change = false;
+	int max_change = 5;
+	do {
+		change = false;
+		for (Node* currentNode : activeNode) // si un rigidBody est sortie de la zone, mettre a jour l'arbre
 		{
-			CoverSphere* s1 = currentNode->coverSpheres[i]->nodeRigids;
-			int testZone = isOnZone(currentNode, s1);
-			if (testZone == 0 || testZone == 2)
+			for (int i = 0; i < currentNode->coverSpheres.size(); i++)
 			{
-				changeZone(s1);
+				CoverSphere* s1 = currentNode->coverSpheres[i]->nodeRigids;
+				int testZone = isOnZone(currentNode, s1);
+				if (testZone == 0)
+				{
+
+					changeZone(currentNode->coverSpheres[i]);
+					change = true;
+					max_change--;
+					break;
+
+				}
+				else if (testZone == 2)
+				{
+					int num = compareLastPosValue(currentNode, s1);
+					if (currentNode->result[s1] != num)
+					{
+						currentNode->result[s1] = num;
+						changeZone(currentNode->coverSpheres[i]);
+						change = true;
+						max_change--;
+						break;
+					}
+					
+				}
+				else
+				{
+					currentNode->result[s1] = 0;
+				}
+			}
+			if (change)
+			{
+				break;
 			}
 		}
-	}
-
+	} while (change && max_change > 0);
+	
 	for (Node* currentNode : activeNode) //Recolter les collisions sur la même zone
 	{
 		for (int i = 0; i < currentNode->coverSpheres.size(); i++)
 		{
 			CoverSphereIntern *s1 = currentNode->coverSpheres[i];
-
-			for (int j = i + 1; currentNode->coverSpheres.size(); j++)
+			for (int j = i + 1; j < currentNode->coverSpheres.size(); j++)
 			{
 				CoverSphereIntern* s2 = currentNode->coverSpheres[j];
-				if (std::find(s1->alreadyConsiderCollision.begin(), s1->alreadyConsiderCollision.end(), s2) != s1->alreadyConsiderCollision.end()) //enlever les doublons
+				if (std::find(s1->alreadyConsiderCollision.begin(), s1->alreadyConsiderCollision.end(), s2) == s1->alreadyConsiderCollision.end()) //enlever les doublons
 				{
 					RigidPair* r = new RigidPair();
 					r->rigid1 = s1->nodeRigids->GetRb();
 					r->rigid2 = s2->nodeRigids->GetRb();
 					allCollision.push_back(r);
+					
 					s1->alreadyConsiderCollision.push_back(s2);
 					s2->alreadyConsiderCollision.push_back(s1);
 				}
 			}
 		}
 	}
-
 	for (int i = 0; i < allSphere.size(); i++) //clear les collisions déjà prit en compte, pour la prochaine frame
 	{
 		allSphere[i]->alreadyConsiderCollision.clear();
 	}
 	return allCollision;
+}
+
+void Octree::draw()
+{
+	if (enableDrawing)
+	{
+		int size = activeNode.size();
+		ofEnableAlphaBlending();
+		for (int i = 0; i < size; i++)
+		{
+			int numR = 255 - (i * 200) % 256;
+			int numG = 255 - (i * 200 * (i * 200 / 256)) % 256;
+			int numB = 255 - (i * 200 * (i * 200 / (256 * 256))) % 256;
+
+			ofSetColor(numR, numG, numB, 20);
+			ofDrawBox(activeNode[i]->center.toVec3(), activeNode[i]->size * 2);
+
+		}
+		ofDisableAlphaBlending();
+		ofSetColor(ofColor::white);
+	}
+	
+
+}
+
+void Octree::changeEnableDrawing()
+{
+	enableDrawing = !enableDrawing;
+}
+
+void Octree::freePossibleCollision(std::vector<RigidPair*> r)
+{
+	auto it = r.begin();
+	while (!r.empty())
+	{
+		RigidPair* value = r.back();
+		r.pop_back();
+		delete value;
+	}
 }

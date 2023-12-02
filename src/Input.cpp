@@ -140,7 +140,7 @@ void Input::addForceToSpawningRegistry()
 	
 }
 
-void Input::spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry &registreRigids)
+void Input::spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry &registreRigids, Octree & octree)
 {
 	if (inputRigid.rb != nullptr)
 	{
@@ -148,6 +148,7 @@ void Input::spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry 
 		for (RigidBodyForce* force : inputRigid.forces)
 			registreRigids.add(inputRigid.rb, force);
 
+		octree.addRigid(inputRigid.rb);
 		inputRigid.rb = nullptr;
 		inputRigid.forces.clear();
 	}

@@ -39,8 +39,9 @@ void GameWorld::UpdateLogic(float duration)
 	for (int i = 0; i < rigidBodies.size(); ++i) 
 	{
 		//destruction des rigid bodies sous un certain seuil
-		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 2000)
+		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 500)
 		{
+			octree.eraseRigid(rigidBodies[i]);
 			rigidBodies.erase(rigidBodies.begin() + i);
 		}
 		else
@@ -54,10 +55,17 @@ void GameWorld::UpdateLogic(float duration)
 
 	}
 
+	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
+
+	/*TO DO: TRAITEMENT DES COLLISIONS*/
+
+	octree.freePossibleCollision(allCollisionFrame);
+
 	//gestion de la trace 
 	UpdateTrace(duration);
 
 	myCam->setPosition();
+	basicCam->setPosition();
 }
 
 void GameWorld::addForces()

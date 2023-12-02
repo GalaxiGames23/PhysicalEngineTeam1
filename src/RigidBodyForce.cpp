@@ -21,7 +21,7 @@ void RigidBodyForce::updateForce(Rigid* rigidBody, float duration)
 	rigidBody->AddTorque(appliedTorque);
 
 	// Apply Linear Force
-	rigidBody->AddToAccumCenter(20*this->force);
+	rigidBody->AddToAccumCenter(this->force * (1.0f / duration));
 }
 
 void RigidBodyForce::draw()

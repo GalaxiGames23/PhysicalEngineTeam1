@@ -4,6 +4,7 @@
 #include "InputForce.h"
 
 #include "Rigid.h"
+#include "Octree.h"
 #define _USE_MATH_DEFINES
 
 #include <cmath>
@@ -96,7 +97,7 @@ class Input
 		void addForceToSpawningRegistry();
 
 		/*Créer un solide, et le mettre dans la liste des solides du monde, avec les forces qui lui sont associées*/
-		void spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry &registreRigids);
+		void spawnRigid(std::vector<Rigid*>& rigidBodies, RigidBodyForceRegistry &registreRigids, Octree& octree);
 
 		/*Dessiner les inputs en entrée a l'aide d'une flèche, ainsi que visualiser le solide qui va être créer*/
 		void draw();

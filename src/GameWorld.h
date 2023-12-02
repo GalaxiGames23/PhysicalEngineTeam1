@@ -19,6 +19,7 @@
 
 #include "Input.h"
 #include "InputForce.h"
+#include "Octree.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -46,6 +47,8 @@ public:
 	
 	////// Inputs //////
 	Camera* myCam;
+
+	Octree octree;
 
 	////// Inputs //////
 	Camera* basicCam;

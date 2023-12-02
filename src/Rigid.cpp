@@ -9,7 +9,7 @@ Rigid::Rigid(const Rigid& rigid)
 	this->omega = rigid.omega;
 	this->alpha = rigid.alpha;
 	this->scale = rigid.scale;
-
+	this->size = Vector();
 	this->J = rigid.J;
 	this->accumTorque = rigid.accumTorque;
 }
@@ -21,7 +21,7 @@ Rigid::Rigid(Particule  center, Matrix3 orientationMat, Vector omega, Vector alp
 	this->orientationMat = orientationMat;
 	this->omega = omega;
 	this->alpha = alpha;
-
+	this->size = Vector();
 	this->scale = scale;
 	this->J = Matrix3(); // Valeur par défaut pour les RigidBody non hérités !
 	this->accumTorque = Vector(); // Accumulateur vide à l'initialisation

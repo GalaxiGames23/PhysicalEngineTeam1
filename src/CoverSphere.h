@@ -14,7 +14,7 @@ private:
 public :
 	///// Contructor / Destructor /////
 	
-	CoverSphere(Rigid* rb, double radius);
+	CoverSphere(Rigid* rb);
 	~CoverSphere() {};
 
 	///// Getters /////

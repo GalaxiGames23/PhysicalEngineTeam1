@@ -1,8 +1,8 @@
 #include "CoverSphere.h"
 
-CoverSphere::CoverSphere(Rigid* rb, double radius)
+CoverSphere::CoverSphere(Rigid* rb)
 {
 	this->rb = rb;
-	this->radius = radius;
+	this->radius = rb->GetSize().norm();
 	this->center = rb->GetCenter()->GetPosition();
 }

@@ -4,15 +4,15 @@
 void ofApp::setup()
 {
 	input.setInput(v);
-	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-1000,0,0), moonParticle);
-	gameworld->basicCam = new Camera(moonParticle->GetPosition() + Vector(0, 0, -500), moonParticle);
+	gameworld->myCam = new Camera(moonParticle->GetPosition() + Vector(-5000,0,0), moonParticle);
+	gameworld->basicCam = new Camera(moonParticle->GetPosition() + Vector(0, 0, -3000), moonParticle);
 	myController = new PlayerController();
 
 	//set up de l'harmonique de l'hud
 	HUDParticule = Particule(0.5f, Vector(-10000,-20, 0), Vector(0, 0, 0), 1.0f);
 	HUDParticule.SetUpHarmonic();
 	lastRigidCount = 0;
-	gameworld->basicCam->isActivated = true;
+	gameworld->myCam->isActivated = false;
 	displayTrace = true;
 
 	direction.setName("Direction Force");
@@ -93,6 +93,7 @@ void ofApp::draw()
 		ofSetColor(ofColor::white);
 	}
 	
+	gameworld->octree.draw();
 
 	if (gameworld->myCam->isActivated)
 	{
@@ -108,7 +109,7 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n space: launch rigidBody\n m: Enable/Disable Follow Cam\n k/j : change cam zoom\n e + mouse: rotate around\n t: toggle previosu positions on/off\n r: reset previous positions", 10, 10);
+	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n space: launch rigidBody\n m: Enable/Disable Follow Cam\n k/j : change cam zoom\n e + mouse: rotate around\n t: toggle previous positions on/off\n y: print octree\n r: reset previous positions", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 
 	//Affichage du compte de rigid bodies
@@ -144,6 +145,8 @@ void ofApp::keyPressed(int key)
 		//toggle on/off la trace
 	case 't': displayTrace = !displayTrace;
 		break;
+	case 'y': gameworld->octree.changeEnableDrawing();
+		break;
 			//bouger la camera
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
 		break;
@@ -154,7 +157,7 @@ void ofApp::keyPressed(int key)
 		break;
 	case ' ':
 		//lancer une boite
-		input.spawnRigid(gameworld->rigidBodies, gameworld->registreRigids);
+		input.spawnRigid(gameworld->rigidBodies, gameworld->registreRigids, gameworld->octree);
 		break;
 	case 'c':
 		//commencer la création d'une boite
@@ -186,21 +189,28 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y )
 {
-	if (gameworld->myCam->isActivated && input.move_cam)
+	if (input.move_cam)
 	{
 		int diffx = x - input.last_pos_x;
 		int diffy = y - input.last_pos_y;
 		if (abs(diffx) > abs(diffy) + 1 && diffx != 0)
 		{
-			gameworld->myCam->changePitchAngle(-ofGetLastFrameTime() * diffx);
+			if (gameworld->myCam->isActivated)
+				gameworld->myCam->changePitchAngle(-ofGetLastFrameTime() * diffx);
+			else
+				gameworld->basicCam->changePitchAngle(-ofGetLastFrameTime() * diffx);
 
 		}
 		else if (abs(diffy) > abs(diffx) + 1 && diffy != 0)
 		{
-			gameworld->myCam->changeRollAngle(-ofGetLastFrameTime() * diffy);
+			if (gameworld->myCam->isActivated)
+				gameworld->myCam->changeRollAngle(-ofGetLastFrameTime() * diffy);
+			else
+				gameworld->basicCam->changeRollAngle(-ofGetLastFrameTime() * diffy);
 		}
 		
 	}
+
 	input.last_pos_x = x;
 	input.last_pos_y = y;
 }
