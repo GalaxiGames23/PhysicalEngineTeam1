@@ -6,6 +6,7 @@
 
 #include "Plane.h"
 #include "Vector.h"
+#include "force.h"
 
 #include "of3dPrimitives.h"
 #include <ofGraphics.h>
@@ -22,7 +23,7 @@ public:
 
 
 	std::vector<Plane*> GetPlanes();
-	std::vector<Vector*> GetVertices();
+	std::vector<Vector*> GetVertices(); 
 
 
 	///// Functions /////
