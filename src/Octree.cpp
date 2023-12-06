@@ -165,7 +165,7 @@ int Octree::isOnZone(Node* node, CoverSphere* sphere)
 	}
 	else if (projx < node->size + sphere->GetRadius() && projy < node->size + sphere->GetRadius() && projz < node->size + sphere->GetRadius())
 	{
-		return 2;  // sphere between two or more zone
+		return 2;  // la sphere est partiellement dans la zone, mais elle en chevauche une autre
 	}
 
 	return 0;
@@ -219,7 +219,7 @@ void Octree::internAdd(CoverSphereIntern* newSphere)
 {
 	for (Node* n : activeNode)
 	{
-		if (isOnZone(n, newSphere->nodeRigids) > 0)
+		if (isOnZone(n, newSphere->nodeRigids) > 0) //associer la sphère au noeud ou elle se trouve
 		{
 			n->coverSpheres.push_back(newSphere);
 			Node* temp = n->parent;
@@ -246,7 +246,7 @@ void Octree::internAdd(CoverSphereIntern* newSphere)
 		std::unordered_map<Node*, int> parentNodes;
 		for (Node* n : activeNode)
 		{
-			if (n->size > minSizeBlock && n->coverSpheres.size() >= nbRigidPerZone) // Si trop de rigid dans la même zone
+			if (n->size > minSizeBlock && n->coverSpheres.size() >= nbRigidPerZone) // Si trop de rigid dans la même zone, couper la zone en 8
 			{
 				cutNodeTree(n);
 				change = true;
@@ -265,7 +265,7 @@ void Octree::addRigid(Rigid* addSphere)
 	allSphere.push_back(newSphere);
 	for (Node* n : activeNode)
 	{
-		if (isOnZone(n, sphere) > 0)
+		if (isOnZone(n, sphere) > 0)//associer la sphère au noeud ou elle se trouve
 		{
 			n->coverSpheres.push_back(newSphere);
 			Node* temp = n->parent;
@@ -305,7 +305,7 @@ void Octree::addRigid(Rigid* addSphere)
 
 void Octree::eraseRigid(Rigid* removeSphere)
 {
-	for (std::vector<CoverSphereIntern*>::iterator it = allSphere.begin(); it < allSphere.end(); it++)
+	for (std::vector<CoverSphereIntern*>::iterator it = allSphere.begin(); it < allSphere.end(); it++)//gestion de la fusion (si y'a trop peu de rigid dans une zone)
 	{
 		CoverSphereIntern* sphereToRemove = (*it);
 		if (sphereToRemove->nodeRigids->GetRb() == removeSphere)
@@ -324,10 +324,10 @@ void Octree::internRemove(CoverSphereIntern* removeSphere){
 	
 	for (Node* n : activeNode)
 	{
-		for (std::vector<CoverSphereIntern*>::iterator it = n->coverSpheres.begin(); it != n->coverSpheres.end(); it++)
+		for (std::vector<CoverSphereIntern*>::iterator it = n->coverSpheres.begin(); it != n->coverSpheres.end(); it++)//supprimer la sphère de collision du rigid de chaque zone de l'arbre
 		{
 			CoverSphereIntern* s = (*it);
-			if (s == removeSphere)
+			if (s == removeSphere) 
 			{
 				Node* temp = n->parent;
 				while (temp != nullptr) //mettre a jour les noeuds supérieurs
@@ -355,7 +355,7 @@ void Octree::internRemove(CoverSphereIntern* removeSphere){
 	do
 	{
 		change = false;
-		for (Node* n : activeNode)
+		for (Node* n : activeNode) //gestion de la fusion (si y'a trop peu de rigid dans une zone)
 		{
 			if (n != nullptr && n->parent != nullptr && countRigidInZone(n->parent) <= nbRigidPerZone)
 			{
@@ -382,7 +382,7 @@ std::vector<RigidPair*> Octree::allPossibleCollision()
 	int max_change = 5;
 	do {
 		change = false;
-		for (Node* currentNode : activeNode) // si un rigidBody est sortie de la zone, mettre a jour l'arbre
+		for (Node* currentNode : activeNode) // si un rigidBody change de zone, mettre a jour l'arbre
 		{
 			for (int i = 0; i < currentNode->coverSpheres.size(); i++)
 			{

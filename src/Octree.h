@@ -9,11 +9,11 @@ private:
 	int nbRigidPerZone = 3; // <<< Nombre de rigid max par zone
 	Vector initPosition = Vector(0, 0, 0); // <<< Centre de la zone dans le monde
 	double initSize = 1000; // <<< Taille max de la zone
-	double minSizeBlock = 20;
+	double minSizeBlock = 20;// <<< taille minimal d'une zone de l'arbre, une zone qui est est plus petite que cette valeur ne se découpera pas en sous-zone, même s'il y a plein de rigid
 
 	struct CoverSphereIntern
 	{
-		CoverSphere *nodeRigids;
+		CoverSphere *nodeRigids;// <<< Sphere de collision associé à un rigidBody
 		std::vector <CoverSphereIntern*> alreadyConsiderCollision;// <<< Si un rigid se trouve dans ce tableau, nous avons déja considérer la collision
 	};
 
@@ -24,7 +24,7 @@ private:
 		Node* parent; // <<< Noeud parent de l'arbre
 		Vector center; // <<< Centre de la zone
 		double size;// <<< taille de la zone
-		std::unordered_map<CoverSphere*, int> result;
+		std::unordered_map<CoverSphere*, int> result;// <<<sauvegarde du précédent résultat de collision avec l'arbre, calculer par compareLastPosValue a la frame précédente
 	};
 
 	std::vector<CoverSphereIntern*> allSphere; // <<< tous les RigidBody du systeme
@@ -34,8 +34,6 @@ private:
 	bool enableDrawing = false;
 	//Compter le nombre de Sphere qu'il y a à l'étage suivant de l'arbre (utile pour savoir s'il faut join ou pas)
 	int countRigidInZone(Node * node);
-
-	void countRec(Node* node, vector<CoverSphereIntern*>& sphere);
 
 	//Couper une zone en 8, et faire placer les spheres dans les nouvelles zones
 	void cutNodeTree(Node* cutNode);
@@ -58,14 +56,14 @@ private:
 	//effacer les données (pour le destructeur)
 	void eraseAll(Node* root);
 
-	//enlever une sphere sans vérifier s'il faut join
+	//enlever une sphere, sans la supprimer au niveau mémoire
 	void internRemove(CoverSphereIntern* removeSphere);
 
 	//ConvertSign
 	int convertSign(int x) {
 		return (x > 0) + 2 * (x < 0);
 	}
-	//Ajouter une sphere a l'arbre
+	//ajouter une sphere, sans la supprimer au niveau mémoire
 	void internAdd(CoverSphereIntern* addSphere);
 
 public:
@@ -83,11 +81,11 @@ public:
 
 	std::vector<BoxPair*> convertToBox(const std::vector<RigidPair*> &r);
 
+	/*Détruire la mémoire allouée pour les tableaux allrigid et allbox*/
 	void freePossibleCollision(std::vector<RigidPair*>& allrigid, std::vector<BoxPair*>& allbox);
-
+	/*afficher l'octree*/
 	void draw();
-
-	
+	/*rend l'affichage de l'octree visible ou invisible à l'écran*/
 	void changeEnableDrawing();
 	
 
