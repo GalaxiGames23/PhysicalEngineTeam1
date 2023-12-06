@@ -64,6 +64,15 @@
     <ClCompile Include="..\src\RigidBodyForceRegistry.cpp">
       <Filter>src\Class</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Plane.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Octree.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CoverSphere.cpp">
+      <Filter>src\Class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -135,6 +144,15 @@
       <Filter>src\Class</Filter>
     </ClInclude>
     <ClInclude Include="..\src\RigidBodyForceRegistry.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Plane.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Octree.h">
+      <Filter>src\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CoverSphere.h">
       <Filter>src\Class</Filter>
     </ClInclude>
   </ItemGroup>
