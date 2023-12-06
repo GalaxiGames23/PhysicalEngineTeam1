@@ -134,6 +134,24 @@ void ofApp::draw()
 }
 
 
+void ofApp::Demo1() {
+	//lancer une boite
+	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	gameworld->rigidBodies.push_back(box1);
+	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 0));
+	gameworld->registreRigids.add(box1, force);
+
+	gameworld->octree.addRigid(box1);
+
+	//lancer une deuxième boîte boite
+	Box* box2 = new Box(Particule(1.0, Vector(100, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	gameworld->rigidBodies.push_back(box2);
+	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 0, 0));
+	gameworld->registreRigids.add(box2, force2);
+
+	gameworld->octree.addRigid(box2);
+}
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
@@ -155,17 +173,11 @@ void ofApp::keyPressed(int key)
 		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-	case ' ':
-		//lancer une boite
-		input.spawnRigid(gameworld->rigidBodies, gameworld->registreRigids, gameworld->octree);
+	case ' ': Demo1();
 		break;
 	case 'c':
-		//commencer la création d'une boite
-		input.preSpawnRigid(gameworld->myCam, moonParticle);
 		break;
 	case 'v':
-		//valider un vecteur
-		input.addForceToSpawningRegistry();
 		break;
 	case 'e':
 		input.move_cam = true;

@@ -13,8 +13,20 @@ GameWorld::GameWorld()
 void GameWorld::UpdateLogic(float duration) 
 {
 	
-	//ajoute les forces au registre
+	// Ajout des forces au registre
 	addForces();
+
+	// Détermination des collisions possibles par l'Octree
+	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
+	boxPairs = octree.convertToBox(allCollisionFrame);
+
+	// Détection des collisions dans les collisions possibles
+	HandleCollisions();
+
+	// Flush de la mémoire de l'Octree
+	octree.freePossibleCollision(allCollisionFrame, boxPairs);
+
+	//////// Traitement des forces et déplacements ////////
 
 	//update des forces
 	registre.updateForces(duration);
@@ -55,14 +67,6 @@ void GameWorld::UpdateLogic(float duration)
 
 	}
 
-	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
-	boxPairs = octree.convertToBox(allCollisionFrame);
-
-	/*TO DO: TRAITEMENT DES COLLISIONS*/
-	HandleCollisions();
-
-
-	octree.freePossibleCollision(allCollisionFrame, boxPairs);
 
 	//gestion de la trace 
 	UpdateTrace(duration);
@@ -166,7 +170,7 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 		break;
 	case 4:
 		// Calcul de la normale du plan à partir de deux vecteurs du plan
-		 normal = (*collidingVertices[0] - *collidingVertices[1]).prod_vector(*collidingVertices[0] - *collidingVertices[2]);
+		normal = (*collidingVertices[0] - *collidingVertices[1]).prod_vector(*collidingVertices[0] - *collidingVertices[2]);
 		plan = Plane(normal, *collidingVertices[3]);
 		pointCollision = plan.ComputeR(box1->GetCenter()->GetPosition());
 		break;
@@ -175,11 +179,63 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 		break;
 	}
 
-	std::cout << "Detect collision" << std::endl;
+	box1Vertices.clear();
+	box2Planes.clear();
+	collidingVertices.clear();
 	
-	////// TO DO : Traiter les collisions (avec Point collision pour les deux boites en point d'application)
-	////// A noter : Pour la direction de la force : Utiliser la direction du vecteur vitesse de la boite concernée (Pas hesiter à redemander)
+	// Résolution des collisions
+	ResolveCollisions(box1, box2, pointCollision);
 
 	return true;
+}
 
+void GameWorld::ResolveCollisions(Box* box1, Box* box2, Vector collisionPoint)
+{
+	/*
+	float deltaMassBox1 = box1->GetCenter()->GetMass() / (box1->GetCenter()->GetMass() + box2->GetCenter()->GetMass());
+	float deltaMassBox2 = box2->GetCenter()->GetMass() / (box1->GetCenter()->GetMass() + box2->GetCenter()->GetMass());
+
+	Vector centreToCentre = box1->GetCenter()->GetPosition() - box2->GetCenter()->GetPosition();
+
+	float distanceBox1 = 0;
+	float distanceBox2 = 0;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		Vector normal1 = box1->GetSize().GetCoordByIndex(i) / 2.0f * box1->GetOrientationMat().GetColumn(i).normalisation();
+		Vector projNormal1 = normal1.projection(centreToCentre);
+		if (projNormal1.norm() > distanceBox1) distanceBox1 = projNormal1.norm();
+
+		Vector normal2 = box1->GetSize().GetCoordByIndex(i) / 2.0f * box1->GetOrientationMat().GetColumn(i).normalisation();
+		Vector projNormal2 = normal2.projection(centreToCentre);
+		if (projNormal2.norm() > distanceBox2) distanceBox2 = projNormal2.norm();
+	}
+
+	float d = distanceBox1 + distanceBox2 - centreToCentre.norm();
+
+	std::cout << d << endl;
+	*/
+
+	// Déplacement des boîtes (par pointage)
+	box1->GetCenter()->AddTPOnColliding(box2->GetCenter());
+	box2->GetCenter()->AddTPOnColliding(box1->GetCenter());
+
+
+	// Ajout des forces de collision aux 2 boîtes
+
+	double expNormForce = 200;
+
+	RigidBodyForce *forceCollisionsBox1 = new RigidBodyForce(collisionPoint, expNormForce * box2->GetCenter()->GetVelocity().normalisation());
+	RigidBodyForce *forceCollisionsBox2 = new RigidBodyForce(collisionPoint, expNormForce * box1->GetCenter()->GetVelocity().normalisation());
+
+	registreRigids.add(box1, forceCollisionsBox1);
+	registreRigids.add(box2, forceCollisionsBox2);
+
+	/*
+	Vector directionBox1 = box1->GetCenter()->GetVelocity().normalisation();
+	Vector directionBox2 = box2->GetCenter()->GetVelocity().normalisation();
+
+	box1->GetCenter()->SetPosition(box1->GetCenter()->GetPosition() - d * distanceBox1 * directionBox1);
+	box2->GetCenter()->SetPosition(box2->GetCenter()->GetPosition() - d * distanceBox2 * directionBox2);
+	*/
 }

@@ -87,11 +87,14 @@ public:
 
 
 	// Collisions //
-	void AddVelocityOnColliding(Particule* p); // Collision (donc rebond fonction de la masse) avec une autre particule
 	void AddVelocityOnColliding(double groundY); // Collision (donc rebond fonction de la masse) avec le sol
 	void NullifyVelocityAlongNormal(Vector normale); // Retirer la vitesse en y pour les particules au sol uniquement soumises à la gravité
 
 	void AddVelocityOnCable(Particule* p, double e); // Collision avec le cable (en longueur maximum) vers la particule reliée
+
+	/////////// Phase 4 ///////////
+
+	void AddTPOnColliding(Particule* p); // Collision (donc rebond fonction de la masse) avec une autre particule
 };
 
 #endif

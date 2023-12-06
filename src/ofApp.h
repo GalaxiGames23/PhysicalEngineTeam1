@@ -67,4 +67,7 @@ class ofApp : public ofBaseApp{
 		ofParameter<double> radius;
 		ofParameter<double> theta;
 		ofParameter<double> phi;
+
+		////////////////////PHASE 4//////////////
+		void Demo1();
 };

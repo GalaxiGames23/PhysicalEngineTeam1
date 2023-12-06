@@ -91,8 +91,10 @@ private:
 
 	////// Recherche des collisions //////
 	std::vector<BoxPair*> boxPairs;//<<<liste des rigid bodies
+
 	void HandleCollisions();
 	bool DetectCollisions(Box* box1, Box* box2);
+	void ResolveCollisions(Box* box1, Box* box2, Vector pointCollision);
 };
 
 #endif
