@@ -59,7 +59,7 @@ void Octree::cutNodeTree(Node* cutNode)
 	}
 	else
 	{
-		printf("Error, node not found on activeNode for cut\n");
+		printf("Error, node not found on activeNode to cut\n");
 		return;
 	}
 
@@ -246,7 +246,7 @@ void Octree::internAdd(CoverSphereIntern* newSphere)
 		std::unordered_map<Node*, int> parentNodes;
 		for (Node* n : activeNode)
 		{
-			if (n->size > minSizeBlock && n->coverSpheres.size() >= nbRigidPerZone) // Si trop de rigid dans la même zone, couper la zone en 8
+			if (n->size > minSizeBlock && n->coverSpheres.size() > nbRigidPerZone) // Si trop de rigid dans la même zone, couper la zone en 8
 			{
 				cutNodeTree(n);
 				change = true;
@@ -357,7 +357,7 @@ void Octree::internRemove(CoverSphereIntern* removeSphere){
 		change = false;
 		for (Node* n : activeNode) //gestion de la fusion (si y'a trop peu de rigid dans une zone)
 		{
-			if (n != nullptr && n->parent != nullptr && countRigidInZone(n->parent) <= nbRigidPerZone)
+			if (n != nullptr && n->parent != nullptr && countRigidInZone(n->parent) < nbRigidPerZone)
 			{
 				joinNodeTree(n->parent);
 				change = true;
