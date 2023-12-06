@@ -25,6 +25,19 @@ int Octree::countRigidInZone(Node* node)
 	return saveSphere.size();
 }
 
+std::vector<BoxPair*> Octree::convertToBox(const std::vector<RigidPair*>& allrigid)
+{
+	vector<BoxPair*> allbox;
+
+	for (RigidPair *rigid : allrigid)
+	{
+		BoxPair *b = new BoxPair();
+		b->box1 = (Box*)rigid->rigid1;
+		b->box2 = (Box*)rigid->rigid2;
+		allbox.push_back(b);
+	}
+	return allbox;
+}
 
 void Octree::cutNodeTree(Node* cutNode)
 {
@@ -465,13 +478,21 @@ void Octree::changeEnableDrawing()
 	enableDrawing = !enableDrawing;
 }
 
-void Octree::freePossibleCollision(std::vector<RigidPair*> r)
+void Octree::freePossibleCollision(std::vector<RigidPair*> &allrigid, std::vector<BoxPair*>& allbox)
 {
-	auto it = r.begin();
-	while (!r.empty())
+	auto it = allrigid.begin();
+	while (!allrigid.empty())
 	{
-		RigidPair* value = r.back();
-		r.pop_back();
+		RigidPair* value = allrigid.back();
+		allrigid.pop_back();
 		delete value;
 	}
+
+	while (!allbox.empty())
+	{
+		BoxPair* value = allbox.back();
+		allbox.pop_back();
+		delete value;
+	}
+	
 }
