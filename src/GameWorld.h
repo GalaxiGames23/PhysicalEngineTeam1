@@ -24,6 +24,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -71,6 +72,16 @@ public:
 	/////////gestion de la trace///////
 	void ClearTrace() { this->tracePositions.clear(); }//<<<inline, vide la trace, évite d'exposer la trace
 	std::vector<Vector> GetTrace() { return this->tracePositions; }//<<<inline, getter, retourne les positions de la trace pour affichage, évite d'exposer la trace
+
+	////////////////////////////////////////////////// PHASE 4 /////////////////////////////////////////////
+
+	//démos
+	void Demo1();
+	void Demo2();
+	void Demo3();
+	void Demo4();
+	void Demo5();
+
 
 	//////////////////////////////////////// PRIVATE ////////////////////////////////////////
 private:

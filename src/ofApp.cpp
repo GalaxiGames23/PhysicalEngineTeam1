@@ -15,18 +15,7 @@ void ofApp::setup()
 	gameworld->myCam->isActivated = false;
 	displayTrace = true;
 
-	direction.setName("Direction Force");
 	
-	direction.add(radius.set("radius", 200, 0, 500));
-	direction.add(theta.set("theta", 0, -180, 180));
-	direction.add(phi.set("phi", 0, -180,180));
-
-	position.setName("Position Force");
-	position.add(x.set("x", 0, -10, 10));
-	position.add(y.set("y", 0, -10, 10));
-	position.add(z.set("z", 0, -10, 10));
-	gui.setup(direction);
-	gui.add(position);
 	gui.setPosition(10, ofGetHeight() - 250);
 
 
@@ -44,7 +33,7 @@ void ofApp::update()
 	HUDParticule.HarmonicMovementDamping(1.0f, 0.1f, delta);
 
 	//////PHASE 3/////
-	input.updateFromGui(x, y, z, radius, theta, phi);
+	//input.updateFromGui(x, y, z, radius, theta, phi);
 	
 }
 
@@ -109,7 +98,7 @@ void ofApp::draw()
 	ofSetupScreenOrtho();
 	//ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 	//dessine les commandes
-	ofDrawBitmapString("Commands:\n c: Spawn rigidBody\n v: add Force To spawning rigidBody\n space: launch rigidBody\n m: Enable/Disable Follow Cam\n k/j : change cam zoom\n e + mouse: rotate around\n t: toggle previous positions on/off\n y: print octree\n r: reset previous positions", 10, 10);
+	ofDrawBitmapString("Commands:\n space/c/v/b/n: demos\n m: Enable/Disable Follow Cam\n k/j : change cam zoom\n e + mouse: rotate around\n t: toggle previous positions on/off\n y: print octree\n r: reset previous positions", 10, 10);
 	ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL);
 
 	//Affichage du compte de rigid bodies
@@ -134,23 +123,6 @@ void ofApp::draw()
 }
 
 
-void ofApp::Demo1() {
-	//lancer une boite
-	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
-	gameworld->rigidBodies.push_back(box1);
-	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 0));
-	gameworld->registreRigids.add(box1, force);
-
-	gameworld->octree.addRigid(box1);
-
-	//lancer une deuxième boîte boite
-	Box* box2 = new Box(Particule(1.0, Vector(100, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
-	gameworld->rigidBodies.push_back(box2);
-	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 0, 0));
-	gameworld->registreRigids.add(box2, force2);
-
-	gameworld->octree.addRigid(box2);
-}
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
@@ -173,11 +145,16 @@ void ofApp::keyPressed(int key)
 		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;
 		break;
-	case ' ': Demo1();
+		//démos
+	case ' ': gameworld->Demo1();
 		break;
-	case 'c':
+	case 'c': gameworld->Demo2();
 		break;
-	case 'v':
+	case 'v': gameworld->Demo3();
+		break;
+	case 'b': gameworld->Demo4();
+		break;
+	case 'n': gameworld->Demo5();
 		break;
 	case 'e':
 		input.move_cam = true;

@@ -55,19 +55,4 @@ class ofApp : public ofBaseApp{
 
 		ofxPanel gui;
 
-
-		ofParameterGroup position;
-
-		ofParameter<double> x;
-		ofParameter<double> y;
-		ofParameter<double> z;
-
-		ofParameterGroup direction;
-
-		ofParameter<double> radius;
-		ofParameter<double> theta;
-		ofParameter<double> phi;
-
-		////////////////////PHASE 4//////////////
-		void Demo1();
 };

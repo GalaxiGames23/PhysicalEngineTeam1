@@ -51,7 +51,7 @@ void GameWorld::UpdateLogic(float duration)
 	for (int i = 0; i < rigidBodies.size(); ++i) 
 	{
 		//destruction des rigid bodies sous un certain seuil
-		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 500)
+		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 1300|| abs(rigidBodies[i]->GetCenter()->GetPosition().get_x()) >= 1300|| abs(rigidBodies[i]->GetCenter()->GetPosition().get_z()) >= 1300)
 		{
 			octree.eraseRigid(rigidBodies[i]);
 			rigidBodies.erase(rigidBodies.begin() + i);
@@ -191,30 +191,7 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 
 void GameWorld::ResolveCollisions(Box* box1, Box* box2, Vector collisionPoint)
 {
-	/*
-	float deltaMassBox1 = box1->GetCenter()->GetMass() / (box1->GetCenter()->GetMass() + box2->GetCenter()->GetMass());
-	float deltaMassBox2 = box2->GetCenter()->GetMass() / (box1->GetCenter()->GetMass() + box2->GetCenter()->GetMass());
-
-	Vector centreToCentre = box1->GetCenter()->GetPosition() - box2->GetCenter()->GetPosition();
-
-	float distanceBox1 = 0;
-	float distanceBox2 = 0;
-
-	for (int i = 0; i < 3; ++i)
-	{
-		Vector normal1 = box1->GetSize().GetCoordByIndex(i) / 2.0f * box1->GetOrientationMat().GetColumn(i).normalisation();
-		Vector projNormal1 = normal1.projection(centreToCentre);
-		if (projNormal1.norm() > distanceBox1) distanceBox1 = projNormal1.norm();
-
-		Vector normal2 = box1->GetSize().GetCoordByIndex(i) / 2.0f * box1->GetOrientationMat().GetColumn(i).normalisation();
-		Vector projNormal2 = normal2.projection(centreToCentre);
-		if (projNormal2.norm() > distanceBox2) distanceBox2 = projNormal2.norm();
-	}
-
-	float d = distanceBox1 + distanceBox2 - centreToCentre.norm();
-
-	std::cout << d << endl;
-	*/
+	
 
 	// Déplacement des boîtes (par pointage)
 	box1->GetCenter()->AddTPOnColliding(box2->GetCenter());
@@ -230,12 +207,107 @@ void GameWorld::ResolveCollisions(Box* box1, Box* box2, Vector collisionPoint)
 
 	registreRigids.add(box1, forceCollisionsBox1);
 	registreRigids.add(box2, forceCollisionsBox2);
+}
 
-	/*
-	Vector directionBox1 = box1->GetCenter()->GetVelocity().normalisation();
-	Vector directionBox2 = box2->GetCenter()->GetVelocity().normalisation();
+////////////////////////DEMOS/////////////////////*
+//2 boîtes cubiques
+void GameWorld::Demo1() {
+	//lancer une boite
+	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box1);
+	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 0));
+	this->registreRigids.add(box1, force);
 
-	box1->GetCenter()->SetPosition(box1->GetCenter()->GetPosition() - d * distanceBox1 * directionBox1);
-	box2->GetCenter()->SetPosition(box2->GetCenter()->GetPosition() - d * distanceBox2 * directionBox2);
-	*/
+	this->octree.addRigid(box1);
+
+	//lancer une deuxième boîte boite
+	Box* box2 = new Box(Particule(1.0, Vector(100, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box2);
+	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 0, 0));
+	this->registreRigids.add(box2, force2);
+
+	this->octree.addRigid(box2);
+}
+
+//3 boîtes non cubes
+void GameWorld::Demo2()
+{
+	//lancer une boite
+	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box1);
+	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 0));
+	this->registreRigids.add(box1, force);
+
+	this->octree.addRigid(box1);
+
+	//lancer une boîte boite
+	Box* box2 = new Box(Particule(1.0, Vector(100, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 15, 5));
+	this->rigidBodies.push_back(box2);
+	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 10, 0));
+	this->registreRigids.add(box2, force2);
+
+	this->octree.addRigid(box2);
+
+	//lancer une boite
+	Box* box3 = new Box(Particule(1.0, Vector(50, 0, 90), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 10, 30));
+	this->rigidBodies.push_back(box3);
+	RigidBodyForce* force3 = new RigidBodyForce(box3->GetCenter()->GetPosition(), Vector(0, 30, -200));
+	this->registreRigids.add(box3, force3);
+
+	this->octree.addRigid(box3);
+}
+
+//croisement avec plus d'angle
+void GameWorld::Demo3()
+{
+	//lancer une boite
+	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box1);
+	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 20));
+	this->registreRigids.add(box1, force);
+
+	this->octree.addRigid(box1);
+
+	//lancer une deuxième boîte boite
+	Box* box2 = new Box(Particule(1.0, Vector(100, -50, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box2);
+	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 100, 0));
+	this->registreRigids.add(box2, force2);
+
+	this->octree.addRigid(box2);
+}
+
+//feux d'artifice
+void GameWorld::Demo4()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		//lancer une boite
+		Box* box1 = new Box(Particule(1.0, Vector(200*cos(i/10.0f), 0, 200*sin(i/10.0f)), Vector(0, 0, 0), 15), Matrix3({1,0,0,0,1,0,0,0,1}), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20+i*2, 20+i*3, 20-i));
+		this->rigidBodies.push_back(box1);
+		RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), (Vector()-box1->GetCenter()->GetPosition()).normalisation()*10);
+		this->registreRigids.add(box1, force);
+
+		this->octree.addRigid(box1);
+	}
+}
+
+//masses différentes
+void GameWorld::Demo5()
+{
+	//lancer une boite
+	Box* box1 = new Box(Particule(1.0, Vector(0, 0, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(20, 20, 20));
+	this->rigidBodies.push_back(box1);
+	RigidBodyForce* force = new RigidBodyForce(box1->GetCenter()->GetPosition(), Vector(100, 0, 0));
+	this->registreRigids.add(box1, force);
+
+	this->octree.addRigid(box1);
+
+	//lancer une deuxième boîte boite
+	Box* box2 = new Box(Particule(50.0, Vector(150, -100, 0), Vector(0, 0, 0), 15), Matrix3({ 1,0,0,0,1,0,0,0,1 }), Vector(0, 0, 0), Vector(0, 0, 0), Vector(1, 1, 1), Vector(30, 20, 30));
+	this->rigidBodies.push_back(box2);
+	RigidBodyForce* force2 = new RigidBodyForce(box2->GetCenter()->GetPosition(), Vector(-100, 0, 0));
+	this->registreRigids.add(box2, force2);
+
+	this->octree.addRigid(box2);
 }
