@@ -56,11 +56,13 @@ void GameWorld::UpdateLogic(float duration)
 	}
 
 	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
+	boxPairs = octree.convertToBox(allCollisionFrame);
 
-	vector<BoxPair*> allBoxCollisionFrame = octree.convertToBox(allCollisionFrame);
 	/*TO DO: TRAITEMENT DES COLLISIONS*/
+	HandleCollisions();
 
-	octree.freePossibleCollision(allCollisionFrame, allBoxCollisionFrame);
+
+	octree.freePossibleCollision(allCollisionFrame, boxPairs);
 
 	//gestion de la trace 
 	UpdateTrace(duration);
@@ -172,6 +174,8 @@ bool GameWorld::DetectCollisions(Box* box1, Box* box2)
 		return false;
 		break;
 	}
+
+	std::cout << "Detect collision" << std::endl;
 	
 	////// TO DO : Traiter les collisions (avec Point collision pour les deux boites en point d'application)
 	////// A noter : Pour la direction de la force : Utiliser la direction du vecteur vitesse de la boite concernée (Pas hesiter à redemander)
