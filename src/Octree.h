@@ -81,7 +81,9 @@ public:
 	//Détecter les couples collisions de collision possible
 	std::vector<RigidPair*> allPossibleCollision(); 
 
-	void freePossibleCollision(std::vector<RigidPair*> r);
+	std::vector<BoxPair*> convertToBox(const std::vector<RigidPair*> &r);
+
+	void freePossibleCollision(std::vector<RigidPair*>& allrigid, std::vector<BoxPair*>& allbox);
 
 	void draw();
 

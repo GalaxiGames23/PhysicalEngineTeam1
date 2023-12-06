@@ -57,9 +57,10 @@ void GameWorld::UpdateLogic(float duration)
 
 	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
 
+	vector<BoxPair*> allBoxCollisionFrame = octree.convertToBox(allCollisionFrame);
 	/*TO DO: TRAITEMENT DES COLLISIONS*/
 
-	octree.freePossibleCollision(allCollisionFrame);
+	octree.freePossibleCollision(allCollisionFrame, allBoxCollisionFrame);
 
 	//gestion de la trace 
 	UpdateTrace(duration);
