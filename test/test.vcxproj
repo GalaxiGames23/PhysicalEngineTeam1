@@ -106,12 +106,15 @@
   <ItemGroup>
     <ClCompile Include="..\src\Box.cpp" />
     <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\CoverSphere.cpp" />
     <ClCompile Include="..\src\Input.cpp" />
     <ClCompile Include="..\src\Matrix3.cpp" />
     <ClCompile Include="..\src\Matrix4.cpp" />
+    <ClCompile Include="..\src\Octree.cpp" />
     <ClCompile Include="..\src\Particule.cpp" />
     <ClCompile Include="..\src\ParticuleForceRegistry.cpp" />
     <ClCompile Include="..\src\ParticuleGravity.cpp" />
+    <ClCompile Include="..\src\Plane.cpp" />
     <ClCompile Include="..\src\Quaternion.cpp" />
     <ClCompile Include="..\src\Rigid.cpp" />
     <ClCompile Include="..\src\RigidBodyForce.cpp" />
@@ -129,12 +132,15 @@
   <ItemGroup>
     <ClInclude Include="..\src\Box.h" />
     <ClInclude Include="..\src\Camera.h" />
+    <ClInclude Include="..\src\CoverSphere.h" />
     <ClInclude Include="..\src\Input.h" />
     <ClInclude Include="..\src\Matrix3.h" />
     <ClInclude Include="..\src\Matrix4.h" />
+    <ClInclude Include="..\src\Octree.h" />
     <ClInclude Include="..\src\Particule.h" />
     <ClInclude Include="..\src\ParticuleForceRegistry.h" />
     <ClInclude Include="..\src\ParticuleGravity.h" />
+    <ClInclude Include="..\src\Plane.h" />
     <ClInclude Include="..\src\Quaternion.h" />
     <ClInclude Include="..\src\Rigid.h" />
     <ClInclude Include="..\src\RigidBodyForce.h" />
