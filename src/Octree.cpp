@@ -101,12 +101,12 @@ void Octree::joinNodeTree(Node* parentJoinedNode)
 		joinRec(parentJoinedNode->nextNodes[i]);
 		parentJoinedNode->nextNodes[i] = nullptr;
 	}
+
 	activeNode.push_back(parentJoinedNode);
 	for (CoverSphereIntern* s : parentJoinedNode->coverSpheres)
 	{
 		parentJoinedNode->result[s->nodeRigids] = compareLastPosValue(parentJoinedNode, s->nodeRigids);
 	}
-
 }
 
 void Octree::joinRec(Node* joinedNode)
@@ -237,13 +237,12 @@ void Octree::internAdd(CoverSphereIntern* newSphere)
 			}
 		}
 	}
+
 	bool change = false;
 	int max_change = 5;
 	do
 	{
 		change = false;
-		int i = 0;
-		std::unordered_map<Node*, int> parentNodes;
 		for (Node* n : activeNode)
 		{
 			if (n->size > minSizeBlock && n->coverSpheres.size() > nbRigidPerZone) // Si trop de rigid dans la même zone, couper la zone en 8
@@ -288,8 +287,6 @@ void Octree::addRigid(Rigid* addSphere)
 	do
 	{
 		change = false;
-		int i = 0;
-		std::unordered_map<Node*, int> parentNodes;
 		for (Node* n : activeNode)
 		{
 			if ( n->size > minSizeBlock && n->coverSpheres.size() > nbRigidPerZone) // Si trop de rigid dans la même zone
@@ -311,6 +308,22 @@ void Octree::eraseRigid(Rigid* removeSphere)
 		if (sphereToRemove->nodeRigids->GetRb() == removeSphere)
 		{
 			internRemove(sphereToRemove);
+			for (Node* n : activeNode)
+			{
+				Node* temp = n;
+				int i = 0;
+				 while (temp != nullptr) //mettre a jour les noeuds supérieurs
+				 {
+					 auto it = std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), sphereToRemove);
+					 if (it != temp->coverSpheres.end())
+					 {
+						 temp->coverSpheres.erase(it);
+					 }
+					 i++;
+					 temp = temp->parent;
+				 }
+			}
+
 			allSphere.erase(it);
 			delete sphereToRemove->nodeRigids;
 			delete sphereToRemove;
@@ -324,31 +337,24 @@ void Octree::internRemove(CoverSphereIntern* removeSphere){
 	
 	for (Node* n : activeNode)
 	{
-		for (std::vector<CoverSphereIntern*>::iterator it = n->coverSpheres.begin(); it != n->coverSpheres.end(); it++)//supprimer la sphère de collision du rigid de chaque zone de l'arbre
+		
+		Node* temp = n;
+		while (temp != nullptr) //mettre a jour les noeuds supérieurs
 		{
-			CoverSphereIntern* s = (*it);
-			if (s == removeSphere) 
+			auto tempIt = std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), removeSphere);
+			if (tempIt != temp->coverSpheres.end())
 			{
-				Node* temp = n->parent;
-				while (temp != nullptr) //mettre a jour les noeuds supérieurs
-				{
-					auto tempIt = std::find(temp->coverSpheres.begin(), temp->coverSpheres.end(), s);
-					if (tempIt != temp->coverSpheres.end())
-					{
-						temp->coverSpheres.erase(tempIt);
-					}
-					else
-					{
-						break;
-					}
-					temp = temp->parent;
-				}
-				n->coverSpheres.erase(it);
+				temp->coverSpheres.erase(tempIt);
+
+			}
+			else
+			{
 				break;
 			}
-
-			
+			temp = temp->parent;
 		}
+			
+
 	}
 	bool change = false;
 	int max_change = 5;
@@ -366,7 +372,6 @@ void Octree::internRemove(CoverSphereIntern* removeSphere){
 			}
 		}
 	} while (change && max_change > 0);
-	
 }
 
 
@@ -421,7 +426,6 @@ std::vector<RigidPair*> Octree::allPossibleCollision()
 			}
 		}
 	} while (change && max_change > 0);
-	
 	for (Node* currentNode : activeNode) //Recolter les collisions sur la même zone
 	{
 		for (int i = 0; i < currentNode->coverSpheres.size(); i++)

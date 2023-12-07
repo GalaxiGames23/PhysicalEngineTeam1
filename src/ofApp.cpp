@@ -41,7 +41,6 @@ ofVbo vbo;
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	gui.draw();
 	if (gameworld->myCam->isActivated)
 	{
 		gameworld->myCam->beginCam();
@@ -139,8 +138,10 @@ void ofApp::keyPressed(int key)
 		break;
 			//bouger la camera
 	case 'k': gameworld->myCam->changeNorm(-ofGetLastFrameTime());
+		gameworld->basicCam->changeNorm(-2 * ofGetLastFrameTime());
 		break;
 	case 'j': gameworld->myCam->changeNorm(ofGetLastFrameTime());
+		gameworld->basicCam->changeNorm(2 * ofGetLastFrameTime());
 		break;
 		//activer/descativer la camera
 	case 'm': gameworld->myCam->isActivated = !gameworld->myCam->isActivated;

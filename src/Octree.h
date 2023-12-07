@@ -6,10 +6,10 @@ class Octree
 {
 
 private:
-	int nbRigidPerZone = 3; // <<< Nombre de rigid max par zone
-	Vector initPosition = Vector(0, 0, 0); // <<< Centre de la zone dans le monde
+	int nbRigidPerZone = 5; // <<< Nombre de rigid max par zone
+	Vector initPosition = Vector(0, 500, 0); // <<< Centre de la zone dans le monde
 	double initSize = 1000; // <<< Taille max de la zone
-	double minSizeBlock = 20;// <<< taille minimal d'une zone de l'arbre, une zone qui est est plus petite que cette valeur ne se découpera pas en sous-zone, même s'il y a plein de rigid
+	double minSizeBlock = 100;// <<< taille minimal d'une zone de l'arbre, une zone qui est est plus petite que cette valeur ne se découpera pas en sous-zone, même s'il y a plein de rigid
 
 	struct CoverSphereIntern
 	{

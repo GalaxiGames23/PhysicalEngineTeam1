@@ -15,7 +15,6 @@ void GameWorld::UpdateLogic(float duration)
 	
 	// Ajout des forces au registre
 	addForces();
-
 	// Détermination des collisions possibles par l'Octree
 	vector<RigidPair*> allCollisionFrame =  octree.allPossibleCollision();
 	boxPairs = octree.convertToBox(allCollisionFrame);
@@ -51,7 +50,7 @@ void GameWorld::UpdateLogic(float duration)
 	for (int i = 0; i < rigidBodies.size(); ++i) 
 	{
 		//destruction des rigid bodies sous un certain seuil
-		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 1300|| abs(rigidBodies[i]->GetCenter()->GetPosition().get_x()) >= 1300|| abs(rigidBodies[i]->GetCenter()->GetPosition().get_z()) >= 1300)
+		if (rigidBodies[i]->GetCenter()->GetPosition().get_y() >= 800|| abs(rigidBodies[i]->GetCenter()->GetPosition().get_x()) >= 800 || abs(rigidBodies[i]->GetCenter()->GetPosition().get_z()) >= 800)
 		{
 			octree.eraseRigid(rigidBodies[i]);
 			rigidBodies.erase(rigidBodies.begin() + i);
@@ -66,7 +65,6 @@ void GameWorld::UpdateLogic(float duration)
 		}
 
 	}
-
 
 	//gestion de la trace 
 	UpdateTrace(duration);
